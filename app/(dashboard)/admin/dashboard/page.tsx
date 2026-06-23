@@ -1,49 +1,372 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import StatCard from "@/components/ui/StatCard";
 
+import AddUserModal from "@/modules/admin/users/components/AddUserModal";
+import AddRoleModal from "@/modules/admin/roles/components/AddRoleModal";
+
+import { userService } from "@/services/user.service";
+import { roleService } from "@/services/role.service";
+import { permissionService } from "@/services/permission.service";
+
+import {
+  ArrowRight,
+  Users,
+  Briefcase,
+  User,
+  ShieldCheck,
+  UserCheck,
+} from "lucide-react";
+
 export default function DashboardPage() {
+  const router = useRouter();
+
+  const [totalUsers, setTotalUsers] =
+    useState(0);
+
+  const [totalRoles, setTotalRoles] =
+    useState(0);
+
+  const [
+    totalPermissions,
+    setTotalPermissions,
+  ] = useState(0);
+
+  const [activeUsers, setActiveUsers] =
+    useState(0);
+
+  const [isAddUserOpen,
+    setIsAddUserOpen] =
+    useState(false);
+
+  const [isAddRoleOpen,
+    setIsAddRoleOpen] =
+    useState(false);
+
+  async function loadDashboard() {
+    try {
+      const users =
+        await userService.getUsers();
+
+      const roles =
+        await roleService.getRoles();
+
+      const permissions =
+        await permissionService.getPermissions();
+
+      setTotalUsers(users.length);
+
+      setTotalRoles(roles.length);
+
+      setTotalPermissions(
+        permissions.length
+      );
+
+      const activeUsersCount =
+        users.filter(
+          (user: {
+            status: string;
+          }) =>
+            user.status ===
+            "Active"
+        ).length;
+
+      setActiveUsers(
+        activeUsersCount
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    void loadDashboard();
+  }, []);
+
   return (
-    <div className="space-y-8">
-      <div className="grid grid-cols-4 gap-6">
+    <div className="space-y-6 max-w-[1100px]">
+
+      <h1 className="text-[32px] font-bold text-[#071B3B]">
+        Dashboard
+      </h1>
+
+      <div className="grid grid-cols-4 gap-3">
+
         <StatCard
           title="Total Users"
-          value="15"
+          value={totalUsers}
           subtitle="All active users"
+          icon={
+            <Users
+              size={22}
+              className="text-[#071B3B]"
+            />
+          }
+          onClick={() =>
+            router.push("/admin/users")
+          }
         />
 
         <StatCard
           title="Total Roles"
-          value="4"
+          value={totalRoles}
           subtitle="System roles"
+          icon={
+            <Briefcase
+              size={22}
+              className="text-[#071B3B]"
+            />
+          }
+          onClick={() =>
+            router.push("/admin/roles")
+          }
         />
 
         <StatCard
-          title="Requests"
-          value="3"
-          subtitle="Requires attention"
+          title="Permissions"
+          value={totalPermissions}
+          subtitle="All permissions"
+          icon={
+            <ShieldCheck
+              size={22}
+              className="text-[#071B3B]"
+            />
+          }
+          onClick={() =>
+            router.push(
+              "/admin/permissions"
+            )
+          }
         />
 
         <StatCard
           title="Active Today"
-          value="8"
-          subtitle="Logged in today"
+          value={activeUsers}
+          subtitle="Logged in users"
+          icon={
+            <UserCheck
+              size={22}
+              className="text-[#071B3B]"
+            />
+          }
+          onClick={() =>
+            router.push("/admin/users")
+          }
         />
+
       </div>
 
-      <div className="bg-white rounded-2xl border p-10">
-        <h2 className="text-3xl font-bold mb-8">
+      <div className="bg-white border border-[#E2E8F0] rounded-xl p-5">
+
+        <h2 className="text-xl font-semibold text-[#1E293B] mb-5">
           Quick Actions
         </h2>
 
-        <div className="flex gap-8">
-          <button className="border rounded-xl px-10 py-5 text-xl">
-            Add Employee
+        <div className="flex gap-4">
+
+          <button
+            onClick={() =>
+              setIsAddUserOpen(
+                true
+              )
+            }
+            className="
+              flex
+              items-center
+              justify-between
+              border
+              border-[#E2E8F0]
+              rounded-lg
+              px-5
+              py-4
+              w-[320px]
+              hover:bg-[#F8FAFC]
+              transition-all
+            "
+          >
+            <div className="flex items-center gap-3">
+
+              <div className="w-10 h-10 rounded-lg bg-[#EEF3FB] flex items-center justify-center">
+                <Users
+                  size={18}
+                  className="text-[#071B3B]"
+                />
+              </div>
+
+              <div className="text-left">
+                <h3 className="font-semibold text-[#1E293B]">
+                  Add Employee
+                </h3>
+
+                <p className="text-xs text-[#64748B]">
+                  Add & invite employee
+                </p>
+              </div>
+
+            </div>
+
+            <ArrowRight
+              size={18}
+              className="text-[#64748B]"
+            />
           </button>
 
-          <button className="border rounded-xl px-10 py-5 text-xl">
-            Create Role
+          <button
+            onClick={() =>
+              setIsAddRoleOpen(
+                true
+              )
+            }
+            className="
+              flex
+              items-center
+              justify-between
+              border
+              border-[#E2E8F0]
+              rounded-lg
+              px-5
+              py-4
+              w-[320px]
+              hover:bg-[#F8FAFC]
+              transition-all
+            "
+          >
+            <div className="flex items-center gap-3">
+
+              <div className="w-10 h-10 rounded-lg bg-[#EEF3FB] flex items-center justify-center">
+                <Briefcase
+                  size={18}
+                  className="text-[#071B3B]"
+                />
+              </div>
+
+              <div className="text-left">
+                <h3 className="font-semibold text-[#1E293B]">
+                  Create Role
+                </h3>
+
+                <p className="text-xs text-[#64748B]">
+                  Create new role
+                </p>
+              </div>
+
+            </div>
+
+            <ArrowRight
+              size={18}
+              className="text-[#64748B]"
+            />
           </button>
+
         </div>
+
       </div>
+
+      <div className="grid grid-cols-2 gap-6">
+
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
+
+          <h3 className="text-xl font-semibold mb-1">
+            User Role Distribution
+          </h3>
+
+          <p className="text-sm text-slate-500 mb-5">
+            Overview of users across different roles
+          </p>
+
+          <div className="space-y-5">
+
+            <div className="flex justify-between">
+              <span>Lead Generators</span>
+              <span>04 Users</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Sales Executives</span>
+              <span>02 Users</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Sales Managers</span>
+              <span>01 User</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
+
+          <h3 className="text-xl font-semibold mb-1">
+            Permission Overview
+          </h3>
+
+          <p className="text-sm text-slate-500 mb-5">
+            Summary of permissions assigned to each role
+          </p>
+
+          <div className="space-y-5">
+
+            <div className="flex justify-between">
+              <span>Lead Generators</span>
+              <span>3 Permissions</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Sales Executives</span>
+              <span>6 Permissions</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Sales Managers</span>
+              <span>All Permissions</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <AddUserModal
+        isOpen={isAddUserOpen}
+        onClose={() =>
+          setIsAddUserOpen(false)
+        }
+        onAddUser={async (data) => {
+          await userService.createUser({
+            name: data.name,
+            email: data.email,
+            role: data.role,
+            status: data.status,
+          });
+
+          setIsAddUserOpen(false);
+          await loadDashboard();
+        }}
+      />
+
+      <AddRoleModal
+        isOpen={isAddRoleOpen}
+        onClose={() =>
+          setIsAddRoleOpen(false)
+        }
+        onAddRole={async (data) => {
+          await roleService.createRole({
+            name: data.name,
+            description:
+              data.description,
+            status: data.status,
+          });
+
+          setIsAddRoleOpen(false);
+          await loadDashboard();
+        }}
+      />
+
     </div>
   );
 }

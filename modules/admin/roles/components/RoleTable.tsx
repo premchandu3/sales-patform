@@ -1,7 +1,7 @@
 import StatusBadge from "@/components/ui/StatusBadge";
 import Button from "@/components/ui/Button";
 
-import { Role } from "@/mock/roles";
+import { Role } from "@/types/role";
 
 interface RoleTableProps {
   roles: Role[];
@@ -13,31 +13,30 @@ interface RoleTableProps {
 export default function RoleTable({
   roles,
   onViewDetails,
-  onEditRole,
-  onDeleteRole,
 }: RoleTableProps) {
   return (
-    <div className="bg-white border rounded-2xl overflow-hidden">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden">
       <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-4 text-left">
+
+        <thead className="bg-[#EEF3FB]">
+          <tr>
+            <th className="px-6 py-4 text-left font-semibold">
               Role
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left font-semibold">
               Description
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left font-semibold">
               Users
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left font-semibold">
               Status
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left font-semibold">
               Actions
             </th>
           </tr>
@@ -46,59 +45,41 @@ export default function RoleTable({
         <tbody>
           {roles.map((role) => (
             <tr
-              key={role.id}
-              className="border-b"
+              key={role._id}
+              className="border-t border-[#E5E7EB]"
             >
-              <td className="p-4">
+              <td className="px-6 py-4">
                 {role.name}
               </td>
 
-              <td className="p-4">
+              <td className="px-6 py-4 text-gray-600 max-w-[300px]">
                 {role.description}
               </td>
 
-              <td className="p-4">
-                {role.users}
-              </td>
+             <td className="px-6 py-4">
+                {role.users || 0}
+                </td>
 
-              <td className="p-4">
+              <td className="px-6 py-4">
                 <StatusBadge
                   status={role.status}
                 />
               </td>
 
-              <td className="p-4">
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() =>
-                      onViewDetails(role)
-                    }
-                  >
-                    View Details
-                  </Button>
-
-                  <Button
-                    className="bg-yellow-500"
-                    onClick={() =>
-                      onEditRole(role)
-                    }
-                  >
-                    Edit
-                  </Button>
-
-                  <Button
-                    className="bg-red-600"
-                    onClick={() =>
-                      onDeleteRole(role)
-                    }
-                  >
-                    Delete
-                  </Button>
-                </div>
+              <td className="px-6 py-4">
+                <Button
+                  onClick={() =>
+                    onViewDetails(role)
+                  }
+                  className="bg-[#071B3B]"
+                >
+                  View Details
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
+
       </table>
     </div>
   );

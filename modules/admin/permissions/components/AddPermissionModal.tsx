@@ -1,19 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 
 import Modal from "@/components/ui/Modal";
-import Input from "@/components/ui/Input";
-import Button from "@/components/ui/Button";
 
-import { Permission } from "@/mock/permissions";
+import { Permission } from "@/types/permission";
 
 interface AddPermissionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddPermission: (
-    permission: Omit<Permission, "id">
-  ) => void;
+  onAddPermission: (permission: {
+    name: string;
+    description: string;
+    roles: string[];
+    status: "Active" | "Inactive";
+  }) => void;
   editingPermission?: Permission | null;
 }
 
@@ -26,159 +28,249 @@ export default function AddPermissionModal({
   const [name, setName] =
     useState("");
 
-  const [
-    description,
-    setDescription,
-  ] = useState("");
+  const [description, setDescription] =
+    useState("");
 
-  const [usedIn, setUsedIn] =
+  const [role, setRole] =
     useState("");
 
   const [status, setStatus] =
-    useState<
-      "Active" | "Inactive"
-    >("Active");
+    useState<"Active" | "Inactive">(
+      "Active"
+    );
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (editingPermission) {
-        setName(
-          editingPermission.name
-        );
-        setDescription(
-          editingPermission.description
-        );
-        setUsedIn(
-          editingPermission.usedIn
-        );
-        setStatus(
-          editingPermission.status
-        );
-      } else {
-        setName("");
-        setDescription("");
-        setUsedIn("");
-        setStatus("Active");
-      }
-    }, 0);
+ useEffect(() => {
+  if (!isOpen) return;
 
-    return () => clearTimeout(timer);
-  }, [editingPermission, isOpen]);
+  const timer = setTimeout(() => {
+    if (editingPermission) {
+      setName(editingPermission.name);
 
-  if (!isOpen) return null;
+      setDescription(
+        editingPermission.description
+      );
+
+      setRole(
+        editingPermission.roles?.[0] ||
+          ""
+      );
+
+      setStatus(
+        editingPermission.status
+      );
+    } else {
+      setName("");
+      setDescription("");
+      setRole("");
+      setStatus("Active");
+    }
+  }, 0);
+
+  return () => clearTimeout(timer);
+}, [editingPermission, isOpen]);
 
   const handleSubmit = () => {
     if (
       !name.trim() ||
       !description.trim() ||
-      !usedIn.trim()
+      !role
     )
       return;
 
     onAddPermission({
       name,
       description,
-      usedIn,
+      roles: [role],
       status,
     });
-
-    onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <Modal>
-      <div className="bg-white rounded-xl p-6 w-[500px]">
-        <h2 className="text-xl font-bold mb-4">
+      <div
+        className="
+          bg-white
+          rounded-[24px]
+          w-[650px]
+          p-8
+          shadow-xl
+          relative
+        "
+      >
+        <button
+          onClick={onClose}
+          className="
+            absolute
+            top-6
+            right-6
+            text-gray-500
+          "
+        >
+          <X size={22} />
+        </button>
+
+        <h2 className="text-[20px] font-semibold mb-8">
           {editingPermission
             ? "Edit Permission"
-            : "Add Permission"}
+            : "Add New Permission"}
         </h2>
 
-        <div className="space-y-4">
-          <Input
-            placeholder="Permission Name"
-            value={name}
-            onChange={(e) =>
-              setName(
-                e.target.value
-              )
-            }
-          />
+        <div className="space-y-6">
+          <div>
+            <label className="block text-sm mb-2 text-gray-700">
+              Permission Name
+            </label>
 
-          <Input
-            placeholder="Description"
-            value={description}
-            onChange={(e) =>
-              setDescription(
-                e.target.value
-              )
-            }
-          />
-
-          <select
-            value={usedIn}
-            onChange={(e) =>
-              setUsedIn(
-                e.target.value
-              )
-            }
-            className="w-full border rounded-lg px-4 py-2"
-          >
-            <option value="">
-              Select Role
-            </option>
-
-            <option value="Lead Generator">
-              Lead Generator
-            </option>
-
-            <option value="Sales Executive">
-              Sales Executive
-            </option>
-
-            <option value="Sales Manager">
-              Sales Manager
-            </option>
-
-            <option value="Admin">
-              Admin
-            </option>
-          </select>
-
-          <select
-            value={status}
-            onChange={(e) =>
-              setStatus(
-                e.target.value as
-                  | "Active"
-                  | "Inactive"
-              )
-            }
-            className="w-full border rounded-lg px-4 py-2"
-          >
-            <option value="Active">
-              Active
-            </option>
-
-            <option value="Inactive">
-              Inactive
-            </option>
-          </select>
-
-          <div className="flex justify-end gap-2">
-            <Button onClick={onClose}>
-              Cancel
-            </Button>
-
-            <Button
-              onClick={
-                handleSubmit
+            <input
+              type="text"
+              value={name}
+              onChange={(e) =>
+                setName(
+                  e.target.value
+                )
               }
+              className="
+                w-full
+                h-[40px]
+                border
+                border-gray-300
+                rounded-md
+                px-3
+              "
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-2 text-gray-700">
+              Permission Description
+            </label>
+
+            <input
+              type="text"
+              value={description}
+              onChange={(e) =>
+                setDescription(
+                  e.target.value
+                )
+              }
+              className="
+                w-full
+                h-[40px]
+                border
+                border-gray-300
+                rounded-md
+                px-3
+              "
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm mb-2 text-gray-700">
+              Used In Roles
+            </label>
+
+            <select
+              value={role}
+              onChange={(e) =>
+                setRole(
+                  e.target.value
+                )
+              }
+              className="
+                w-full
+                h-[40px]
+                border
+                border-gray-300
+                rounded-md
+                px-3
+              "
+            >
+              <option value="">
+                Select
+              </option>
+
+              <option value="Lead Generator">
+                Lead Generator
+              </option>
+
+              <option value="Sales Executive">
+                Sales Executive
+              </option>
+
+              <option value="Sales Manager">
+                Sales Manager
+              </option>
+
+              <option value="Admin">
+                Admin
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm mb-2 text-gray-700">
+              Status
+            </label>
+
+            <select
+              value={status}
+              onChange={(e) =>
+                setStatus(
+                  e.target.value as
+                    | "Active"
+                    | "Inactive"
+                )
+              }
+              className="
+                w-full
+                h-[40px]
+                border
+                border-gray-300
+                rounded-md
+                px-3
+              "
+            >
+              <option value="Active">
+                Active
+              </option>
+
+              <option value="Inactive">
+                Inactive
+              </option>
+            </select>
+          </div>
+
+          <div className="flex justify-end gap-4 pt-4">
+            <button
+              onClick={onClose}
+              className="
+                px-6
+                h-[40px]
+                border
+                border-gray-300
+                rounded-md
+                bg-white
+              "
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={handleSubmit}
+              className="
+                px-6
+                h-[40px]
+                bg-[#071B3B]
+                text-white
+                rounded-md
+              "
             >
               {editingPermission
-                ? "Update"
+                ? "Update Permission"
                 : "Add Permission"}
-            </Button>
+            </button>
           </div>
         </div>
       </div>

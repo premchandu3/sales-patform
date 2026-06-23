@@ -1,13 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Permission,
-  initialPermissions,
-} from "@/mock/permissions";
+import { Permission } from "@/types/permission";
+import { permissionService } from "@/services/permission.service";
 
-import PermissionStats from "@/modules/admin/permissions/components/PermissionStats";
 import PermissionFilters from "@/modules/admin/permissions/components/PermissionFilters";
 import PermissionTable from "@/modules/admin/permissions/components/PermissionTable";
 import PermissionDetailsModal from "@/modules/admin/permissions/components/PermissionDetailsModal";
@@ -15,9 +12,7 @@ import AddPermissionModal from "@/modules/admin/permissions/components/AddPermis
 
 export default function PermissionsPage() {
   const [permissions, setPermissions] =
-    useState<Permission[]>(
-      initialPermissions
-    );
+    useState<Permission[]>([]);
 
   const [
     selectedPermission,
@@ -47,6 +42,30 @@ export default function PermissionsPage() {
   const [statusFilter, setStatusFilter] =
     useState("");
 
+  const [roleFilter, setRoleFilter] =
+    useState("");
+
+  const fetchPermissions =
+    async () => {
+      try {
+        const data =
+          await permissionService.getPermissions();
+
+        setPermissions(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+useEffect(() => {
+  const loadPermissions =
+    async () => {
+      await fetchPermissions();
+    };
+
+  loadPermissions();
+}, []);
+
   const filteredPermissions =
     permissions.filter(
       (permission) => {
@@ -62,45 +81,58 @@ export default function PermissionsPage() {
           permission.status ===
             statusFilter;
 
+        const matchesRole =
+          !roleFilter ||
+          permission.roles.includes(
+            roleFilter
+          );
+
         return (
           matchesSearch &&
-          matchesStatus
+          matchesStatus &&
+          matchesRole
         );
       }
     );
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-5xl font-bold">
+    <div
+      className="
+        w-full
+        max-w-[820px]
+        ml-0
+        mt-2
+        space-y-5
+      "
+    >
+      <h1
+        className="
+          text-[20px]
+          font-semibold
+          text-[#1E293B]
+        "
+      >
         Permissions
       </h1>
 
-      <PermissionStats
-        permissions={permissions}
+      <PermissionFilters
+        search={search}
+        status={statusFilter}
+        role={roleFilter}
+        onSearchChange={setSearch}
+        onStatusChange={
+          setStatusFilter
+        }
+        onRoleChange={
+          setRoleFilter
+        }
+        onAddPermission={() => {
+          setEditingPermission(
+            null
+          );
+          setIsAddOpen(true);
+        }}
       />
-
-      <div className="flex justify-between items-center">
-        <PermissionFilters
-          search={search}
-          status={statusFilter}
-          onSearchChange={setSearch}
-          onStatusChange={
-            setStatusFilter
-          }
-        />
-
-        <button
-          onClick={() => {
-            setEditingPermission(
-              null
-            );
-            setIsAddOpen(true);
-          }}
-          className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
-        >
-          Add Permission
-        </button>
-      </div>
 
       <PermissionTable
         permissions={
@@ -122,7 +154,7 @@ export default function PermissionsPage() {
           );
           setIsAddOpen(true);
         }}
-        onDeletePermission={(
+        onDeletePermission={async (
           permission
         ) => {
           const confirmed =
@@ -132,26 +164,48 @@ export default function PermissionsPage() {
 
           if (!confirmed) return;
 
-          setPermissions(
-            (prev) =>
-              prev.filter(
-                (p) =>
-                  p.id !==
-                  permission.id
-              )
-          );
+          try {
+            await permissionService.deletePermission(
+              permission._id
+            );
+
+            await fetchPermissions();
+          } catch (error) {
+            console.error(error);
+          }
         }}
       />
 
-      <PermissionDetailsModal
-        isOpen={isDetailsOpen}
-        onClose={() =>
-          setIsDetailsOpen(false)
-        }
-        permission={
-          selectedPermission
-        }
-      />
+<PermissionDetailsModal
+  isOpen={isDetailsOpen}
+  onClose={() =>
+    setIsDetailsOpen(false)
+  }
+  permission={selectedPermission}
+  onEdit={(permission) => {
+    setIsDetailsOpen(false);
+    setEditingPermission(permission);
+    setIsAddOpen(true);
+  }}
+  onDelete={async (
+    permission
+  ) => {
+    const confirmed =
+      window.confirm(
+        `Delete ${permission.name}?`
+      );
+
+    if (!confirmed) return;
+
+    await permissionService.deletePermission(
+      permission._id
+    );
+
+    await fetchPermissions();
+
+    setIsDetailsOpen(false);
+  }}
+/>
 
       <AddPermissionModal
         isOpen={isAddOpen}
@@ -159,49 +213,43 @@ export default function PermissionsPage() {
           setEditingPermission(
             null
           );
+
           setIsAddOpen(false);
         }}
         editingPermission={
           editingPermission
         }
-        onAddPermission={(
+        onAddPermission={async (
           newPermission
         ) => {
-          if (
-            editingPermission
-          ) {
-            setPermissions(
-              (prev) =>
-                prev.map((p) =>
-                  p.id ===
-                  editingPermission.id
-                    ? {
-                        ...p,
-                        ...newPermission,
-                      }
-                    : p
-                )
-            );
-          } else {
-            setPermissions(
-              (prev) => [
-                ...prev,
-                {
-                  id:
-                    prev.length +
-                    1,
-                  ...newPermission,
-                },
-              ]
-            );
-          }
+          try {
+            if (
+              editingPermission
+            ) {
+              await permissionService.updatePermission(
+                editingPermission._id,
+                newPermission
+              );
+            } else {
+              await permissionService.createPermission(
+                newPermission
+              );
+            }
 
-          setEditingPermission(
-            null
-          );
-          setIsAddOpen(false);
+            await fetchPermissions();
+
+            setEditingPermission(
+              null
+            );
+
+            setIsAddOpen(false);
+          } catch (error) {
+            console.error(error);
+          }
         }}
       />
     </div>
   );
 }
+
+

@@ -1,4 +1,11 @@
-import { User } from "@/mock/users";
+import {
+  Users,
+  UserCheck,
+  UserPlus,
+  UserX,
+} from "lucide-react";
+
+import { User } from "@/types/user";
 
 interface UserStatsProps {
   users: User[];
@@ -21,35 +28,69 @@ export default function UserStats({
     (user) => user.status === "Inactive"
   ).length;
 
+  const stats = [
+    {
+      title: "Total Users",
+      value: totalUsers,
+      subtitle: "All registered users",
+      icon: Users,
+    },
+    {
+      title: "Active Users",
+      value: activeUsers,
+      subtitle: "Currently active",
+      icon: UserCheck,
+    },
+    {
+      title: "Invited Users",
+      value: invitedUsers,
+      subtitle: "Invitation Pending",
+      icon: UserPlus,
+    },
+    {
+      title: "Inactive Users",
+      value: inactiveUsers,
+      subtitle: "Not logged in",
+      icon: UserX,
+    },
+  ];
+
   return (
-    <div className="grid grid-cols-4 gap-4">
-      <div className="bg-white border rounded-xl p-5">
-        <h4>Total Users</h4>
-        <p className="text-3xl font-bold mt-2">
-          {totalUsers}
-        </p>
-      </div>
+    <div className="grid grid-cols-4 gap-5">
+      {stats.map((item) => {
+        const Icon = item.icon;
 
-      <div className="bg-white border rounded-xl p-5">
-        <h4>Active Users</h4>
-        <p className="text-3xl font-bold mt-2">
-          {activeUsers}
-        </p>
-      </div>
+        return (
+          <div
+            key={item.title}
+            className="bg-white border border-[#E5E7EB] rounded-xl p-5 flex items-center gap-4 h-[120px]"
+          >
+            <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+              <Icon
+                size={26}
+                className="text-[#071B3B]"
+              />
+            </div>
 
-      <div className="bg-white border rounded-xl p-5">
-        <h4>Invited Users</h4>
-        <p className="text-3xl font-bold mt-2">
-          {invitedUsers}
-        </p>
-      </div>
+            <div>
+              <p className="text-[15px] text-[#6B7280]">
+                {item.title}
+              </p>
 
-      <div className="bg-white border rounded-xl p-5">
-        <h4>Inactive Users</h4>
-        <p className="text-3xl font-bold mt-2">
-          {inactiveUsers}
-        </p>
-      </div>
+              <h3 className="text-[32px] leading-none font-bold text-[#071B3B] mt-1">
+                {String(item.value).padStart(
+                  2,
+                  "0"
+                )}
+              </h3>
+
+              <p className="text-[12px] text-[#9CA3AF] mt-1">
+                {item.subtitle}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -1,6 +1,5 @@
-import Button from "@/components/ui/Button";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { User } from "@/mock/users";
+import { User } from "@/types/user";
 
 interface UserTableProps {
   users: User[];
@@ -12,106 +11,98 @@ interface UserTableProps {
 export default function UserTable({
   users,
   onViewDetails,
-  onEditUser,
-  onDeleteUser,
 }: UserTableProps) {
   return (
-    <div className="bg-white border rounded-2xl overflow-hidden">
+    <div className="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB]">
+
       <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-4 text-left">
+
+        <thead className="bg-[#EEF3FB]">
+          <tr>
+            <th className="px-6 py-4 text-left text-[15px] font-semibold">
               Name
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left text-[15px] font-semibold">
               Email
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left text-[15px] font-semibold">
               Role
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left text-[15px] font-semibold">
               Status
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-6 py-4 text-left text-[15px] font-semibold">
               Actions
             </th>
           </tr>
         </thead>
 
         <tbody>
-          {users.length === 0 ? (
-            <tr>
-              <td
-                colSpan={5}
-                className="p-8 text-center text-gray-500"
-              >
-                No users found
+          {users.map((user) => (
+            <tr
+              key={user._id}
+              className="border-t border-[#E5E7EB]"
+            >
+              <td className="px-6 py-4">
+
+                <div className="flex items-center gap-3">
+
+                  <div className="w-8 h-8 rounded-full bg-[#EEF3FB] flex items-center justify-center text-[#071B3B] text-sm font-semibold uppercase">
+                    {user.name.charAt(0)}
+                  </div>
+
+                  <div>
+                    <p className="text-[14px] font-medium text-[#111827]">
+                      {user.name}
+                    </p>
+
+                    <p className="text-[10px] text-[#9CA3AF]">
+                      Added on 20 Feb, 2026
+                    </p>
+                  </div>
+
+                </div>
+
+              </td>
+
+              <td className="px-6 py-4 text-[14px] text-[#4B5563]">
+                {user.email}
+              </td>
+
+              <td className="px-6 py-4">
+
+                <span className="inline-flex items-center h-[26px] px-3 rounded-full bg-[#EEF3FB] text-[#071B3B] text-[12px] whitespace-nowrap">
+                  {user.role}
+                </span>
+
+              </td>
+
+              <td className="px-6 py-4">
+                <StatusBadge status={user.status} />
+              </td>
+
+              <td className="px-6 py-4">
+
+                <button
+                  onClick={() =>
+                    onViewDetails(user)
+                  }
+                  className="bg-[#071B3B] text-white h-[36px] px-4 rounded-lg text-[13px] font-medium hover:bg-[#0B2B5C]"
+                >
+                  View Details
+                </button>
+
               </td>
             </tr>
-          ) : (
-            users.map((user) => (
-              <tr
-                key={user.id}
-                className="border-b"
-              >
-                <td className="p-4">
-                  {user.name}
-                </td>
-
-                <td className="p-4">
-                  {user.email}
-                </td>
-
-                <td className="p-4">
-                  {user.role}
-                </td>
-
-                <td className="p-4">
-                  <StatusBadge
-                    status={user.status}
-                  />
-                </td>
-
-                <td className="p-4">
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() =>
-                        onViewDetails(
-                          user
-                        )
-                      }
-                    >
-                      View Details
-                    </Button>
-
-                    <Button
-                      className="bg-yellow-500"
-                      onClick={() =>
-                        onEditUser(user)
-                      }
-                    >
-                      Edit
-                    </Button>
-
-                    <Button
-                      className="bg-red-600"
-                      onClick={() =>
-                        onDeleteUser(user)
-                      }
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </td>
-              </tr>
-            ))
-          )}
+          ))}
         </tbody>
+
       </table>
+
     </div>
   );
 }

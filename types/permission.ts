@@ -1,7 +1,9 @@
 export interface Permission {
-  id: string;
+  _id: string;
   name: string;
   description: string;
-  usedInRoles: string[];
+  roles: string[];
   status: "Active" | "Inactive";
+  createdAt?: string;
+  updatedAt?: string;
 }

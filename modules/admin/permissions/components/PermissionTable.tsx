@@ -1,7 +1,4 @@
-import Button from "@/components/ui/Button";
-import StatusBadge from "@/components/ui/StatusBadge";
-
-import { Permission } from "@/mock/permissions";
+import { Permission } from "@/types/permission";
 
 interface PermissionTableProps {
   permissions: Permission[];
@@ -22,31 +19,29 @@ interface PermissionTableProps {
 export default function PermissionTable({
   permissions,
   onViewDetails,
-  onEditPermission,
-  onDeletePermission,
 }: PermissionTableProps) {
   return (
-    <div className="bg-white border rounded-2xl overflow-hidden">
+    <div className="bg-white border border-[#E2E8F0] rounded-md overflow-hidden">
       <table className="w-full">
-        <thead>
-          <tr className="border-b">
-            <th className="p-4 text-left">
+        <thead className="bg-[#D9E3F0]">
+          <tr>
+            <th className="px-4 py-3 text-left text-sm font-semibold">
               Permission
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-4 py-3 text-left text-sm font-semibold">
               Description
             </th>
 
-            <th className="p-4 text-left">
-              Used In
+            <th className="px-4 py-3 text-left text-sm font-semibold">
+              Used In Roles
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-4 py-3 text-left text-sm font-semibold">
               Status
             </th>
 
-            <th className="p-4 text-left">
+            <th className="px-4 py-3 text-left text-sm font-semibold">
               Actions
             </th>
           </tr>
@@ -57,63 +52,51 @@ export default function PermissionTable({
             permissions.map(
               (permission) => (
                 <tr
-                  key={permission.id}
-                  className="border-b"
+                  key={permission._id}
+                  className="border-t border-[#EDF2F7]"
                 >
-                  <td className="p-4">
+                  <td className="px-4 py-3 text-xs text-[#475569]">
                     {permission.name}
                   </td>
 
-                  <td className="p-4">
-                    {permission.description}
+                  <td className="px-4 py-3 text-xs text-[#475569]">
+                    {
+                      permission.description
+                    }
                   </td>
 
-                  <td className="p-4">
-                    {permission.usedIn}
+                  <td className="px-4 py-3 text-xs text-[#475569]">
+                    {permission.roles.join(
+                      ", "
+                    )}
                   </td>
 
-                  <td className="p-4">
-                    <StatusBadge
-                      status={
+                  <td className="px-4 py-3">
+                    <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-[11px]">
+                      {
                         permission.status
                       }
-                    />
+                    </span>
                   </td>
 
-                  <td className="p-4">
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() =>
-                          onViewDetails(
-                            permission
-                          )
-                        }
-                      >
-                        View
-                      </Button>
-
-                      <button
-                        onClick={() =>
-                          onEditPermission(
-                            permission
-                          )
-                        }
-                        className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        onClick={() =>
-                          onDeletePermission(
-                            permission
-                          )
-                        }
-                        className="bg-red-600 text-white px-4 py-2 rounded-lg"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() =>
+                        onViewDetails(
+                          permission
+                        )
+                      }
+                      className="
+                        bg-[#071B3B]
+                        text-white
+                        px-3
+                        py-1.5
+                        rounded-md
+                        text-[11px]
+                      "
+                    >
+                      View Details
+                    </button>
                   </td>
                 </tr>
               )
@@ -122,7 +105,12 @@ export default function PermissionTable({
             <tr>
               <td
                 colSpan={5}
-                className="text-center py-8 text-gray-500"
+                className="
+                  text-center
+                  py-20
+                  text-lg
+                  text-slate-500
+                "
               >
                 No permissions found
               </td>

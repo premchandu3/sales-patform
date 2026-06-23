@@ -1,78 +1,113 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
-import Button from "@/components/ui/Button";
+import { X } from "lucide-react";
 
-import { Permission } from "@/mock/permissions";
+import { Permission } from "@/types/permission";
 
 interface PermissionDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   permission: Permission | null;
+  onEdit: (permission: Permission) => void;
+  onDelete: (permission: Permission) => void;
 }
 
 export default function PermissionDetailsModal({
   isOpen,
   onClose,
   permission,
+  onEdit,
+  onDelete,
 }: PermissionDetailsModalProps) {
   if (!isOpen || !permission)
     return null;
 
   return (
     <Modal>
-      <div className="bg-white rounded-xl p-6 w-[500px]">
-        <h2 className="text-2xl font-bold mb-6">
+      <div className="bg-white rounded-[24px] p-8 w-[650px] relative">
+
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6"
+        >
+          <X
+            size={22}
+            className="text-gray-500"
+          />
+        </button>
+
+        <h2 className="text-[20px] font-semibold mb-8">
           Permission Details
         </h2>
 
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500">
-              Permission Name
-            </p>
+        <div className="space-y-5">
 
-            <p className="font-medium">
-              {permission.name}
-            </p>
-          </div>
+          <p>
+            <span className="font-semibold">
+              Permission Name :
+            </span>{" "}
+            {permission.name}
+          </p>
 
-          <div>
-            <p className="text-sm text-gray-500">
-              Description
-            </p>
+          <p>
+            <span className="font-semibold">
+              Permission Description :
+            </span>{" "}
+            {permission.description}
+          </p>
 
-            <p className="font-medium">
-              {permission.description}
-            </p>
-          </div>
+          <p>
+            <span className="font-semibold">
+              Used In Roles :
+            </span>{" "}
+            {permission.roles.join(", ")}
+          </p>
 
-          <div>
-            <p className="text-sm text-gray-500">
-              Used In
-            </p>
+          <p>
+            <span className="font-semibold">
+              Status :
+            </span>{" "}
+            {permission.status}
+          </p>
 
-            <p className="font-medium">
-              {permission.usedIn}
-            </p>
-          </div>
-
-          <div>
-            <p className="text-sm text-gray-500">
-              Status
-            </p>
-
-            <p className="font-medium">
-              {permission.status}
-            </p>
-          </div>
-
-          <div className="flex justify-end">
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </div>
         </div>
+
+        <div className="flex justify-end gap-4 mt-10">
+
+          <button
+            onClick={() =>
+              onDelete(permission)
+            }
+            className="
+              px-6
+              py-2
+              border
+              border-[#FF6B35]
+              text-[#FF6B35]
+              rounded-md
+            "
+          >
+            Remove
+          </button>
+
+          <button
+            onClick={() =>
+              onEdit(permission)
+            }
+            className="
+              px-6
+              py-2
+              bg-[#071B3B]
+              text-white
+              rounded-md
+            "
+          >
+            Edit Permission
+          </button>
+
+        </div>
+
       </div>
     </Modal>
   );

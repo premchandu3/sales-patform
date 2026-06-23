@@ -1,11 +1,10 @@
-"use client";
+  
+  "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  User,
-  initialUsers,
-} from "@/mock/users";
+import { User } from "@/types/user";
+import { userService } from "@/services/user.service";
 
 import UserStats from "@/modules/admin/users/components/UserStats";
 import UserFilters from "@/modules/admin/users/components/UserFilters";
@@ -15,7 +14,7 @@ import UserDetailsModal from "@/modules/admin/users/components/UserDetailsModal"
 
 export default function UsersPage() {
   const [users, setUsers] =
-    useState<User[]>(initialUsers);
+    useState<User[]>([]);
 
   const [isAddUserOpen, setIsAddUserOpen] =
     useState(false);
@@ -40,6 +39,31 @@ export default function UsersPage() {
   const [roleFilter, setRoleFilter] =
     useState("");
 
+  const fetchUsers = async () => {
+    try {
+      const data =
+        await userService.getUsers();
+
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+  const fetchUsers = async () => {
+    try {
+      const data =
+        await userService.getUsers();
+
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  fetchUsers();
+}, []);
   const filteredUsers = users.filter(
     (user) => {
       const matchesSearch =
@@ -72,11 +96,13 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-5xl font-bold">
+
+      <h1 className="text-[42px] font-semibold text-[#111827]">
         Users
       </h1>
 
       <UserStats users={users} />
+
 
       <UserFilters
         search={search}
@@ -105,7 +131,9 @@ export default function UsersPage() {
           setEditingUser(user);
           setIsAddUserOpen(true);
         }}
-        onDeleteUser={(user) => {
+        onDeleteUser={async (
+          user
+        ) => {
           const confirmed =
             window.confirm(
               `Delete ${user.name}?`
@@ -113,11 +141,15 @@ export default function UsersPage() {
 
           if (!confirmed) return;
 
-          setUsers((prev) =>
-            prev.filter(
-              (u) => u.id !== user.id
-            )
-          );
+          try {
+            await userService.deleteUser(
+              user._id
+            );
+
+            await fetchUsers();
+          } catch (error) {
+            console.error(error);
+          }
         }}
       />
 
@@ -128,30 +160,28 @@ export default function UsersPage() {
           setIsAddUserOpen(false);
         }}
         editingUser={editingUser}
-        onAddUser={(newUser) => {
-          if (editingUser) {
-            setUsers((prev) =>
-              prev.map((user) =>
-                user.id === editingUser.id
-                  ? {
-                      ...user,
-                      ...newUser,
-                    }
-                  : user
-              )
-            );
-          } else {
-            setUsers((prev) => [
-              ...prev,
-              {
-                id: prev.length + 1,
-                ...newUser,
-              },
-            ]);
-          }
+        onAddUser={async (
+          newUser
+        ) => {
+          try {
+            if (editingUser) {
+              await userService.updateUser(
+                editingUser._id,
+                newUser
+              );
+            } else {
+              await userService.createUser(
+                newUser
+              );
+            }
 
-          setEditingUser(null);
-          setIsAddUserOpen(false);
+            await fetchUsers();
+
+            setEditingUser(null);
+            setIsAddUserOpen(false);
+          } catch (error) {
+            console.error(error);
+          }
         }}
       />
 
@@ -161,7 +191,34 @@ export default function UsersPage() {
           setIsUserDetailsOpen(false)
         }
         user={selectedUser}
+        onEdit={(user) => {
+          setIsUserDetailsOpen(false);
+          setEditingUser(user);
+          setIsAddUserOpen(true);
+        }}
+        onDelete={async (user) => {
+          const confirmed =
+            window.confirm(
+              `Delete ${user.name}?`
+            );
+
+          if (!confirmed) return;
+
+          try {
+            await userService.deleteUser(
+              user._id
+            );
+
+            setIsUserDetailsOpen(false);
+            setSelectedUser(null);
+
+            await fetchUsers();
+          } catch (error) {
+            console.error(error);
+          }
+        }}
       />
+
     </div>
   );
 }

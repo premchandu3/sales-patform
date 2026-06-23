@@ -1,8 +1,16 @@
 export interface Role {
-  id: string;
+  _id: string;
   name: string;
   description: string;
-  users: number;
-  status: "Active" | "Inactive";
+
+  users?: number;
+
   permissions: string[];
+
+  status:
+    | "Active"
+    | "Inactive";
+
+  createdAt?: string;
+  updatedAt?: string;
 }

@@ -1,76 +1,129 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
-import Button from "@/components/ui/Button";
-import { Role } from "@/mock/roles";
+import { X } from "lucide-react";
+import { Role } from "@/types/role";
 
 interface RoleDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   role: Role | null;
+  onEdit: (role: Role) => void;
+  onDelete: (role: Role) => void;
 }
 
 export default function RoleDetailsModal({
   isOpen,
   onClose,
   role,
+  onEdit,
+  onDelete,
 }: RoleDetailsModalProps) {
   if (!isOpen || !role) return null;
 
   return (
     <Modal>
-      <div className="bg-white rounded-xl p-6 w-[500px]">
-        <h2 className="text-xl font-bold mb-4">
+      <div className="bg-white rounded-2xl p-6 w-[460px] shadow-xl relative">
+
+        <button
+          onClick={onClose}
+          className="absolute right-5 top-5 text-gray-400"
+        >
+          <X size={18} />
+        </button>
+
+        <h2 className="text-[28px] font-semibold mb-6">
           Role Details
         </h2>
 
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500">
-              Role Name
-            </p>
+        <div className="space-y-5 text-sm">
 
-            <p className="font-medium">
-              {role.name}
-            </p>
+          <div>
+            <span className="font-semibold">
+              Role :
+            </span>{" "}
+            {role.name}
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">
-              Description
-            </p>
-
-            <p className="font-medium">
-              {role.description}
-            </p>
+            <span className="font-semibold">
+              Role Description :
+            </span>{" "}
+            {role.description}
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">
-              Total Users
-            </p>
-
-            <p className="font-medium">
-              {role.users}
-            </p>
+            <span className="font-semibold">
+              Status :
+            </span>{" "}
+            {role.status}
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">
-              Status
+            <p className="font-semibold mb-2">
+              Role Permissions :
             </p>
 
-            <p className="font-medium">
-              {role.status}
-            </p>
+            <div className="border rounded-lg p-3">
+              <div className="flex flex-wrap gap-2">
+
+                {role.permissions?.map(
+                  (permission) => (
+                    <span
+                      key={permission}
+                      className="
+                        bg-[#EEF3FB]
+                        text-[#071B3B]
+                        px-3
+                        py-1
+                        rounded-full
+                        text-xs
+                      "
+                    >
+                      {permission}
+                    </span>
+                  )
+                )}
+
+              </div>
+            </div>
           </div>
 
-          <div className="flex justify-end pt-4">
-            <Button onClick={onClose}>
-              Close
-            </Button>
-          </div>
         </div>
+
+        <div className="flex justify-end gap-3 mt-6">
+
+          <button
+            onClick={() => onDelete(role)}
+            className="
+              px-5
+              py-2
+              border
+              border-[#FF6B35]
+              text-[#FF6B35]
+              rounded-md
+              text-sm
+            "
+          >
+            Remove
+          </button>
+
+          <button
+            onClick={() => onEdit(role)}
+            className="
+              px-5
+              py-2
+              bg-[#071B3B]
+              text-white
+              rounded-md
+              text-sm
+            "
+          >
+            Edit Role
+          </button>
+
+        </div>
+
       </div>
     </Modal>
   );

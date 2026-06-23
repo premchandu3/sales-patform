@@ -1,72 +1,147 @@
 "use client";
 
 import Modal from "@/components/ui/Modal";
-import Button from "@/components/ui/Button";
-import { User } from "@/mock/users";
+import { User } from "@/types/user";
 
 interface UserDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: User | null;
+  onEdit?: (user: User) => void;
+  onDelete?: (user: User) => void;
 }
+
+const allPermissions = [
+  "Create Leads",
+  "Edit Leads",
+  "Delete Leads",
+  "View Lead Details",
+  "Follow Ups",
+  "Discovery Calls",
+  "AI Card Scanner",
+  "AI Deep Research",
+  "View Reports",
+];
 
 export default function UserDetailsModal({
   isOpen,
   onClose,
   user,
+  onEdit,
+  onDelete,
 }: UserDetailsModalProps) {
   if (!isOpen || !user) return null;
 
   return (
     <Modal>
-      <div className="bg-white rounded-2xl p-6 w-[500px]">
-        <h2 className="text-2xl font-bold mb-6">
-          User Details
-        </h2>
+      <div className="bg-white rounded-[20px] w-[500px] p-6 shadow-xl">
 
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm text-gray-500">
-              Full Name
-            </p>
-            <p className="font-medium">
-              {user.name}
-            </p>
-          </div>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-[20px] font-semibold">
+            Employee / User Details
+          </h2>
+
+          <button
+            onClick={onClose}
+            className="text-gray-500 text-xl"
+          >
+            ✕
+          </button>
+        </div>
+
+        <div className="space-y-3 text-sm">
+
+          <p>
+            <span className="font-semibold">
+              Name :
+            </span>{" "}
+            {user.name}
+          </p>
+
+          <p>
+            <span className="font-semibold">
+              Email :
+            </span>{" "}
+            {user.email}
+          </p>
+
+          <p>
+            <span className="font-semibold">
+              Contact :
+            </span>{" "}
+            {user.contact || "-"}
+          </p>
+
+          <p>
+            <span className="font-semibold">
+              Role :
+            </span>{" "}
+            {user.role}
+          </p>
+
+          <p>
+            <span className="font-semibold">
+              Status :
+            </span>{" "}
+            {user.status}
+          </p>
 
           <div>
-            <p className="text-sm text-gray-500">
-              Email
-            </p>
-            <p className="font-medium">
-              {user.email}
-            </p>
-          </div>
+            <h3 className="font-semibold mb-2">
+              Role Permissions :
+            </h3>
 
-          <div>
-            <p className="text-sm text-gray-500">
-              Role
-            </p>
-            <p className="font-medium">
-              {user.role}
-            </p>
-          </div>
+            <div className="border rounded-md p-3 grid grid-cols-2 gap-2 text-xs">
 
-          <div>
-            <p className="text-sm text-gray-500">
-              Status
-            </p>
-            <p className="font-medium">
-              {user.status}
-            </p>
+              {allPermissions.map(
+                (permission) => (
+                  <label
+                    key={permission}
+                    className="flex items-center gap-2"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        user.permissions?.includes(
+                          permission
+                        ) || false
+                      }
+                      readOnly
+                    />
+
+                    {permission}
+                  </label>
+                )
+              )}
+
+            </div>
           </div>
         </div>
 
-        <div className="flex justify-end mt-6">
-          <Button onClick={onClose}>
-            Close
-          </Button>
+        <div className="flex justify-end gap-3 mt-6">
+
+          <button
+  onClick={async () => {
+    await onDelete?.(user);
+    onClose();
+  }}
+  className="px-5 py-2 border border-[#FF6B57] text-[#FF6B57] rounded-lg hover:bg-red-50"
+>
+  Remove
+</button>
+
+          <button
+            onClick={() => {
+              onEdit?.(user);
+              onClose();
+            }}
+            className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+          >
+            Edit
+          </button>
+
         </div>
+
       </div>
     </Modal>
   );

@@ -1,21 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import Modal from "@/components/ui/Modal";
-import Input from "@/components/ui/Input";
-import Button from "@/components/ui/Button";
-
-import { Role } from "@/mock/roles";
 
 interface AddRoleModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddRole: (
-    role: Omit<Role, "id">
-  ) => void;
-  editingRole?: Role | null;
+  onAddRole: (role: {
+    name: string;
+    description: string;
+    status: "Active" | "Inactive";
+    permissions: string[];
+  }) => void;
+  editingRole?: any;
 }
+
+const permissionOptions = [
+  "Create Leads",
+  "Edit Leads",
+  "Delete Leads",
+  "View Lead Details",
+  "Follow Ups",
+  "Discovery Calls",
+  "AI Card Scanner",
+  "AI Deep Research",
+  "View Reports",
+];
 
 export default function AddRoleModal({
   isOpen,
@@ -23,114 +33,112 @@ export default function AddRoleModal({
   onAddRole,
   editingRole,
 }: AddRoleModalProps) {
-  const [name, setName] =
+  const [name, setName] = useState("");
+  const [description, setDescription] =
     useState("");
 
-  const [
-    description,
-    setDescription,
-  ] = useState("");
-
-  const [users, setUsers] =
-    useState(0);
-
   const [status, setStatus] =
-    useState<
-      "Active" | "Inactive"
-    >("Active");
+    useState<"Active" | "Inactive">(
+      "Active"
+    );
+
+  const [permissions, setPermissions] =
+    useState<string[]>([]);
 
   useEffect(() => {
-  const timer = setTimeout(() => {
     if (editingRole) {
-      setName(editingRole.name);
+      setName(editingRole.name || "");
       setDescription(
-        editingRole.description
+        editingRole.description || ""
       );
-      setUsers(editingRole.users);
+
       setStatus(
-        editingRole.status
+        editingRole.status || "Active"
+      );
+
+      setPermissions(
+        editingRole.permissions || []
       );
     } else {
       setName("");
       setDescription("");
-      setUsers(0);
       setStatus("Active");
+      setPermissions([]);
     }
-  }, 0);
+  }, [editingRole]);
 
-  return () => clearTimeout(timer);
-}, [editingRole]);
-
-  if (!isOpen) return null;
+  const togglePermission = (
+    permission: string
+  ) => {
+    if (
+      permissions.includes(permission)
+    ) {
+      setPermissions(
+        permissions.filter(
+          (p) => p !== permission
+        )
+      );
+    } else {
+      setPermissions([
+        ...permissions,
+        permission,
+      ]);
+    }
+  };
 
   const handleSubmit = () => {
-    if (
-      !name.trim() ||
-      !description.trim()
-    )
-      return;
-
     onAddRole({
       name,
       description,
-      users,
       status,
+      permissions,
     });
   };
 
+  if (!isOpen) return null;
+
   return (
     <Modal>
-      <div className="bg-white rounded-xl p-6 w-[500px]">
-        <h2 className="text-xl font-bold mb-4">
+      <div className="bg-white rounded-2xl p-6 w-[600px]">
+
+        <h2 className="text-[28px] font-semibold mb-6">
           {editingRole
             ? "Edit Role"
             : "Add Role"}
         </h2>
 
         <div className="space-y-4">
-          <Input
-            placeholder="Role Name"
+
+          <input
             value={name}
             onChange={(e) =>
-              setName(
-                e.target.value
-              )
+              setName(e.target.value)
             }
+            placeholder="Role Name"
+            className="w-full border rounded-lg px-4 py-3"
           />
 
-          <Input
-            placeholder="Description"
+          <textarea
             value={description}
             onChange={(e) =>
               setDescription(
                 e.target.value
               )
             }
-          />
-
-          <Input
-            type="number"
-            placeholder="Users Count"
-            value={users}
-            onChange={(e) =>
-              setUsers(
-                Number(
-                  e.target.value
-                )
-              )
-            }
+            placeholder="Role Description"
+            rows={3}
+            className="w-full border rounded-lg px-4 py-3"
           />
 
           <select
             value={status}
             onChange={(e) =>
               setStatus(
-                e.target.value as
-                  | "Active"
-                  | "Inactive"
+                e.target
+                  .value as any
               )
             }
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border rounded-lg px-4 py-3"
           >
             <option value="Active">
               Active
@@ -141,23 +149,70 @@ export default function AddRoleModal({
             </option>
           </select>
 
-          <div className="flex justify-end gap-2">
-            <Button
+          <div>
+            <p className="font-medium mb-3">
+              Permissions
+            </p>
+
+            <div className="grid grid-cols-3 gap-3 border rounded-lg p-4">
+
+              {permissionOptions.map(
+                (permission) => (
+                  <label
+                    key={permission}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={permissions.includes(
+                        permission
+                      )}
+                      onChange={() =>
+                        togglePermission(
+                          permission
+                        )
+                      }
+                    />
+
+                    {permission}
+                  </label>
+                )
+              )}
+
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3 pt-4">
+
+            <button
               onClick={onClose}
+              className="
+                px-5
+                py-2
+                border
+                rounded-md
+              "
             >
               Cancel
-            </Button>
+            </button>
 
-            <Button
-              onClick={
-                handleSubmit
-              }
+            <button
+              onClick={handleSubmit}
+              className="
+                px-5
+                py-2
+                bg-[#071B3B]
+                text-white
+                rounded-md
+              "
             >
               {editingRole
-                ? "Update"
+                ? "Update Role"
                 : "Add Role"}
-            </Button>
+            </button>
+
           </div>
+
         </div>
       </div>
     </Modal>

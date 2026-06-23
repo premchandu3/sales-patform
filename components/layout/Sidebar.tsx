@@ -26,7 +26,7 @@ const menuItems = [
     icon: Briefcase,
   },
   {
-    name: "Permissions",
+    name: "Permission",
     href: "/admin/permissions",
     icon: Shield,
   },
@@ -36,12 +36,15 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-[#071B3B] text-white min-h-screen p-6">
-      <h1 className="text-3xl font-bold mb-12">
-        LOGO
-      </h1>
+    <aside className="w-[180px] bg-[#071B3B] text-white flex flex-col min-h-screen">
 
-      <nav className="space-y-3">
+      <div className="px-6 pt-8">
+        <h1 className="text-[18px] font-bold tracking-wide">
+          LOGO
+        </h1>
+      </div>
+
+      <nav className="mt-12 px-4 space-y-3">
         {menuItems.map((item) => {
           const Icon = item.icon;
 
@@ -53,26 +56,35 @@ export default function Sidebar() {
               key={item.name}
               href={item.href}
               className={`
-                flex
-                items-center
+                flex items-center
                 gap-3
+                h-[46px]
                 px-4
-                py-3
                 rounded-xl
-                transition
+                text-[14px]
+                font-medium
+                transition-all
                 ${
                   active
-                    ? "bg-[#0E295E]"
+                    ? "bg-[#02142D]"
                     : "hover:bg-[#0E295E]"
                 }
               `}
             >
               <Icon size={18} />
+
               <span>{item.name}</span>
             </Link>
           );
         })}
       </nav>
+
+      <div className="mt-auto p-5">
+        <div className="w-10 h-10 rounded-full bg-black border border-gray-600 flex items-center justify-center">
+          N
+        </div>
+      </div>
+
     </aside>
   );
 }

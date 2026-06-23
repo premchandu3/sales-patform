@@ -1,38 +1,44 @@
 export default function Header() {
   return (
-    <header className="flex items-center justify-between mb-8">
-      <h1 className="text-3xl font-bold">
-        Dashboard
-      </h1>
+    <header className="h-[70px] flex items-center justify-end px-8 bg-[#F7F8FC]">
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-8">
+
         <input
           placeholder="Search..."
           className="
+            w-[180px]
+            h-[32px]
             border
-            rounded-lg
-            px-4
-            py-2
-            w-64
+            border-[#C8D2E1]
+            rounded-md
+            px-3
+            text-[12px]
+            bg-white
+            outline-none
           "
         />
 
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#071B3B] text-white flex items-center justify-center">
+
+          <div className="w-8 h-8 rounded-full bg-[#071B3B] text-white flex items-center justify-center text-xs font-medium">
             A
           </div>
 
           <div>
-            <p className="font-semibold">
+            <p className="text-[13px] font-semibold text-[#111827] leading-none">
               Admin
             </p>
 
-            <p className="text-sm text-gray-500">
-              admin@crm.com
+            <p className="text-[10px] text-[#6B7280] mt-1">
+              Admin@manvian.com
             </p>
           </div>
+
         </div>
+
       </div>
+
     </header>
   );
 }

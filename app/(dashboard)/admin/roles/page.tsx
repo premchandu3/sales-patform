@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import {
-  Role,
-  initialRoles,
-} from "@/mock/roles";
+import { Role } from "@/types/role";
+import { roleService } from "@/services/role.service";
 
 import RoleStats from "@/modules/admin/roles/components/RoleStats";
 import RoleFilters from "@/modules/admin/roles/components/RoleFilters";
@@ -15,7 +13,7 @@ import AddRoleModal from "@/modules/admin/roles/components/AddRoleModal";
 
 export default function RolesPage() {
   const [roles, setRoles] =
-    useState<Role[]>(initialRoles);
+    useState<Role[]>([]);
 
   const [selectedRole, setSelectedRole] =
     useState<Role | null>(null);
@@ -36,6 +34,25 @@ export default function RolesPage() {
 
   const [statusFilter, setStatusFilter] =
     useState("");
+
+  const fetchRoles = async () => {
+    try {
+      const data =
+        await roleService.getRoles();
+
+      setRoles(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+  const loadRoles = async () => {
+    await fetchRoles();
+  };
+
+  loadRoles();
+}, []);
 
   const filteredRoles = roles.filter(
     (role) => {
@@ -58,9 +75,9 @@ export default function RolesPage() {
   );
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-5xl font-bold">
-        Roles
+  <div className="max-w-[1180px] mx-auto space-y-6">
+  <h1 className="text-[32px] font-semibold text-[#111827]">
+          Roles
       </h1>
 
       <RoleStats roles={roles} />
@@ -88,7 +105,9 @@ export default function RolesPage() {
           setEditingRole(role);
           setIsAddRoleOpen(true);
         }}
-        onDeleteRole={(role) => {
+        onDeleteRole={async (
+          role
+        ) => {
           const confirmed =
             window.confirm(
               `Delete ${role.name}?`
@@ -96,11 +115,11 @@ export default function RolesPage() {
 
           if (!confirmed) return;
 
-          setRoles((prev) =>
-            prev.filter(
-              (r) => r.id !== role.id
-            )
+          await roleService.deleteRole(
+            role._id
           );
+
+          fetchRoles();
         }}
       />
 
@@ -111,40 +130,53 @@ export default function RolesPage() {
           setIsAddRoleOpen(false);
         }}
         editingRole={editingRole}
-        onAddRole={(newRole) => {
+        onAddRole={async (
+          newRole
+        ) => {
           if (editingRole) {
-            setRoles((prev) =>
-              prev.map((role) =>
-                role.id === editingRole.id
-                  ? {
-                      ...role,
-                      ...newRole,
-                    }
-                  : role
-              )
+            await roleService.updateRole(
+              editingRole._id,
+              newRole
             );
           } else {
-            setRoles((prev) => [
-              ...prev,
-              {
-                id: prev.length + 1,
-                ...newRole,
-              },
-            ]);
+            await roleService.createRole(
+              newRole
+            );
           }
+
+          fetchRoles();
 
           setEditingRole(null);
           setIsAddRoleOpen(false);
         }}
       />
 
-      <RoleDetailsModal
-        isOpen={isRoleDetailsOpen}
-        onClose={() =>
-          setIsRoleDetailsOpen(false)
-        }
-        role={selectedRole}
-      />
+<RoleDetailsModal
+  isOpen={isRoleDetailsOpen}
+  onClose={() =>
+    setIsRoleDetailsOpen(false)
+  }
+  role={selectedRole}
+  onEdit={(role) => {
+    setIsRoleDetailsOpen(false);
+    setEditingRole(role);
+    setIsAddRoleOpen(true);
+  }}
+  onDelete={async (role) => {
+    const confirmed = window.confirm(
+      `Delete ${role.name}?`
+    );
+
+    if (!confirmed) return;
+
+    await roleService.deleteRole(
+      role._id
+    );
+
+    fetchRoles();
+    setIsRoleDetailsOpen(false);
+  }}
+/>
     </div>
   );
 }

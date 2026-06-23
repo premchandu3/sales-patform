@@ -18,47 +18,61 @@ export default function RoleFilters({
   onAddRole,
 }: RoleFiltersProps) {
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-between items-end">
       <div className="flex gap-4">
-        <input
-          value={search}
-          onChange={(e) =>
-            onSearchChange(
-              e.target.value
-            )
-          }
-          placeholder="Search role..."
-          className="border rounded-lg px-4 py-2"
-        />
 
-        <select
-          value={status}
-          onChange={(e) =>
-            onStatusChange(
-              e.target.value
-            )
-          }
-          className="border rounded-lg px-4 py-2"
-        >
-          <option value="">
-            All Status
-          </option>
+        <div>
+          <label className="text-sm text-gray-500 block mb-1">
+            Search Role
+          </label>
 
-          <option value="Active">
-            Active
-          </option>
+          <input
+            value={search}
+            onChange={(e) =>
+              onSearchChange(
+                e.target.value
+              )
+            }
+            placeholder="Search..."
+            className="w-[220px] border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
+          />
+        </div>
 
-          <option value="Inactive">
-            Inactive
-          </option>
-        </select>
+        <div>
+          <label className="text-sm text-gray-500 block mb-1">
+            Filter By Status
+          </label>
+
+          <select
+            value={status}
+            onChange={(e) =>
+              onStatusChange(
+                e.target.value
+              )
+            }
+            className="w-[140px] border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
+          >
+            <option value="">
+              All
+            </option>
+
+            <option value="Active">
+              Active
+            </option>
+
+            <option value="Inactive">
+              Inactive
+            </option>
+          </select>
+        </div>
+
       </div>
 
       <button
         onClick={onAddRole}
-        className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+        className="bg-[#071B3B] text-white px-5 py-2 rounded-md text-sm"
       >
-        Add Role
+        + Add Role
       </button>
     </div>
   );

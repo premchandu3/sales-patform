@@ -24,78 +24,100 @@ export default function UserFilters({
   onAddUser,
 }: UserFiltersProps) {
   return (
-    <div className="flex justify-between items-center">
-      <div className="flex gap-4">
-        <input
-          value={search}
-          onChange={(e) =>
-            onSearchChange(
-              e.target.value
-            )
-          }
-          placeholder="Search user..."
-          className="border rounded-lg px-4 py-2"
-        />
+    <div className="flex items-end justify-between">
 
-        <select
-          value={status}
-          onChange={(e) =>
-            onStatusChange(
-              e.target.value
-            )
-          }
-          className="border rounded-lg px-4 py-2"
-        >
-          <option value="">
-            All Status
-          </option>
+      <div className="flex gap-6">
 
-          <option value="Active">
-            Active
-          </option>
+        <div>
+          <label className="block text-[14px] text-[#6B7280] mb-2">
+            Search Users
+          </label>
 
-          <option value="Inactive">
-            Inactive
-          </option>
+          <input
+            value={search}
+            onChange={(e) =>
+              onSearchChange(
+                e.target.value
+              )
+            }
+            placeholder="Search by email,username"
+            className="w-[280px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+          />
+        </div>
 
-          <option value="Invited">
-            Invited
-          </option>
-        </select>
+        <div>
+          <label className="block text-[14px] text-[#6B7280] mb-2">
+            Filter By Status
+          </label>
 
-        <select
-          value={role}
-          onChange={(e) =>
-            onRoleChange(
-              e.target.value
-            )
-          }
-          className="border rounded-lg px-4 py-2"
-        >
-          <option value="">
-            All Roles
-          </option>
+          <select
+            value={status}
+            onChange={(e) =>
+              onStatusChange(
+                e.target.value
+              )
+            }
+            className="w-[180px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+          >
+            <option value="">
+              All
+            </option>
 
-          <option value="Lead Generator">
-            Lead Generator
-          </option>
+            <option value="Active">
+              Active
+            </option>
 
-          <option value="Sales Executive">
-            Sales Executive
-          </option>
+            <option value="Inactive">
+              Inactive
+            </option>
 
-          <option value="Admin">
-            Admin
-          </option>
-        </select>
+            <option value="Invited">
+              Invited
+            </option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-[14px] text-[#6B7280] mb-2">
+            Filter By Role
+          </label>
+
+          <select
+            value={role}
+            onChange={(e) =>
+              onRoleChange(
+                e.target.value
+              )
+            }
+            className="w-[180px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+          >
+            <option value="">
+              All
+            </option>
+
+            <option value="Lead Generator">
+              Lead Generator
+            </option>
+
+            <option value="Sales Executive">
+              Sales Executive
+            </option>
+
+            <option value="Sales Manager">
+              Sales Manager
+            </option>
+          </select>
+        </div>
+
       </div>
 
       <button
         onClick={onAddUser}
-        className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+        className="bg-[#071B3B] text-white h-[44px] px-8 rounded-lg font-medium"
       >
-        Add User
+        + Add User
       </button>
+
     </div>
   );
 }
