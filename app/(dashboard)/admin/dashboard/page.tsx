@@ -28,6 +28,8 @@ export default function DashboardPage() {
   const [totalPermissions, setTotalPermissions] = useState(0);
   const [activeUsers, setActiveUsers] = useState(0);
 
+  const [selectedCard, setSelectedCard] = useState("");
+
   const [roleDistribution, setRoleDistribution] =
     useState<Record<string, number>>({});
 
@@ -76,7 +78,6 @@ export default function DashboardPage() {
         activeUsersCount
       );
 
-      // User Role Distribution
 
       const roleCounts =
         users.reduce(
@@ -102,7 +103,6 @@ export default function DashboardPage() {
         roleCounts
       );
 
-      // Permission Overview
 
       const permissionData =
         roles.map(
@@ -133,79 +133,129 @@ export default function DashboardPage() {
         Dashboard
       </h1>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
-        <StatCard
-          title="Total Users"
-          value={totalUsers}
-          subtitle="All active users"
-          icon={
-            <Users
-              size={22}
-              className="text-[#071B3B]"
-            />
-          }
-          onClick={() =>
-            router.push(
-              "/admin/users"
-            )
-          }
-        />
+  <div
+    onClick={() => {
+      setSelectedCard("users");
+      router.push("/admin/users");
+    }}
+    className={`bg-white border rounded-xl p-5 flex items-center gap-4 h-[120px] cursor-pointer transition-all ${
+      selectedCard === "users"
+        ? "border-[#071B3B]"
+        : "border-[#E5E7EB]"
+    }`}
+  >
+    <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+      <Users size={26} className="text-[#071B3B]" />
+    </div>
 
-        <StatCard
-          title="Total Roles"
-          value={totalRoles}
-          subtitle="System roles"
-          icon={
-            <Briefcase
-              size={22}
-              className="text-[#071B3B]"
-            />
-          }
-          onClick={() =>
-            router.push(
-              "/admin/roles"
-            )
-          }
-        />
+    <div>
+      <p className="text-[15px] text-[#6B7280]">
+        Total Users
+      </p>
 
-        <StatCard
-          title="Permissions"
-          value={
-            totalPermissions
-          }
-          subtitle="All permissions"
-          icon={
-            <ShieldCheck
-              size={22}
-              className="text-[#071B3B]"
-            />
-          }
-          onClick={() =>
-            router.push(
-              "/admin/permissions"
-            )
-          }
-        />
+      <h3 className="text-[32px] font-bold text-[#071B3B]">
+        {String(totalUsers).padStart(2, "0")}
+      </h3>
 
-        <StatCard
-          title="Active Today"
-          value={activeUsers}
-          subtitle="Logged in users"
-          icon={
-            <UserCheck
-              size={22}
-              className="text-[#071B3B]"
-            />
-          }
-          onClick={() =>
-            router.push(
-              "/admin/users"
-            )
-          }
-        />
+      <p className="text-[12px] text-[#9CA3AF]">
+        All registered users
+      </p>
+    </div>
+  </div>
 
-      </div>
+  <div
+    onClick={() => {
+      setSelectedCard("roles");
+      router.push("/admin/roles");
+    }}
+    className={`bg-white border rounded-xl p-5 flex items-center gap-4 h-[120px] cursor-pointer transition-all ${
+      selectedCard === "roles"
+        ? "border-[#071B3B]"
+        : "border-[#E5E7EB]"
+    }`}
+  >
+    <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+      <Briefcase size={26} className="text-[#071B3B]" />
+    </div>
+
+    <div>
+      <p className="text-[15px] text-[#6B7280]">
+        Total Roles
+      </p>
+
+      <h3 className="text-[32px] font-bold text-[#071B3B]">
+        {String(totalRoles).padStart(2, "0")}
+      </h3>
+
+      <p className="text-[12px] text-[#9CA3AF]">
+        System roles
+      </p>
+    </div>
+  </div>
+
+  <div
+    onClick={() => {
+      setSelectedCard("permissions");
+      router.push("/admin/permissions");
+    }}
+    className={`bg-white border rounded-xl p-5 flex items-center gap-4 h-[120px] cursor-pointer transition-all ${
+      selectedCard === "permissions"
+        ? "border-[#071B3B]"
+        : "border-[#E5E7EB]"
+    }`}
+  >
+    <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+      <ShieldCheck size={26} className="text-[#071B3B]" />
+    </div>
+
+    <div>
+      <p className="text-[15px] text-[#6B7280]">
+        Permissions
+      </p>
+
+      <h3 className="text-[32px] font-bold text-[#071B3B]">
+        {String(totalPermissions).padStart(2, "0")}
+      </h3>
+
+      <p className="text-[12px] text-[#9CA3AF]">
+        All permissions
+      </p>
+    </div>
+  </div>
+
+  <div
+    onClick={() => {
+      setSelectedCard("active");
+      router.push("/admin/users");
+    }}
+    className={`bg-white border rounded-xl p-5 flex items-center gap-4 h-[120px] cursor-pointer transition-all ${
+      selectedCard === "active"
+        ? "border-[#071B3B]"
+        : "border-[#E5E7EB]"
+    }`}
+  >
+    <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+      <UserCheck size={26} className="text-[#071B3B]" />
+    </div>
+
+    <div>
+      <p className="text-[15px] text-[#6B7280]">
+        Active Today
+      </p>
+
+      <h3 className="text-[32px] font-bold text-[#071B3B]">
+        {String(activeUsers).padStart(2, "0")}
+      </h3>
+
+      <p className="text-[12px] text-[#9CA3AF]">
+        Logged in users
+      </p>
+    </div>
+  </div>
+
+</div>
 
       <div className="bg-white border border-[#E2E8F0] rounded-xl p-5">
 
@@ -213,7 +263,7 @@ export default function DashboardPage() {
           Quick Actions
         </h2>
 
-        <div className="flex gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
 
           <button
             onClick={() =>
@@ -230,7 +280,7 @@ export default function DashboardPage() {
               rounded-lg
               px-5
               py-4
-              w-[320px]
+              w-full
               hover:bg-[#F8FAFC]
               transition-all
             "
@@ -278,7 +328,7 @@ export default function DashboardPage() {
               rounded-lg
               px-5
               py-4
-              w-[320px]
+              w-full
               hover:bg-[#F8FAFC]
               transition-all
             "
@@ -314,9 +364,8 @@ export default function DashboardPage() {
 
       </div>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        {/* User Role Distribution */}
 
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
 
@@ -361,7 +410,6 @@ export default function DashboardPage() {
 
         </div>
 
-        {/* Permission Overview */}
 
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
 

@@ -18,8 +18,10 @@ export default function PermissionFilters({
   onAddPermission,
 }: PermissionFiltersProps) {
   return (
-    <div className="flex items-end justify-between">
-      <div className="flex gap-6">
+    <div className="flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
+
         <div>
           <label className="block mb-2 text-[#64748B] text-sm font-medium">
             Search Permission
@@ -28,17 +30,19 @@ export default function PermissionFilters({
           <input
             value={search}
             onChange={(e) =>
-              onSearchChange(e.target.value)
+              onSearchChange(
+                e.target.value
+              )
             }
             placeholder="Search..."
             className="
-              w-[160px]
-              h-[32px]
+              w-full
+              h-[40px]
               border
               border-[#E2E8F0]
               rounded-md
               px-3
-              text-xs
+              text-sm
               outline-none
             "
           />
@@ -52,16 +56,18 @@ export default function PermissionFilters({
           <select
             value={status}
             onChange={(e) =>
-              onStatusChange(e.target.value)
+              onStatusChange(
+                e.target.value
+              )
             }
             className="
-              w-[145px]
-              h-[32px]
+              w-full
+              h-[40px]
               border
               border-[#E2E8F0]
               rounded-md
               px-3
-              text-xs
+              text-sm
             "
           >
             <option value="">
@@ -86,16 +92,18 @@ export default function PermissionFilters({
           <select
             value={role}
             onChange={(e) =>
-              onRoleChange(e.target.value)
+              onRoleChange(
+                e.target.value
+              )
             }
             className="
-              w-[145px]
-              h-[32px]
+              w-full
+              h-[40px]
               border
               border-[#E2E8F0]
               rounded-md
               px-3
-              text-xs
+              text-sm
             "
           >
             <option value="">
@@ -115,6 +123,7 @@ export default function PermissionFilters({
             </option>
           </select>
         </div>
+
       </div>
 
       <button
@@ -122,15 +131,18 @@ export default function PermissionFilters({
         className="
           bg-[#071B3B]
           text-white
-          h-[32px]
+          h-[40px]
           px-5
           rounded-md
-          text-xs
+          text-sm
           font-medium
+          w-full
+          lg:w-auto
         "
       >
         Add Permission
       </button>
+
     </div>
   );
 }

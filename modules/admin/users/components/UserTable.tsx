@@ -13,9 +13,9 @@ export default function UserTable({
   onViewDetails,
 }: UserTableProps) {
   return (
-    <div className="bg-white rounded-2xl overflow-hidden border border-[#E5E7EB]">
+    <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-x-auto">
 
-      <table className="w-full">
+      <table className="w-full min-w-[900px]">
 
         <thead className="bg-[#EEF3FB]">
           <tr>

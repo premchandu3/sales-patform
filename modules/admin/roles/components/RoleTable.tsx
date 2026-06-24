@@ -1,6 +1,5 @@
 import StatusBadge from "@/components/ui/StatusBadge";
 import Button from "@/components/ui/Button";
-
 import { Role } from "@/types/role";
 
 interface RoleTableProps {
@@ -15,8 +14,9 @@ export default function RoleTable({
   onViewDetails,
 }: RoleTableProps) {
   return (
-    <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden">
-      <table className="w-full">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-x-auto">
+
+      <table className="w-full min-w-[900px]">
 
         <thead className="bg-[#EEF3FB]">
           <tr>
@@ -48,7 +48,7 @@ export default function RoleTable({
               key={role._id}
               className="border-t border-[#E5E7EB]"
             >
-              <td className="px-6 py-4">
+              <td className="px-6 py-4 font-medium">
                 {role.name}
               </td>
 
@@ -56,9 +56,9 @@ export default function RoleTable({
                 {role.description}
               </td>
 
-             <td className="px-6 py-4">
+              <td className="px-6 py-4">
                 {role.users || 0}
-                </td>
+              </td>
 
               <td className="px-6 py-4">
                 <StatusBadge
@@ -81,6 +81,7 @@ export default function RoleTable({
         </tbody>
 
       </table>
+
     </div>
   );
 }

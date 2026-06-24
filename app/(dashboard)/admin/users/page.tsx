@@ -105,7 +105,12 @@ export default function UsersPage() {
         Users
       </h1>
 
-      <UserStats users={users} />
+<UserStats
+  users={users}
+  onFilterStatus={
+    setStatusFilter
+  }
+/>
 
       <UserFilters
         search={search}

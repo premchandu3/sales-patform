@@ -36,20 +36,19 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[180px] bg-[#071B3B] text-white flex flex-col min-h-screen">
+    <aside className="hidden md:flex md:w-20 lg:w-[220px] bg-[#071B3B] text-white flex-col min-h-screen">
 
-      <div className="px-6 pt-8">
-        <h1 className="text-[18px] font-bold tracking-wide">
+      <div className="px-4 lg:px-6 pt-8">
+        <h1 className="text-lg font-bold tracking-wide text-center lg:text-left">
           LOGO
         </h1>
       </div>
 
-      <nav className="mt-12 px-4 space-y-3">
+      <nav className="mt-12 px-3 space-y-3">
         {menuItems.map((item) => {
           const Icon = item.icon;
 
-          const active =
-            pathname === item.href;
+          const active = pathname === item.href;
 
           return (
             <Link
@@ -58,11 +57,9 @@ export default function Sidebar() {
               className={`
                 flex items-center
                 gap-3
-                h-[46px]
+                h-12
                 px-4
                 rounded-xl
-                text-[14px]
-                font-medium
                 transition-all
                 ${
                   active
@@ -73,18 +70,19 @@ export default function Sidebar() {
             >
               <Icon size={18} />
 
-              <span>{item.name}</span>
+              <span className="hidden lg:block text-sm font-medium">
+                {item.name}
+              </span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto p-5">
+      <div className="mt-auto p-5 flex justify-center lg:justify-start">
         <div className="w-10 h-10 rounded-full bg-black border border-gray-600 flex items-center justify-center">
           N
         </div>
       </div>
-
     </aside>
   );
 }

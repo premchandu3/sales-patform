@@ -47,12 +47,8 @@ export default function RolesPage() {
   };
 
   useEffect(() => {
-  const loadRoles = async () => {
-    await fetchRoles();
-  };
-
-  loadRoles();
-}, []);
+    fetchRoles();
+  }, []);
 
   const filteredRoles = roles.filter(
     (role) => {
@@ -75,12 +71,18 @@ export default function RolesPage() {
   );
 
   return (
-  <div className="max-w-[1180px] mx-auto space-y-6">
-  <h1 className="text-[32px] font-semibold text-[#111827]">
-          Roles
+    <div className="max-w-[1180px] mx-auto space-y-6">
+
+      <h1 className="text-[32px] font-semibold text-[#111827]">
+        Roles
       </h1>
 
-      <RoleStats roles={roles} />
+      <RoleStats
+        roles={roles}
+        onFilterStatus={
+          setStatusFilter
+        }
+      />
 
       <RoleFilters
         search={search}
@@ -151,32 +153,34 @@ export default function RolesPage() {
         }}
       />
 
-<RoleDetailsModal
-  isOpen={isRoleDetailsOpen}
-  onClose={() =>
-    setIsRoleDetailsOpen(false)
-  }
-  role={selectedRole}
-  onEdit={(role) => {
-    setIsRoleDetailsOpen(false);
-    setEditingRole(role);
-    setIsAddRoleOpen(true);
-  }}
-  onDelete={async (role) => {
-    const confirmed = window.confirm(
-      `Delete ${role.name}?`
-    );
+      <RoleDetailsModal
+        isOpen={isRoleDetailsOpen}
+        onClose={() =>
+          setIsRoleDetailsOpen(false)
+        }
+        role={selectedRole}
+        onEdit={(role) => {
+          setIsRoleDetailsOpen(false);
+          setEditingRole(role);
+          setIsAddRoleOpen(true);
+        }}
+        onDelete={async (role) => {
+          const confirmed =
+            window.confirm(
+              `Delete ${role.name}?`
+            );
 
-    if (!confirmed) return;
+          if (!confirmed) return;
 
-    await roleService.deleteRole(
-      role._id
-    );
+          await roleService.deleteRole(
+            role._id
+          );
 
-    fetchRoles();
-    setIsRoleDetailsOpen(false);
-  }}
-/>
+          fetchRoles();
+          setIsRoleDetailsOpen(false);
+        }}
+      />
+
     </div>
   );
 }

@@ -1,9 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [email, setEmail] =
     useState("");
 
@@ -15,16 +18,65 @@ export default function LoginPage() {
     setShowPassword,
   ] = useState(false);
 
-  const handleLogin = () => {
-    console.log({
-      email,
-      password,
-    });
-  };
+  const [loading, setLoading] =
+    useState(false);
+
+  async function handleLogin() {
+    try {
+      setLoading(true);
+
+      const response =
+        await fetch(
+          "/api/auth/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      localStorage.setItem(
+        "token",
+        data.token
+      );
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
+
+      alert("Login Successful");
+
+      router.push(
+        "/admin/dashboard"
+      );
+    } catch (error) {
+      console.error(error);
+
+      alert("Login failed");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top_left,#5c6678_0%,#00153f_45%,#000b24_100%)]">
       <div className="bg-white w-[420px] rounded-2xl p-8 shadow-xl">
+
         <h1 className="text-4xl font-bold text-gray-800">
           Welcome Back!
         </h1>
@@ -35,6 +87,7 @@ export default function LoginPage() {
         </p>
 
         <div className="space-y-6">
+
           <div>
             <label className="text-xs text-gray-500">
               Email
@@ -58,6 +111,7 @@ export default function LoginPage() {
             </label>
 
             <div className="relative">
+
               <input
                 type={
                   showPassword
@@ -88,6 +142,7 @@ export default function LoginPage() {
                   <FaEye />
                 )}
               </button>
+
             </div>
           </div>
 
@@ -99,11 +154,16 @@ export default function LoginPage() {
 
           <button
             onClick={handleLogin}
+            disabled={loading}
             className="w-full bg-[#001B4E] text-white py-3 rounded-md font-medium"
           >
-            Continue
+            {loading
+              ? "Logging In..."
+              : "Continue"}
           </button>
+
         </div>
+
       </div>
     </div>
   );

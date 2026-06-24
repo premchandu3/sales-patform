@@ -24,9 +24,9 @@ export default function UserFilters({
   onAddUser,
 }: UserFiltersProps) {
   return (
-    <div className="flex items-end justify-between">
+    <div className="flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
 
-      <div className="flex gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
 
         <div>
           <label className="block text-[14px] text-[#6B7280] mb-2">
@@ -40,8 +40,8 @@ export default function UserFilters({
                 e.target.value
               )
             }
-            placeholder="Search by email,username"
-            className="w-[280px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+            placeholder="Search by email, username"
+            className="w-full h-[44px] border border-[#D1D5DB] rounded-lg px-4"
           />
         </div>
 
@@ -57,7 +57,7 @@ export default function UserFilters({
                 e.target.value
               )
             }
-            className="w-[180px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+            className="w-full h-[44px] border border-[#D1D5DB] rounded-lg px-4"
           >
             <option value="">
               All
@@ -89,7 +89,7 @@ export default function UserFilters({
                 e.target.value
               )
             }
-            className="w-[180px] h-[44px] border border-[#D1D5DB] rounded-lg px-4"
+            className="w-full h-[44px] border border-[#D1D5DB] rounded-lg px-4"
           >
             <option value="">
               All
@@ -113,7 +113,7 @@ export default function UserFilters({
 
       <button
         onClick={onAddUser}
-        className="bg-[#071B3B] text-white h-[44px] px-8 rounded-lg font-medium"
+        className="bg-[#071B3B] text-white h-[44px] px-8 rounded-lg font-medium w-full lg:w-auto"
       >
         + Add User
       </button>

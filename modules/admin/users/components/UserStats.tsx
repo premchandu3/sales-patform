@@ -9,10 +9,14 @@ import { User } from "@/types/user";
 
 interface UserStatsProps {
   users: User[];
+  onFilterStatus?: (
+    status: string
+  ) => void;
 }
 
 export default function UserStats({
   users,
+  onFilterStatus,
 }: UserStatsProps) {
   const totalUsers = users.length;
 
@@ -34,36 +38,45 @@ export default function UserStats({
       value: totalUsers,
       subtitle: "All registered users",
       icon: Users,
+      filter: "",
     },
     {
       title: "Active Users",
       value: activeUsers,
       subtitle: "Currently active",
       icon: UserCheck,
+      filter: "Active",
     },
     {
       title: "Invited Users",
       value: invitedUsers,
       subtitle: "Invitation Pending",
       icon: UserPlus,
+      filter: "Invited",
     },
     {
       title: "Inactive Users",
       value: inactiveUsers,
       subtitle: "Not logged in",
       icon: UserX,
+      filter: "Inactive",
     },
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
       {stats.map((item) => {
         const Icon = item.icon;
 
         return (
           <div
             key={item.title}
-            className="bg-white border border-[#E5E7EB] rounded-xl p-5 flex items-center gap-4 h-[120px]"
+            onClick={() =>
+              onFilterStatus?.(
+                item.filter
+              )
+            }
+            className="bg-white border border-[#E5E7EB] rounded-xl p-5 flex items-center gap-4 h-[120px] cursor-pointer hover:border-[#071B3B]"
           >
             <div className="w-14 h-14 rounded-xl bg-[#EEF3FB] flex items-center justify-center">
               <Icon

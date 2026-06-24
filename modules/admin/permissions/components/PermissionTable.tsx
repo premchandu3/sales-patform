@@ -21,8 +21,10 @@ export default function PermissionTable({
   onViewDetails,
 }: PermissionTableProps) {
   return (
-    <div className="bg-white border border-[#E2E8F0] rounded-md overflow-hidden">
-      <table className="w-full">
+    <div className="bg-white border border-[#E2E8F0] rounded-md overflow-x-auto">
+
+      <table className="w-full min-w-[1000px]">
+
         <thead className="bg-[#D9E3F0]">
           <tr>
             <th className="px-4 py-3 text-left text-sm font-semibold">
@@ -60,9 +62,7 @@ export default function PermissionTable({
                   </td>
 
                   <td className="px-4 py-3 text-xs text-[#475569]">
-                    {
-                      permission.description
-                    }
+                    {permission.description}
                   </td>
 
                   <td className="px-4 py-3 text-xs text-[#475569]">
@@ -73,9 +73,7 @@ export default function PermissionTable({
 
                   <td className="px-4 py-3">
                     <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-[11px]">
-                      {
-                        permission.status
-                      }
+                      {permission.status}
                     </span>
                   </td>
 
@@ -117,7 +115,9 @@ export default function PermissionTable({
             </tr>
           )}
         </tbody>
+
       </table>
+
     </div>
   );
 }

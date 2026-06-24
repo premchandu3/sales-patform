@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
+import crypto from "crypto";
 
 export async function GET() {
   try {
@@ -31,18 +32,12 @@ export async function POST(
 
     const body = await req.json();
 
-    console.log(
-      "REQUEST BODY:",
-      body
-    );
-
     const {
       name,
       email,
       contact,
       role,
       permissions,
-      status,
     } = body;
 
     const existingUser =
@@ -62,6 +57,10 @@ export async function POST(
       );
     }
 
+    const inviteToken =
+      crypto.randomBytes(32)
+        .toString("hex");
+
     const user =
       await User.create({
         name,
@@ -69,18 +68,32 @@ export async function POST(
         contact,
         role,
         permissions,
-        status,
+
+        status: "Invited",
+
+        password: "",
+
+        passwordCreated:
+          false,
+
+        inviteToken,
       });
 
+    const inviteLink =
+      `${process.env.NEXT_PUBLIC_APP_URL}/create-password?token=${inviteToken}`;
+
     console.log(
-      "SAVED USER:",
-      user
+      "Invite Link:",
+      inviteLink
     );
 
     return NextResponse.json(
       {
         message:
           "User created successfully",
+
+        inviteLink,
+
         user,
       },
       {

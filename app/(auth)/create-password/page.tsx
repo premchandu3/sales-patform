@@ -28,36 +28,84 @@ export default function CreatePasswordPage() {
     setShowConfirmPassword,
   ] = useState(false);
 
-  const handleSubmit = () => {
+  async function handleSubmit() {
     if (
       password !==
       confirmPassword
     ) {
-      alert("Passwords do not match");
+      alert(
+        "Passwords do not match"
+      );
       return;
     }
 
-    alert("Account Created");
-  };
+    try {
+      const token =
+        new URLSearchParams(
+          window.location.search
+        ).get("token");
+
+      const response =
+        await fetch(
+          "/api/auth/create-password",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type":
+                "application/json",
+            },
+            body: JSON.stringify({
+              token,
+              password,
+            }),
+          }
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert(
+        "Password created successfully"
+      );
+
+      window.location.href =
+        "/login";
+    } catch (error) {
+      console.error(error);
+
+      alert(
+        "Failed to create password"
+      );
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(circle_at_top_left,#5c6678_0%,#00153f_45%,#000b24_100%)]">
       <div className="bg-white w-[450px] rounded-2xl p-8 shadow-xl">
+
         <h1 className="text-4xl font-bold text-gray-800">
           Create Your Password
         </h1>
 
         <p className="text-gray-500 text-sm mt-2 mb-8">
-          Please set your password to activate your
-          account.
+          Please set your password
+          to activate your account.
         </p>
 
         <div className="space-y-5">
+
           <input
             placeholder="Name"
             value={name}
             onChange={(e) =>
-              setName(e.target.value)
+              setName(
+                e.target.value
+              )
             }
             className="w-full border-b border-gray-300 outline-none py-2"
           />
@@ -66,12 +114,15 @@ export default function CreatePasswordPage() {
             placeholder="Email"
             value={email}
             onChange={(e) =>
-              setEmail(e.target.value)
+              setEmail(
+                e.target.value
+              )
             }
             className="w-full border-b border-gray-300 outline-none py-2"
           />
 
           <div className="relative">
+
             <input
               type={
                 showPassword
@@ -103,9 +154,11 @@ export default function CreatePasswordPage() {
                 <FaEye />
               )}
             </button>
+
           </div>
 
           <div className="relative">
+
             <input
               type={
                 showConfirmPassword
@@ -113,7 +166,9 @@ export default function CreatePasswordPage() {
                   : "password"
               }
               placeholder="Confirm Password"
-              value={confirmPassword}
+              value={
+                confirmPassword
+              }
               onChange={(e) =>
                 setConfirmPassword(
                   e.target.value
@@ -137,15 +192,20 @@ export default function CreatePasswordPage() {
                 <FaEye />
               )}
             </button>
+
           </div>
 
           <button
-            onClick={handleSubmit}
+            onClick={
+              handleSubmit
+            }
             className="w-full bg-[#001B4E] text-white py-3 rounded-md font-medium mt-4"
           >
             Create Account
           </button>
+
         </div>
+
       </div>
     </div>
   );

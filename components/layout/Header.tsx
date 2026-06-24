@@ -1,13 +1,14 @@
 export default function Header() {
   return (
-    <header className="h-[70px] flex items-center justify-end px-8 bg-[#F7F8FC]">
+    <header className="h-[70px] flex items-center justify-end px-4 md:px-8 bg-[#F7F8FC]">
 
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-3 md:gap-8">
 
         <input
           placeholder="Search..."
           className="
-            w-[180px]
+            w-[120px]
+            md:w-[180px]
             h-[32px]
             border
             border-[#C8D2E1]

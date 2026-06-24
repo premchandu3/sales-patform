@@ -18,8 +18,9 @@ export default function RoleFilters({
   onAddRole,
 }: RoleFiltersProps) {
   return (
-    <div className="flex justify-between items-end">
-      <div className="flex gap-4">
+    <div className="flex flex-col lg:flex-row gap-4 lg:justify-between lg:items-end">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
 
         <div>
           <label className="text-sm text-gray-500 block mb-1">
@@ -34,7 +35,7 @@ export default function RoleFilters({
               )
             }
             placeholder="Search..."
-            className="w-[220px] border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
+            className="w-full border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
           />
         </div>
 
@@ -50,7 +51,7 @@ export default function RoleFilters({
                 e.target.value
               )
             }
-            className="w-[140px] border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
+            className="w-full border border-[#E5E7EB] rounded-md px-3 py-2 text-sm"
           >
             <option value="">
               All
@@ -70,10 +71,11 @@ export default function RoleFilters({
 
       <button
         onClick={onAddRole}
-        className="bg-[#071B3B] text-white px-5 py-2 rounded-md text-sm"
+        className="bg-[#071B3B] text-white px-5 py-2 rounded-md text-sm w-full lg:w-auto"
       >
         + Add Role
       </button>
+
     </div>
   );
 }
