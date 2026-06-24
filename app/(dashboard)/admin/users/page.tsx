@@ -1,5 +1,4 @@
-  
-  "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 
@@ -44,26 +43,31 @@ export default function UsersPage() {
       const data =
         await userService.getUsers();
 
-      setUsers(data);
+      console.log(
+        "USERS API:",
+        data
+      );
+
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        console.error(
+          "Invalid API response:",
+          data
+        );
+
+        setUsers([]);
+      }
     } catch (error) {
       console.error(error);
+      setUsers([]);
     }
   };
 
   useEffect(() => {
-  const fetchUsers = async () => {
-    try {
-      const data =
-        await userService.getUsers();
+    fetchUsers();
+  }, []);
 
-      setUsers(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  fetchUsers();
-}, []);
   const filteredUsers = users.filter(
     (user) => {
       const matchesSearch =
@@ -102,7 +106,6 @@ export default function UsersPage() {
       </h1>
 
       <UserStats users={users} />
-
 
       <UserFilters
         search={search}

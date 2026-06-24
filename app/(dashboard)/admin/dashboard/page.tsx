@@ -16,7 +16,6 @@ import {
   ArrowRight,
   Users,
   Briefcase,
-  User,
   ShieldCheck,
   UserCheck,
 } from "lucide-react";
@@ -24,26 +23,26 @@ import {
 export default function DashboardPage() {
   const router = useRouter();
 
-  const [totalUsers, setTotalUsers] =
-    useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalRoles, setTotalRoles] = useState(0);
+  const [totalPermissions, setTotalPermissions] = useState(0);
+  const [activeUsers, setActiveUsers] = useState(0);
 
-  const [totalRoles, setTotalRoles] =
-    useState(0);
+  const [roleDistribution, setRoleDistribution] =
+    useState<Record<string, number>>({});
 
-  const [
-    totalPermissions,
-    setTotalPermissions,
-  ] = useState(0);
+  const [permissionOverview, setPermissionOverview] =
+    useState<
+      {
+        name: string;
+        count: number;
+      }[]
+    >([]);
 
-  const [activeUsers, setActiveUsers] =
-    useState(0);
-
-  const [isAddUserOpen,
-    setIsAddUserOpen] =
+  const [isAddUserOpen, setIsAddUserOpen] =
     useState(false);
 
-  const [isAddRoleOpen,
-    setIsAddRoleOpen] =
+  const [isAddRoleOpen, setIsAddRoleOpen] =
     useState(false);
 
   async function loadDashboard() {
@@ -70,12 +69,53 @@ export default function DashboardPage() {
           (user: {
             status: string;
           }) =>
-            user.status ===
-            "Active"
+            user.status === "Active"
         ).length;
 
       setActiveUsers(
         activeUsersCount
+      );
+
+      // User Role Distribution
+
+      const roleCounts =
+        users.reduce(
+          (
+            acc: Record<
+              string,
+              number
+            >,
+            user: any
+          ) => {
+            if (user.role) {
+              acc[user.role] =
+                (acc[user.role] || 0) +
+                1;
+            }
+
+            return acc;
+          },
+          {}
+        );
+
+      setRoleDistribution(
+        roleCounts
+      );
+
+      // Permission Overview
+
+      const permissionData =
+        roles.map(
+          (role: any) => ({
+            name: role.name,
+            count:
+              role.permissions
+                ?.length || 0,
+          })
+        );
+
+      setPermissionOverview(
+        permissionData
       );
     } catch (error) {
       console.error(error);
@@ -106,7 +146,9 @@ export default function DashboardPage() {
             />
           }
           onClick={() =>
-            router.push("/admin/users")
+            router.push(
+              "/admin/users"
+            )
           }
         />
 
@@ -121,13 +163,17 @@ export default function DashboardPage() {
             />
           }
           onClick={() =>
-            router.push("/admin/roles")
+            router.push(
+              "/admin/roles"
+            )
           }
         />
 
         <StatCard
           title="Permissions"
-          value={totalPermissions}
+          value={
+            totalPermissions
+          }
           subtitle="All permissions"
           icon={
             <ShieldCheck
@@ -153,7 +199,9 @@ export default function DashboardPage() {
             />
           }
           onClick={() =>
-            router.push("/admin/users")
+            router.push(
+              "/admin/users"
+            )
           }
         />
 
@@ -202,7 +250,8 @@ export default function DashboardPage() {
                 </h3>
 
                 <p className="text-xs text-[#64748B]">
-                  Add & invite employee
+                  Add & invite
+                  employee
                 </p>
               </div>
 
@@ -267,6 +316,8 @@ export default function DashboardPage() {
 
       <div className="grid grid-cols-2 gap-6">
 
+        {/* User Role Distribution */}
+
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
 
           <h3 className="text-xl font-semibold mb-1">
@@ -274,29 +325,43 @@ export default function DashboardPage() {
           </h3>
 
           <p className="text-sm text-slate-500 mb-5">
-            Overview of users across different roles
+            Overview of users
+            across different
+            roles
           </p>
 
           <div className="space-y-5">
 
-            <div className="flex justify-between">
-              <span>Lead Generators</span>
-              <span>04 Users</span>
-            </div>
+            {Object.entries(
+              roleDistribution
+            ).map(
+              ([
+                role,
+                count,
+              ]) => (
+                <div
+                  key={role}
+                  className="flex justify-between"
+                >
+                  <span>
+                    {role}
+                  </span>
 
-            <div className="flex justify-between">
-              <span>Sales Executives</span>
-              <span>02 Users</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Sales Managers</span>
-              <span>01 User</span>
-            </div>
+                  <span>
+                    {count}{" "}
+                    {count === 1
+                      ? "User"
+                      : "Users"}
+                  </span>
+                </div>
+              )
+            )}
 
           </div>
 
         </div>
+
+        {/* Permission Overview */}
 
         <div className="bg-white border border-[#E2E8F0] rounded-xl p-6">
 
@@ -305,25 +370,42 @@ export default function DashboardPage() {
           </h3>
 
           <p className="text-sm text-slate-500 mb-5">
-            Summary of permissions assigned to each role
+            Summary of
+            permissions
+            assigned to each
+            role
           </p>
 
           <div className="space-y-5">
 
-            <div className="flex justify-between">
-              <span>Lead Generators</span>
-              <span>3 Permissions</span>
-            </div>
+            {permissionOverview.map(
+              (
+                role
+              ) => (
+                <div
+                  key={
+                    role.name
+                  }
+                  className="flex justify-between"
+                >
+                  <span>
+                    {
+                      role.name
+                    }
+                  </span>
 
-            <div className="flex justify-between">
-              <span>Sales Executives</span>
-              <span>6 Permissions</span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>Sales Managers</span>
-              <span>All Permissions</span>
-            </div>
+                  <span>
+                    {
+                      role.count
+                    }{" "}
+                    {role.count ===
+                    1
+                      ? "Permission"
+                      : "Permissions"}
+                  </span>
+                </div>
+              )
+            )}
 
           </div>
 
@@ -332,37 +414,65 @@ export default function DashboardPage() {
       </div>
 
       <AddUserModal
-        isOpen={isAddUserOpen}
-        onClose={() =>
-          setIsAddUserOpen(false)
+        isOpen={
+          isAddUserOpen
         }
-        onAddUser={async (data) => {
-          await userService.createUser({
-            name: data.name,
-            email: data.email,
-            role: data.role,
-            status: data.status,
-          });
+        onClose={() =>
+          setIsAddUserOpen(
+            false
+          )
+        }
+        onAddUser={async (
+          data
+        ) => {
+          await userService.createUser(
+            {
+              name:
+                data.name,
+              email:
+                data.email,
+              role:
+                data.role,
+              status:
+                data.status,
+            }
+          );
 
-          setIsAddUserOpen(false);
+          setIsAddUserOpen(
+            false
+          );
+
           await loadDashboard();
         }}
       />
 
       <AddRoleModal
-        isOpen={isAddRoleOpen}
-        onClose={() =>
-          setIsAddRoleOpen(false)
+        isOpen={
+          isAddRoleOpen
         }
-        onAddRole={async (data) => {
-          await roleService.createRole({
-            name: data.name,
-            description:
-              data.description,
-            status: data.status,
-          });
+        onClose={() =>
+          setIsAddRoleOpen(
+            false
+          )
+        }
+        onAddRole={async (
+          data
+        ) => {
+          await roleService.createRole(
+            {
+              name:
+                data.name,
+              description:
+                data.description,
+              status:
+                data.status,
+            }
+          );
 
-          setIsAddRoleOpen(false);
+          setIsAddRoleOpen(
+            false
+          );
+
           await loadDashboard();
         }}
       />

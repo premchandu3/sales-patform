@@ -28,6 +28,21 @@ const UserSchema = new Schema(
       default: [],
     },
 
+    password: {
+      type: String,
+      default: "",
+    },
+
+    inviteToken: {
+      type: String,
+      default: "",
+    },
+
+    passwordCreated: {
+      type: Boolean,
+      default: false,
+    },
+
     status: {
       type: String,
       enum: [
@@ -35,7 +50,7 @@ const UserSchema = new Schema(
         "Inactive",
         "Invited",
       ],
-      default: "Active",
+      default: "Invited",
     },
   },
   {
@@ -43,8 +58,8 @@ const UserSchema = new Schema(
   }
 );
 
-delete models.User;
-
-const User = model("User", UserSchema);
+const User =
+  models.User ||
+  model("User", UserSchema);
 
 export default User;
