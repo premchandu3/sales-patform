@@ -47,11 +47,10 @@ export async function POST(req: Request) {
       );
     }
 
-    const isMatch =
-      await bcrypt.compare(
-        password,
-        user.password
-      );
+    const isMatch = await bcrypt.compare(
+      password,
+      user.password
+    );
 
     if (!isMatch) {
       return NextResponse.json(
@@ -75,7 +74,7 @@ export async function POST(req: Request) {
       }
     );
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       token,
       user: {
@@ -85,6 +84,18 @@ export async function POST(req: Request) {
         role: user.role,
       },
     });
+
+    response.cookies.set({
+      name: "token",
+      value: token,
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    return response;
   } catch (error) {
     console.error(error);
 

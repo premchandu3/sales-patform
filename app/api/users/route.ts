@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
-import crypto from "crypto";
+import { sendInviteEmail } from "@/services/email.service";
+import { generateInviteToken } from "@/utils/generateInviteToken";
 
 export async function GET() {
   try {
@@ -58,8 +59,7 @@ export async function POST(
     }
 
     const inviteToken =
-      crypto.randomBytes(32)
-        .toString("hex");
+      generateInviteToken();
 
     const user =
       await User.create({
@@ -81,6 +81,13 @@ export async function POST(
 
     const inviteLink =
       `${process.env.NEXT_PUBLIC_APP_URL}/create-password?token=${inviteToken}`;
+
+    await sendInviteEmail({
+      email,
+      name,
+      inviteLink,
+    });
+    console.log("✅ Invite email function executed");
 
     console.log(
       "Invite Link:",
