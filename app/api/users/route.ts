@@ -80,7 +80,10 @@ export async function POST(
       });
 
     const inviteLink =
-      `${process.env.NEXT_PUBLIC_APP_URL}/create-password?token=${inviteToken}`;
+  `${process.env.NEXT_PUBLIC_APP_URL}/create-password?token=${inviteToken}`;
+
+console.log("APP_URL =", process.env.NEXT_PUBLIC_APP_URL);
+console.log("Invite Link =", inviteLink);
 
     await sendInviteEmail({
       email,
