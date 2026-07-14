@@ -22,7 +22,9 @@ export default function RoleDetailsModal({
   if (!isOpen || !role) return null;
 
   return (
-    <Modal>
+  <Modal
+  isOpen={isOpen}
+>
       <div className="bg-white rounded-2xl p-6 w-[460px] shadow-xl relative">
 
         <button

@@ -24,7 +24,9 @@ export default function PermissionDetailsModal({
     return null;
 
   return (
-    <Modal>
+  <Modal
+  isOpen={isOpen}
+>
       <div className="bg-white rounded-[24px] p-8 w-[650px] relative">
 
         <button

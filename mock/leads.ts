@@ -1,39 +1,27 @@
-export interface Lead {
-  id: number;
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  status:
-    | "New"
-    | "Contacted"
-    | "Qualified"
-    | "Lost";
-}
+import { Lead } from "@/types/lead";
 
 export const initialLeads: Lead[] = [
   {
     id: 1,
-    name: "Ramesh Kumar",
-    company: "Infosys",
-    email: "ramesh@gmail.com",
+    name: "John Smith",
+    company: "Google",
+    email: "john@google.com",
     phone: "9876543210",
     status: "New",
+    source: "LinkedIn",
+    assignedTo: "Prem",
+    createdAt: "2026-06-20",
   },
+
   {
     id: 2,
-    name: "Suresh Rao",
-    company: "TCS",
-    email: "suresh@gmail.com",
+    name: "David Miller",
+    company: "Microsoft",
+    email: "david@microsoft.com",
     phone: "9876543211",
     status: "Qualified",
-  },
-  {
-    id: 3,
-    name: "Priya Sharma",
-    company: "Wipro",
-    email: "priya@gmail.com",
-    phone: "9876543212",
-    status: "Contacted",
+    source: "Website",
+    assignedTo: "Prem",
+    createdAt: "2026-06-18",
   },
 ];

@@ -87,8 +87,10 @@ export default function AddPermissionModal({
 
   if (!isOpen) return null;
 
-  return (
-    <Modal>
+ return (
+  <Modal
+  isOpen={isOpen}
+>
       <div
         className="
           bg-white

@@ -98,7 +98,9 @@ export default function AddRoleModal({
   if (!isOpen) return null;
 
   return (
-    <Modal>
+  <Modal
+  isOpen={isOpen}
+>
       <div className="bg-white rounded-2xl p-6 w-[600px]">
 
         <h2 className="text-[28px] font-semibold mb-6">

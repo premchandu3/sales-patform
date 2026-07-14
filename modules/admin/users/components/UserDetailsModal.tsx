@@ -33,7 +33,9 @@ export default function UserDetailsModal({
   if (!isOpen || !user) return null;
 
   return (
-    <Modal>
+  <Modal
+  isOpen={isOpen}
+>
       <div className="bg-white rounded-[20px] w-[500px] p-6 shadow-xl">
 
         <div className="flex justify-between items-center mb-4">
