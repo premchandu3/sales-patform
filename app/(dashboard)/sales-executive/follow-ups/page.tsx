@@ -9,6 +9,7 @@ import FollowUpDetailsModal from "@/components/sales-executive/follow-ups/Follow
 
 export default function FollowUpsPage() {
   const [search, setSearch] = useState("");
+  const [type, setType] = useState("All");
   const [status, setStatus] = useState("All");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,6 +31,8 @@ export default function FollowUpsPage() {
         <FollowUpFilters
           search={search}
           setSearch={setSearch}
+          type={type}
+          setType={setType}
           status={status}
           setStatus={setStatus}
         />
