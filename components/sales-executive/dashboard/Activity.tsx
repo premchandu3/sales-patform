@@ -1,46 +1,72 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface Activity {
+  _id: string;
+  action: string;
+  description: string;
+  createdAt: string;
+}
+
 export default function Activity() {
-  const activities = [
-    {
-      date: "Today",
-      items: [
-        "Added 5 Leads",
-        "Created 2 Follow Ups",
-        "Scheduled 1 Discovery Call",
-      ],
-    },
-    {
-      date: "Yesterday",
-      items: [
-        "Added 3 Leads",
-        "Completed 2 Follow Ups",
-      ],
-    },
-  ];
+  const [activities, setActivities] =
+    useState<Activity[]>([]);
+
+  useEffect(() => {
+    const fetchActivities =
+      async () => {
+        const response =
+          await fetch(
+            "/api/activities"
+          );
+
+        const data =
+          await response.json();
+
+        setActivities(data);
+      };
+
+    fetchActivities();
+  }, []);
 
   return (
     <div className="bg-white border rounded-xl p-5">
-      <h2 className="text-xl font-semibold mb-4">My Activity</h2>
+      <h2 className="text-xl font-semibold mb-4">
+        My Activity
+      </h2>
 
-      <div className="space-y-6">
-        {activities.map((group) => (
-          <div key={group.date}>
-            <h3 className="font-medium text-gray-900 mb-3">
-              {group.date}
-            </h3>
+      <div className="space-y-3">
+        {activities.map(
+          (activity) => (
+            <div
+              key={activity._id}
+              className="flex items-start gap-3 text-sm text-gray-600"
+            >
+              <div className="w-2 h-2 rounded-full bg-green-500 mt-2" />
 
-            <div className="space-y-3">
-              {group.items.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 text-sm text-gray-600"
-                >
-                  <div className="w-2 h-2 rounded-full bg-green-500" />
-                  <span>{item}</span>
-                </div>
-              ))}
+              <div>
+                <p>
+                  {
+                    activity.description
+                  }
+                </p>
+
+                <p className="text-xs text-gray-400 mt-1">
+                  {new Date(
+                    activity.createdAt
+                  ).toLocaleString()}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        )}
+
+        {activities.length === 0 && (
+          <p className="text-gray-500 text-sm">
+            No activity found
+          </p>
+        )}
       </div>
     </div>
   );

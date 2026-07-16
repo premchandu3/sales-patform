@@ -5,14 +5,12 @@ import { useState } from "react";
 import LeadStats from "@/components/sales-executive/my-leads/LeadStats";
 import LeadFilters from "@/components/sales-executive/my-leads/LeadFilters";
 import LeadTable from "@/components/sales-executive/my-leads/LeadTable";
-import LeadDetailsDrawer from "@/components/sales-executive/my-leads/LeadDetailsDrawer";
 
 export default function MyLeadsPage() {
   const [search, setSearch] = useState("");
   const [owner, setOwner] = useState("All");
   const [date, setDate] = useState("");
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
     <>
@@ -39,14 +37,12 @@ export default function MyLeadsPage() {
         />
 
         <LeadTable
-          onViewDetails={() => setIsDrawerOpen(true)}
+          search={search}
+          source=""
+          status=""
+          date={date}
         />
       </div>
-
-      <LeadDetailsDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-      />
     </>
   );
 }

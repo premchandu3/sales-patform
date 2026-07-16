@@ -11,7 +11,10 @@ export default function AllLeadsPage() {
   const [search, setSearch] = useState("");
   const [owner, setOwner] = useState("All");
   const [status, setStatus] = useState("All");
+
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedLead, setSelectedLead] =
+    useState<any>(null);
 
   return (
     <div className="space-y-6">
@@ -37,12 +40,19 @@ export default function AllLeadsPage() {
       />
 
       <LeadTable
-        onViewDetails={() => setIsOpen(true)}
+        search={search}
+        owner={owner}
+        status={status}
+        onViewDetails={(lead) => {
+          setSelectedLead(lead);
+          setIsOpen(true);
+        }}
       />
 
       <LeadDetailsModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        lead={selectedLead}
       />
     </div>
   );

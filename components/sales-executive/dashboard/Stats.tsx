@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Users,
   CalendarDays,
@@ -5,30 +7,42 @@ import {
   Phone,
 } from "lucide-react";
 
-export default function Stats() {
+interface StatsProps {
+  totalLeads: number;
+  assignedLeads: number;
+  followUps: number;
+  discoveryCalls: number;
+}
+
+export default function Stats({
+  totalLeads,
+  assignedLeads,
+  followUps,
+  discoveryCalls,
+}: StatsProps) {
   const stats = [
     {
       title: "Total Leads",
-      value: "649",
+      value: totalLeads,
       subtitle: "All leads",
       icon: Users,
     },
     {
       title: "Assigned Leads",
-      value: "59",
+      value: assignedLeads,
       subtitle: "From lead generators",
       icon: CalendarDays,
     },
     {
-      title: "Follow ups",
-      value: "400",
+      title: "Follow Ups",
+      value: followUps,
       subtitle: "Pending follow ups",
       icon: Clock3,
     },
     {
       title: "Discovery Calls",
-      value: "400",
-      subtitle: "Scheduled Today",
+      value: discoveryCalls,
+      subtitle: "Scheduled today",
       icon: Phone,
     },
   ];
@@ -45,22 +59,19 @@ export default function Stats() {
           >
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-md bg-[#EEF4FF] flex items-center justify-center">
-                <Icon
-                  size={20}
-                  className="text-[#374151]"
-                />
+                <Icon size={20} />
               </div>
 
               <div>
-                <p className="text-[14px] text-[#374151] font-medium">
+                <p className="text-[14px] font-medium">
                   {item.title}
                 </p>
 
-                <h3 className="text-[18px] font-bold text-[#111827] leading-none mt-1">
+                <h3 className="text-[18px] font-bold mt-1">
                   {item.value}
                 </h3>
 
-                <p className="text-[11px] text-[#9CA3AF] mt-1">
+                <p className="text-[11px] text-gray-400 mt-1">
                   {item.subtitle}
                 </p>
               </div>

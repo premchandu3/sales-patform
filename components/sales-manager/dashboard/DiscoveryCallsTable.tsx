@@ -1,31 +1,34 @@
-const calls = [
-  {
-    lead: "Rahul K...",
-    owner: "Sajaa",
-    status: "Scheduled",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    status: "Scheduled",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    status: "Scheduled",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    status: "Completed",
-    date: "20 May, 2026",
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface DiscoveryCall {
+  _id: string;
+  leadId: string;
+  meetingDate: string;
+  meetingTime: string;
+  meetingType: string;
+  status: string;
+}
 
 export default function DiscoveryCallsTable() {
+  const [calls, setCalls] = useState<DiscoveryCall[]>([]);
+
+  useEffect(() => {
+    fetchCalls();
+  }, []);
+
+  const fetchCalls = async () => {
+    try {
+      const res = await fetch("/api/discovery-calls");
+      const data = await res.json();
+
+      setCalls(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
       <div className="flex items-center justify-between mb-5">
@@ -46,7 +49,7 @@ export default function DiscoveryCallsTable() {
             </th>
 
             <th className="px-3 py-3 text-left">
-              Lead Owner
+              Meeting Type
             </th>
 
             <th className="px-3 py-3 text-left">
@@ -60,17 +63,17 @@ export default function DiscoveryCallsTable() {
         </thead>
 
         <tbody>
-          {calls.map((item, index) => (
+          {calls.map((item) => (
             <tr
-              key={index}
+              key={item._id}
               className="border-b"
             >
               <td className="px-3 py-4">
-                {item.lead}
+                {item.leadId}
               </td>
 
               <td className="px-3 py-4">
-                {item.owner}
+                {item.meetingType}
               </td>
 
               <td className="px-3 py-4">
@@ -86,7 +89,7 @@ export default function DiscoveryCallsTable() {
               </td>
 
               <td className="px-3 py-4">
-                {item.date}
+                {item.meetingDate}
               </td>
             </tr>
           ))}

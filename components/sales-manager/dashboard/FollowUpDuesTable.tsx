@@ -1,36 +1,42 @@
-const followUps = [
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    priority: "High",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    priority: "Medium",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Sajaa",
-    priority: "Medium",
-    date: "20 May, 2026",
-  },
-  {
-    lead: "Rahul K...",
-    owner: "Varshini",
-    priority: "Low",
-    date: "20 May, 2026",
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface FollowUp {
+  _id: string;
+  leadId: string;
+  followUpDate: string;
+  priority?: string;
+  status: string;
+}
 
 export default function FollowUpDuesTable() {
+  const [followUps, setFollowUps] = useState<FollowUp[]>([]);
+
+  useEffect(() => {
+    fetchFollowUps();
+  }, []);
+
+  const fetchFollowUps = async () => {
+    try {
+      const res = await fetch("/api/followups");
+      const data = await res.json();
+
+      const pendingFollowUps = data.filter(
+        (item: FollowUp) => item.status === "Pending"
+      );
+
+      setFollowUps(pendingFollowUps);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-[20px] font-semibold">
-          Follow Up dues
+          Follow Up Dues
         </h3>
 
         <button className="text-sm font-medium">
@@ -46,10 +52,6 @@ export default function FollowUpDuesTable() {
             </th>
 
             <th className="px-3 py-3 text-left">
-              Lead Owner
-            </th>
-
-            <th className="px-3 py-3 text-left">
               Priority
             </th>
 
@@ -60,17 +62,13 @@ export default function FollowUpDuesTable() {
         </thead>
 
         <tbody>
-          {followUps.map((item, index) => (
+          {followUps.map((item) => (
             <tr
-              key={index}
+              key={item._id}
               className="border-b"
             >
               <td className="px-3 py-4">
-                {item.lead}
-              </td>
-
-              <td className="px-3 py-4">
-                {item.owner}
+                {item.leadId}
               </td>
 
               <td className="px-3 py-4">
@@ -83,12 +81,12 @@ export default function FollowUpDuesTable() {
                       : "bg-[#DDF7E8] text-[#27AE60]"
                   }`}
                 >
-                  {item.priority}
+                  {item.priority || "Medium"}
                 </span>
               </td>
 
               <td className="px-3 py-4">
-                {item.date}
+                {item.followUpDate}
               </td>
             </tr>
           ))}

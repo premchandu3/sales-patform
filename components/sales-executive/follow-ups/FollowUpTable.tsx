@@ -1,151 +1,199 @@
-type FollowUp = {
-  id: number;
-  name: string;
-  company: string;
-  type: string;
-  date: string;
+"use client";
+
+import { useEffect, useState } from "react";
+import FollowUpDetailsModal from "./FollowUpDetailsModal";
+
+interface FollowUp {
+  _id: string;
+  leadId: string;
+  followUpType?: string;
+  followUpDate: string;
+  followUpTime: string;
+  priority?: string;
+  notes?: string;
   status: string;
-};
+}
 
-type FollowUpTableProps = {
-  onViewDetails: () => void;
-};
-
-const followUps: FollowUp[] = [
-  {
-    id: 1,
-    name: "Rohan Mehta",
-    company: "Acme Corp",
-    type: "Cold Call",
-    date: "20 May, 2026",
-    status: "Pending",
-  },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    company: "TechSolutions",
-    type: "Email",
-    date: "20 May, 2026",
-    status: "Pending",
-  },
-  {
-    id: 3,
-    name: "Amit Verma",
-    company: "Verma Industries",
-    type: "Email",
-    date: "20 May, 2026",
-    status: "Pending",
-  },
-  {
-    id: 4,
-    name: "Rohan Mehta",
-    company: "abc solutions",
-    type: "Cold Call",
-    date: "20 May, 2026",
-    status: "Pending",
-  },
-  {
-    id: 5,
-    name: "Rohan Mehta",
-    company: "rk industries",
-    type: "Cold Call",
-    date: "20 May, 2026",
-    status: "Completed",
-  },
-  {
-    id: 6,
-    name: "Rohan Mehta",
-    company: "pk technologies",
-    type: "Email",
-    date: "20 May, 2026",
-    status: "Completed",
-  },
-];
+interface FollowUpTableProps {
+  search: string;
+  type: string;
+  status: string;
+}
 
 export default function FollowUpTable({
-  onViewDetails,
+  search,
+  type,
+  status,
 }: FollowUpTableProps) {
-  return (
-    <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="bg-[#D8E3F3]">
-              <th className="px-6 py-5 text-left text-[15px] font-semibold text-[#374151]">
-                Name
-              </th>
+  const [followUps, setFollowUps] =
+    useState<FollowUp[]>([]);
 
-              <th className="px-6 py-5 text-left text-[15px] font-semibold text-[#374151]">
-                Company
-              </th>
+  const [loading, setLoading] =
+    useState(true);
 
-              <th className="px-6 py-5 text-left text-[15px] font-semibold text-[#374151]">
-                Follow Up Type
-              </th>
+  const [selectedFollowUp, setSelectedFollowUp] =
+    useState<FollowUp | null>(null);
 
-              <th className="px-6 py-5 text-left text-[15px] font-semibold text-[#374151]">
-                Date
-              </th>
+  const [isOpen, setIsOpen] =
+    useState(false);
 
-              <th className="px-6 py-5 text-left text-[15px] font-semibold text-[#374151]">
-                Status
-              </th>
+  useEffect(() => {
+    const fetchFollowUps = async () => {
+      try {
+        const response =
+          await fetch("/api/followups");
 
-              <th className="px-6 py-5 text-right text-[15px] font-semibold text-[#374151]">
-                Actions
-              </th>
-            </tr>
-          </thead>
+        const data =
+          await response.json();
 
-          <tbody>
-            {followUps.map((item) => (
-              <tr
-                key={item.id}
-                className="border-b border-[#EEF2F7] hover:bg-[#FAFBFD] transition"
-              >
-                <td className="px-6 py-5 text-sm text-[#374151]">
-                  {item.name}
-                </td>
+        setFollowUps(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                <td className="px-6 py-5 text-sm text-[#374151]">
-                  {item.company}
-                </td>
+    fetchFollowUps();
+  }, []);
 
-                <td className="px-6 py-5">
-                  <span className="px-3 py-1.5 rounded-full text-xs bg-[#E8EEF9] text-[#5B6472]">
-                    {item.type}
-                  </span>
-                </td>
+  const filteredFollowUps =
+    followUps.filter((item) => {
+      const searchMatch =
+        item.leadId
+          ?.toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
 
-                <td className="px-6 py-5 text-sm text-[#6B7280]">
-                  {item.date}
-                </td>
+      const typeMatch =
+        type === "All" ||
+        (item.followUpType || "Call") ===
+        type;
 
-                <td className="px-6 py-5">
-                  <span
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium ${
-                      item.status === "Pending"
-                        ? "bg-[#FFF3CD] text-[#F5B301]"
-                        : "bg-[#DDF7E8] text-[#52C41A]"
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </td>
+      const statusMatch =
+        status === "All" ||
+        item.status === status;
 
-                <td className="px-6 py-5 text-right">
-                  <button
-                    onClick={onViewDetails}
-                    className="bg-[#071B3B] text-white px-5 py-2.5 rounded-[10px] text-sm font-medium hover:bg-[#0A2550] transition"
-                  >
-                    View Details
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      return (
+        searchMatch &&
+        typeMatch &&
+        statusMatch
+      );
+    });
+
+  if (loading) {
+    return (
+      <div className="bg-white border rounded-xl p-6">
+        Loading Follow Ups...
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="bg-[#D8E3F3]">
+                <th className="px-6 py-5 text-left">
+                  Lead ID
+                </th>
+
+                <th className="px-6 py-5 text-left">
+                  Type
+                </th>
+
+                <th className="px-6 py-5 text-left">
+                  Date
+                </th>
+
+                <th className="px-6 py-5 text-left">
+                  Time
+                </th>
+
+                <th className="px-6 py-5 text-left">
+                  Status
+                </th>
+
+                <th className="px-6 py-5 text-right">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {filteredFollowUps.map(
+                (item) => (
+                  <tr
+                    key={item._id}
+                    className="border-b border-[#EEF2F7]"
+                  >
+                    <td className="px-6 py-5 text-sm">
+                      {item.leadId}
+                    </td>
+
+                    <td className="px-6 py-5 text-sm">
+                      {item.followUpType ||
+                        "Call"}
+                    </td>
+
+                    <td className="px-6 py-5 text-sm">
+                      {new Date(
+                        item.followUpDate
+                      ).toLocaleDateString()}
+                    </td>
+
+                    <td className="px-6 py-5 text-sm">
+                      {item.followUpTime}
+                    </td>
+
+                    <td className="px-6 py-5">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs ${item.status ===
+                            "Completed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                          }`}
+                      >
+                        {item.status}
+                      </span>
+                    </td>
+
+                    <td className="px-6 py-5 text-right">
+                      <button
+                        onClick={() => {
+                          setSelectedFollowUp(
+                            item
+                          );
+                          setIsOpen(true);
+                        }}
+                        className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
+
+          {filteredFollowUps.length ===
+            0 && (
+              <div className="text-center py-10 text-gray-500">
+                No Follow Ups Found
+              </div>
+            )}
+        </div>
+      </div>
+
+      <FollowUpDetailsModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        followUp={selectedFollowUp}
+      />
+    </>
   );
 }

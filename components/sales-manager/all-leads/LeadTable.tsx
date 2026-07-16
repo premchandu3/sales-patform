@@ -1,77 +1,69 @@
-type Lead = {
-  id: number;
-  name: string;
-  company: string;
-  source: string;
-  owner: string;
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface Lead {
+  _id: string;
+  contactPersonName: string;
+  companyName: string;
+  leadSource: string;
+  leadOwner: string;
   status: string;
-  nextStep: string;
-};
+}
 
 type LeadTableProps = {
-  onViewDetails: () => void;
+  search: string;
+  owner: string;
+  status: string;
+  onViewDetails: (lead: Lead) => void;
 };
 
-const leads: Lead[] = [
-  {
-    id: 1,
-    name: "Rohan Mehta",
-    company: "Acme Corp",
-    source: "LinkedIn",
-    owner: "Varshini",
-    status: "New",
-    nextStep: "Contact",
-  },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    company: "TechSolutions",
-    source: "Website",
-    owner: "Sajaa",
-    status: "New",
-    nextStep: "Contact",
-  },
-  {
-    id: 3,
-    name: "Amit Verma",
-    company: "Verma Industries",
-    source: "Card AI",
-    owner: "Ayasath",
-    status: "New",
-    nextStep: "Contact",
-  },
-  {
-    id: 4,
-    name: "Rohan Mehta",
-    company: "abc solutions",
-    source: "LinkedIn",
-    owner: "Varshini",
-    status: "Contacted",
-    nextStep: "Follow up",
-  },
-  {
-    id: 5,
-    name: "Rohan Mehta",
-    company: "rk industries",
-    source: "Website",
-    owner: "Sajaa",
-    status: "Contacted",
-    nextStep: "Discovery Call",
-  },
-  {
-    id: 6,
-    name: "Rohan Mehta",
-    company: "pk technologies",
-    source: "Card AI",
-    owner: "Ayasath",
-    status: "Contacted",
-    nextStep: "Follow up",
-  },
-];
-
 export default function LeadTable({
+  search,
+  owner,
+  status,
   onViewDetails,
 }: LeadTableProps) {
+  const [leads, setLeads] = useState<Lead[]>([]);
+
+  useEffect(() => {
+    fetchLeads();
+  }, []);
+
+  const fetchLeads = async () => {
+    try {
+      const res = await fetch("/api/leads");
+      const data = await res.json();
+      setLeads(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const filteredLeads = leads.filter((lead) => {
+    const matchesSearch =
+      lead.contactPersonName
+        ?.toLowerCase()
+        .includes(search.toLowerCase()) ||
+      lead.companyName
+        ?.toLowerCase()
+        .includes(search.toLowerCase());
+
+    const matchesOwner =
+      owner === "All" ||
+      lead.leadOwner === owner;
+
+    const matchesStatus =
+      status === "All" ||
+      lead.status === status;
+
+    return (
+      matchesSearch &&
+      matchesOwner &&
+      matchesStatus
+    );
+  });
+
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden">
       <div className="overflow-x-auto">
@@ -109,25 +101,25 @@ export default function LeadTable({
           </thead>
 
           <tbody>
-            {leads.map((lead) => (
+            {filteredLeads.map((lead) => (
               <tr
-                key={lead.id}
+                key={lead._id}
                 className="border-b border-[#F3F4F6]"
               >
                 <td className="px-5 py-4 text-sm">
-                  {lead.name}
+                  {lead.contactPersonName}
                 </td>
 
                 <td className="px-5 py-4 text-sm">
-                  {lead.company}
+                  {lead.companyName}
                 </td>
 
                 <td className="px-5 py-4 text-sm">
-                  {lead.source}
+                  {lead.leadSource || "-"}
                 </td>
 
                 <td className="px-5 py-4 text-sm">
-                  {lead.owner}
+                  {lead.leadOwner || "-"}
                 </td>
 
                 <td className="px-5 py-4">
@@ -143,12 +135,16 @@ export default function LeadTable({
                 </td>
 
                 <td className="px-5 py-4 text-sm">
-                  {lead.nextStep}
+                  {lead.status === "New"
+                    ? "Contact"
+                    : "Follow Up"}
                 </td>
 
                 <td className="px-5 py-4 text-right">
                   <button
-                    onClick={onViewDetails}
+                    onClick={() =>
+                      onViewDetails(lead)
+                    }
                     className="bg-[#071B3B] text-white px-4 py-2 rounded-lg text-sm"
                   >
                     View Details

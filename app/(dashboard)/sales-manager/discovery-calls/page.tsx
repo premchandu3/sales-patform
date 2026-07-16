@@ -7,11 +7,24 @@ import DiscoveryFilters from "@/components/sales-manager/discovery-calls/CallFil
 import DiscoveryTable from "@/components/sales-manager/discovery-calls/CallTable";
 import DiscoveryDetailsModal from "@/components/sales-manager/discovery-calls/CallDetailsModal";
 
+interface DiscoveryCall {
+  _id: string;
+  leadId: string;
+  meetingDate: string;
+  meetingTime: string;
+  meetingType: string;
+  status: string;
+}
+
 export default function DiscoveryCallsPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
   const [date, setDate] = useState("");
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const [selectedCall, setSelectedCall] =
+    useState<DiscoveryCall | null>(null);
 
   return (
     <div className="space-y-6">
@@ -37,12 +50,16 @@ export default function DiscoveryCallsPage() {
       />
 
       <DiscoveryTable
-        onViewDetails={() => setIsOpen(true)}
+        onViewDetails={(call) => {
+          setSelectedCall(call);
+          setIsOpen(true);
+        }}
       />
 
       <DiscoveryDetailsModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        call={selectedCall}
       />
     </div>
   );

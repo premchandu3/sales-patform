@@ -7,12 +7,27 @@ import CallFilters from "@/components/sales-executive/discovery-calls/CallFilter
 import CallTable from "@/components/sales-executive/discovery-calls/CallTable";
 import CallDetailsModal from "@/components/sales-executive/discovery-calls/CallDetailsModal";
 
+interface DiscoveryCall {
+  _id: string;
+  leadId: string;
+  meetingDate: string;
+  meetingTime: string;
+  meetingType: string;
+  status: string;
+}
+
 export default function DiscoveryCallsPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
   const [date, setDate] = useState("");
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] =
+    useState(false);
+
+  const [selectedCall, setSelectedCall] =
+    useState<DiscoveryCall | null>(
+      null
+    );
 
   return (
     <>
@@ -23,7 +38,8 @@ export default function DiscoveryCallsPage() {
           </h1>
 
           <p className="text-sm text-gray-500 mt-1">
-            Manage all scheduled and completed discovery calls
+            Manage all scheduled and
+            completed discovery calls
           </p>
         </div>
 
@@ -39,13 +55,21 @@ export default function DiscoveryCallsPage() {
         />
 
         <CallTable
-          onViewDetails={() => setIsOpen(true)}
+          onViewDetails={(
+            call
+          ) => {
+            setSelectedCall(call);
+            setIsOpen(true);
+          }}
         />
       </div>
 
       <CallDetailsModal
         isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
+        onClose={() =>
+          setIsOpen(false)
+        }
+        call={selectedCall}
       />
     </>
   );

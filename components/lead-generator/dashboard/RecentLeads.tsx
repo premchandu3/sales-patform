@@ -12,7 +12,13 @@ type Lead = {
   createdAt: string;
 };
 
-export default function RecentLeads() {
+interface RecentLeadsProps {
+  onViewLead: (lead: Lead) => void;
+}
+
+export default function RecentLeads({
+  onViewLead,
+}: RecentLeadsProps) {
   const [leads, setLeads] = useState<Lead[]>([]);
 
   useEffect(() => {
@@ -95,7 +101,10 @@ export default function RecentLeads() {
                 </td>
 
                 <td className="px-4 py-4">
-                  <button className="bg-[#071B3B] text-white rounded-lg px-4 py-2 text-sm hover:bg-[#0A2955] transition">
+                  <button
+                    onClick={() => onViewLead(lead)}
+                    className="bg-[#071B3B] text-white rounded-lg px-4 py-2 text-sm hover:bg-[#0A2955] transition"
+                  >
                     View
                   </button>
                 </td>

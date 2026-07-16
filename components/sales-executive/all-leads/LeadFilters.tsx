@@ -1,3 +1,7 @@
+"use client";
+
+import Link from "next/link";
+
 type LeadFiltersProps = {
   search: string;
   setSearch: (value: string) => void;
@@ -52,9 +56,12 @@ export default function LeadFilters({
             Upload Card
           </button>
 
-          <button className="bg-[#071B3B] text-white px-5 h-11 rounded-lg">
+          <Link
+            href="/sales-executive/add-leads"
+            className="bg-[#071B3B] text-white px-5 h-11 rounded-lg flex items-center"
+          >
             Add Lead
-          </button>
+          </Link>
         </div>
       </div>
     </div>

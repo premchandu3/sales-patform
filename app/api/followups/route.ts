@@ -27,15 +27,19 @@ export async function POST(req: NextRequest) {
 
     const {
       leadId,
+      followUpType,
       followUpDate,
       followUpTime,
+      priority,
       notes,
     } = await req.json();
 
     const followup = await FollowUp.create({
       leadId,
+      followUpType,
       followUpDate,
       followUpTime,
+      priority,
       notes,
       status: "Pending",
     });

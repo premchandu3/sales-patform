@@ -11,7 +11,10 @@ export default function FollowUpsPage() {
   const [search, setSearch] = useState("");
   const [type, setType] = useState("All");
   const [status, setStatus] = useState("All");
+
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedFollowUp, setSelectedFollowUp] =
+    useState<any>(null);
 
   return (
     <div className="space-y-6">
@@ -37,12 +40,16 @@ export default function FollowUpsPage() {
       />
 
       <FollowUpTable
-        onViewDetails={() => setIsOpen(true)}
+        onViewDetails={(followUp) => {
+          setSelectedFollowUp(followUp);
+          setIsOpen(true);
+        }}
       />
 
       <FollowUpDetailsModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        followUp={selectedFollowUp}
       />
     </div>
   );

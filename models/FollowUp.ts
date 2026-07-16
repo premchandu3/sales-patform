@@ -2,8 +2,10 @@ import { Schema, model, models, Document } from "mongoose";
 
 export interface IFollowUp extends Document {
   leadId: string;
+  followUpType: string;
   followUpDate: string;
   followUpTime: string;
+  priority: string;
   notes: string;
   status: string;
 }
@@ -13,6 +15,16 @@ const FollowUpSchema = new Schema(
     leadId: {
       type: String,
       required: true,
+    },
+
+    followUpType: {
+      type: String,
+      default: "Call",
+    },
+
+    priority: {
+      type: String,
+      default: "Medium",
     },
 
     followUpDate: {

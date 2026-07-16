@@ -1,34 +1,101 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Users,
   CalendarDays,
   Briefcase,
 } from "lucide-react";
 
-const stats = [
-  {
-    title: "Total Leads",
-    value: "649",
-    subtitle: "All time",
-    icon: Users,
-  },
-  {
-    title: "Daily Leads",
-    value: "59",
-    subtitle: "Added today",
-    icon: CalendarDays,
-  },
-  {
-    title: "Monthly Leads",
-    value: "400",
-    subtitle: "This month",
-    icon: Briefcase,
-  },
-];
+type Stats = {
+  totalLeads: number;
+  dailyLeads: number;
+  monthlyLeads: number;
+};
 
 export default function LeadStats() {
+  const [stats, setStats] = useState<Stats>({
+    totalLeads: 0,
+    dailyLeads: 0,
+    monthlyLeads: 0,
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch("/api/leads");
+      const leads = await res.json();
+
+      const today = new Date();
+      const todayString = today
+        .toISOString()
+        .split("T")[0];
+
+      const currentMonth =
+        today.getMonth();
+
+      const currentYear =
+        today.getFullYear();
+
+      setStats({
+        totalLeads: leads.length,
+
+        dailyLeads: leads.filter(
+          (lead: any) =>
+            lead.createdAt?.split("T")[0] ===
+            todayString
+        ).length,
+
+        monthlyLeads: leads.filter(
+          (lead: any) => {
+            const date = new Date(
+              lead.createdAt
+            );
+
+            return (
+              date.getMonth() ===
+                currentMonth &&
+              date.getFullYear() ===
+                currentYear
+            );
+          }
+        ).length,
+      });
+    } catch (error) {
+      console.error(
+        "Failed to fetch lead stats",
+        error
+      );
+    }
+  };
+
+  const cards = [
+    {
+      title: "Total Leads",
+      value: stats.totalLeads,
+      subtitle: "All time",
+      icon: Users,
+    },
+    {
+      title: "Daily Leads",
+      value: stats.dailyLeads,
+      subtitle: "Added today",
+      icon: CalendarDays,
+    },
+    {
+      title: "Monthly Leads",
+      value: stats.monthlyLeads,
+      subtitle: "This month",
+      icon: Briefcase,
+    },
+  ];
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-      {stats.map((stat) => {
+      {cards.map((stat) => {
         const Icon = stat.icon;
 
         return (

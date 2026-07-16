@@ -1,31 +1,73 @@
-const team = [
-  {
-    member: "Sajaa",
-    leads: 107,
-    followUps: 107,
-    calls: 10,
-  },
-  {
-    member: "Varshini",
-    leads: 300,
-    followUps: 300,
-    calls: 12,
-  },
-  {
-    member: "Aysath",
-    leads: 476,
-    followUps: 476,
-    calls: 25,
-  },
-  {
-    member: "Pramod",
-    leads: 2098,
-    followUps: 2098,
-    calls: 57,
-  },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface TeamMember {
+  _id: string;
+  name: string;
+  email: string;
+}
+
+interface TeamStats {
+  member: string;
+  leads: number;
+  followUps: number;
+  calls: number;
+}
 
 export default function TeamTable() {
+  const [team, setTeam] = useState<TeamStats[]>([]);
+
+  useEffect(() => {
+    fetchTeamData();
+  }, []);
+
+  const fetchTeamData = async () => {
+    try {
+      const [
+        usersRes,
+        leadsRes,
+        followUpsRes,
+        callsRes,
+      ] = await Promise.all([
+        fetch("/api/users"),
+        fetch("/api/leads"),
+        fetch("/api/followups"),
+        fetch("/api/discovery-calls"),
+      ]);
+
+      const users = await usersRes.json();
+      const leads = await leadsRes.json();
+      const followUps = await followUpsRes.json();
+      const calls = await callsRes.json();
+
+      const teamData = users.map(
+        (user: TeamMember) => ({
+          member: user.name,
+
+          leads: leads.filter(
+            (lead: any) =>
+              lead.leadOwner === user.name
+          ).length,
+
+          followUps: followUps.filter(
+            (item: any) =>
+              item.owner === user.name
+          ).length,
+
+          calls: calls.filter(
+            (item: any) =>
+              item.owner === user.name
+          ).length,
+        })
+      );
+
+      setTeam(teamData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
       <div className="flex items-center justify-between mb-5">

@@ -1,50 +1,61 @@
-type DiscoveryCall = {
-  id: number;
-  name: string;
-  company: string;
-  owner: string;
+"use client";
+
+import { useEffect, useState } from "react";
+
+interface DiscoveryCall {
+  _id: string;
+  leadId: string;
+  meetingDate: string;
+  meetingTime: string;
   meetingType: string;
-  dateTime: string;
   status: string;
-};
+}
 
 type CallTableProps = {
-  onViewDetails: () => void;
+  onViewDetails: (
+    call: DiscoveryCall
+  ) => void;
 };
-
-const calls: DiscoveryCall[] = [
-  {
-    id: 1,
-    name: "Rohan Mehta",
-    company: "ACME Technologies",
-    owner: "Varshini",
-    meetingType: "Google Meet",
-    dateTime: "20 Jul 2026, 4:00 PM",
-    status: "Scheduled",
-  },
-  {
-    id: 2,
-    name: "Priya Sharma",
-    company: "TechNova",
-    owner: "Rahul",
-    meetingType: "Zoom",
-    dateTime: "21 Jul 2026, 11:00 AM",
-    status: "Completed",
-  },
-  {
-    id: 3,
-    name: "Amit Verma",
-    company: "Growth Labs",
-    owner: "Kiran",
-    meetingType: "Google Meet",
-    dateTime: "22 Jul 2026, 3:00 PM",
-    status: "Scheduled",
-  },
-];
 
 export default function CallTable({
   onViewDetails,
 }: CallTableProps) {
+  const [calls, setCalls] =
+    useState<DiscoveryCall[]>([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  useEffect(() => {
+    const fetchCalls = async () => {
+      try {
+        const response =
+          await fetch(
+            "/api/discovery-calls"
+          );
+
+        const data =
+          await response.json();
+
+        setCalls(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCalls();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="bg-white border rounded-xl p-6">
+        Loading Calls...
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
@@ -52,15 +63,7 @@ export default function CallTable({
           <thead>
             <tr className="bg-[#D8E3F3]">
               <th className="px-6 py-5 text-left text-sm font-semibold">
-                Name
-              </th>
-
-              <th className="px-6 py-5 text-left text-sm font-semibold">
-                Company
-              </th>
-
-              <th className="px-6 py-5 text-left text-sm font-semibold">
-                Lead Owner
+                Lead ID
               </th>
 
               <th className="px-6 py-5 text-left text-sm font-semibold">
@@ -68,7 +71,11 @@ export default function CallTable({
               </th>
 
               <th className="px-6 py-5 text-left text-sm font-semibold">
-                Date & Time
+                Date
+              </th>
+
+              <th className="px-6 py-5 text-left text-sm font-semibold">
+                Time
               </th>
 
               <th className="px-6 py-5 text-left text-sm font-semibold">
@@ -84,19 +91,11 @@ export default function CallTable({
           <tbody>
             {calls.map((call) => (
               <tr
-                key={call.id}
+                key={call._id}
                 className="border-b border-[#EEF2F7] hover:bg-[#FAFBFD]"
               >
                 <td className="px-6 py-5 text-sm">
-                  {call.name}
-                </td>
-
-                <td className="px-6 py-5 text-sm">
-                  {call.company}
-                </td>
-
-                <td className="px-6 py-5 text-sm">
-                  {call.owner}
+                  {call.leadId}
                 </td>
 
                 <td className="px-6 py-5">
@@ -106,15 +105,20 @@ export default function CallTable({
                 </td>
 
                 <td className="px-6 py-5 text-sm">
-                  {call.dateTime}
+                  {call.meetingDate}
+                </td>
+
+                <td className="px-6 py-5 text-sm">
+                  {call.meetingTime}
                 </td>
 
                 <td className="px-6 py-5">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      call.status === "Scheduled"
-                        ? "bg-[#FFF3CD] text-[#F5B301]"
-                        : "bg-[#DDF7E8] text-[#52C41A]"
+                      call.status ===
+                      "Completed"
+                        ? "bg-[#DDF7E8] text-[#52C41A]"
+                        : "bg-[#FFF3CD] text-[#F5B301]"
                     }`}
                   >
                     {call.status}
@@ -123,16 +127,24 @@ export default function CallTable({
 
                 <td className="px-6 py-5 text-right">
                   <button
-                    onClick={onViewDetails}
+                    onClick={() =>
+                      onViewDetails(call)
+                    }
                     className="bg-[#071B3B] text-white px-5 py-2.5 rounded-[10px] text-sm font-medium"
                   >
-                    View Details
+                    View
                   </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {calls.length === 0 && (
+          <div className="text-center py-10 text-gray-500">
+            No Discovery Calls Found
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,24 @@
+interface DiscoveryCall {
+  _id: string;
+  leadId: string;
+  meetingDate: string;
+  meetingTime: string;
+  meetingType: string;
+  status: string;
+}
+
 type CallDetailsModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  call: DiscoveryCall | null;
 };
 
 export default function CallDetailsModal({
   isOpen,
   onClose,
+  call,
 }: CallDetailsModalProps) {
-  if (!isOpen) return null;
+  if (!isOpen || !call) return null;
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
@@ -16,8 +27,7 @@ export default function CallDetailsModal({
         onClick={onClose}
       />
 
-      <div className="relative bg-white w-[900px] rounded-[28px] shadow-2xl overflow-hidden">
-        {/* Header */}
+      <div className="relative bg-white w-[850px] rounded-[28px] shadow-2xl overflow-hidden">
         <div className="flex items-center justify-between px-8 py-6 border-b border-[#E5E7EB]">
           <h2 className="text-[28px] font-bold text-[#071B3B]">
             Discovery Call Details
@@ -32,137 +42,76 @@ export default function CallDetailsModal({
         </div>
 
         <div className="p-8">
-          {/* Company Info */}
-          <div className="pb-8 border-b border-[#E5E7EB]">
-            <h3 className="text-[22px] font-bold text-[#071B3B] mb-5">
-              Company Information
-            </h3>
+          <div className="flex items-start justify-between pb-6 border-b border-[#E5E7EB]">
+            <div>
+              <h3 className="text-[24px] font-bold text-[#071B3B]">
+                {call.leadId}
+              </h3>
 
-            <div className="grid grid-cols-2 gap-8 text-sm">
-              <div className="space-y-3">
+              <p className="text-[#6B7280] mt-2">
+                Discovery Call Record
+              </p>
+            </div>
+
+            <span
+              className={`px-3 py-1.5 rounded-full text-xs font-medium ${
+                call.status === "Completed"
+                  ? "bg-[#DDF7E8] text-[#52C41A]"
+                  : "bg-[#FFF3CD] text-[#F5B301]"
+              }`}
+            >
+              {call.status}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-14 py-8 border-b border-[#E5E7EB]">
+            <div>
+              <h4 className="text-[22px] font-bold text-[#1F2937] mb-5">
+                Call Information
+              </h4>
+
+              <div className="space-y-3 text-sm text-[#374151]">
                 <p>
-                  <strong>Company Name:</strong> ACME Technologies
+                  <strong>Lead ID:</strong> {call.leadId}
                 </p>
 
                 <p>
-                  <strong>Contact Person:</strong> Rohan Mehta
+                  <strong>Meeting Date:</strong>{" "}
+                  {call.meetingDate}
                 </p>
 
                 <p>
-                  <strong>Phone Number:</strong> +91 9876543210
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <p>
-                  <strong>Email:</strong> rohan@acme.com
-                </p>
-
-                <p>
-                  <strong>Industry:</strong> IT Services
-                </p>
-
-                <p>
-                  <strong>Location:</strong> Bangalore
+                  <strong>Meeting Time:</strong>{" "}
+                  {call.meetingTime}
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Meeting Details */}
-          <div className="py-8 border-b border-[#E5E7EB]">
-            <h3 className="text-[22px] font-bold text-[#071B3B] mb-5">
-              Meeting Details
-            </h3>
+            <div>
+              <h4 className="text-[22px] font-bold text-[#1F2937] mb-5">
+                Additional Details
+              </h4>
 
-            <div className="grid grid-cols-2 gap-8 text-sm">
-              <div className="space-y-3">
+              <div className="space-y-3 text-sm text-[#374151]">
                 <p>
-                  <strong>Meeting Type:</strong> Google Meet
-                </p>
-
-                <p>
-                  <strong>Date:</strong> 20 Jul 2026
-                </p>
-
-                <p>
-                  <strong>Time:</strong> 04:00 PM
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <p>
-                  <strong>Assigned Executive:</strong> Varshini
+                  <strong>Meeting Type:</strong>{" "}
+                  {call.meetingType}
                 </p>
 
                 <p>
                   <strong>Status:</strong>{" "}
-                  <span className="px-2 py-1 rounded-full text-xs bg-[#FFF3CD] text-[#F5B301]">
-                    Scheduled
-                  </span>
-                </p>
-
-                <p>
-                  <strong>Meeting Link:</strong>{" "}
-                  https://meet.google.com/demo
+                  {call.status}
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Notes */}
-          <div className="py-8 border-b border-[#E5E7EB]">
-            <h3 className="text-[22px] font-bold text-[#071B3B] mb-5">
-              Discussion Notes
-            </h3>
-
-            <textarea
-              rows={4}
-              placeholder="Enter discussion summary..."
-              className="w-full border border-[#D1D5DB] rounded-xl p-4 text-sm resize-none"
-            />
-          </div>
-
-          {/* Next Action */}
-          <div className="py-8">
-            <h3 className="text-[22px] font-bold text-[#071B3B] mb-5">
-              Next Action
-            </h3>
-
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Follow Up Date
-                </label>
-
-                <input
-                  type="date"
-                  className="w-full h-12 border border-[#D1D5DB] rounded-xl px-4"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Outcome
-                </label>
-
-                <input
-                  type="text"
-                  placeholder="Enter outcome"
-                  className="w-full h-12 border border-[#D1D5DB] rounded-xl px-4"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="flex justify-end gap-4 pt-4 border-t border-[#E5E7EB]">
-            <button className="border border-[#D1D5DB] px-6 py-3 rounded-xl font-medium">
-              Reschedule
-            </button>
-
-            <button className="bg-[#071B3B] text-white px-6 py-3 rounded-xl font-medium">
-              Mark As Complete
+          <div className="flex justify-end pt-8">
+            <button
+              onClick={onClose}
+              className="bg-[#071B3B] text-white px-6 py-3 rounded-xl font-medium"
+            >
+              Close
             </button>
           </div>
         </div>

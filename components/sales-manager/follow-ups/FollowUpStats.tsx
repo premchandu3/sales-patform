@@ -1,36 +1,94 @@
-import { Users, CalendarDays, Clock3, CheckSquare } from "lucide-react";
+"use client";
 
-const stats = [
-  {
-    title: "Total",
-    value: "649",
-    subtitle: "All Time Follow ups",
-    icon: Users,
-  },
-  {
-    title: "Today",
-    value: "59",
-    subtitle: "Today's follow ups",
-    icon: CalendarDays,
-  },
-  {
-    title: "Pending",
-    value: "400",
-    subtitle: "Pending follow ups",
-    icon: Clock3,
-  },
-  {
-    title: "Completed",
-    value: "400",
-    subtitle: "Completed follow ups",
-    icon: CheckSquare,
-  },
-];
+import { useEffect, useState } from "react";
+import {
+  Users,
+  CalendarDays,
+  Clock3,
+  CheckSquare,
+} from "lucide-react";
+
+type Stats = {
+  total: number;
+  today: number;
+  pending: number;
+  completed: number;
+};
 
 export default function FollowUpStats() {
+  const [stats, setStats] = useState<Stats>({
+    total: 0,
+    today: 0,
+    pending: 0,
+    completed: 0,
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch("/api/followups");
+      const followUps = await res.json();
+
+      const today = new Date()
+        .toISOString()
+        .split("T")[0];
+
+      setStats({
+        total: followUps.length,
+
+        today: followUps.filter(
+          (item: any) =>
+            item.followUpDate === today
+        ).length,
+
+        pending: followUps.filter(
+          (item: any) =>
+            item.status === "Pending"
+        ).length,
+
+        completed: followUps.filter(
+          (item: any) =>
+            item.status === "Completed"
+        ).length,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const cards = [
+    {
+      title: "Total",
+      value: stats.total,
+      subtitle: "All Time Follow Ups",
+      icon: Users,
+    },
+    {
+      title: "Today",
+      value: stats.today,
+      subtitle: "Today's Follow Ups",
+      icon: CalendarDays,
+    },
+    {
+      title: "Pending",
+      value: stats.pending,
+      subtitle: "Pending Follow Ups",
+      icon: Clock3,
+    },
+    {
+      title: "Completed",
+      value: stats.completed,
+      subtitle: "Completed Follow Ups",
+      icon: CheckSquare,
+    },
+  ];
+
   return (
     <div className="flex gap-4 max-w-[760px]">
-      {stats.map((stat) => {
+      {cards.map((stat) => {
         const Icon = stat.icon;
 
         return (

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import Lead from "@/models/Lead";
+import Activity from "@/models/Activity";
 
 export async function GET() {
   try {
@@ -26,6 +27,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const lead = await Lead.create(body);
+
+    await Activity.create({
+      action: "Lead Created",
+      description: `Added lead - ${lead.companyName}`,
+    });
 
     return NextResponse.json(
       {

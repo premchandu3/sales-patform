@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Users,
   CalendarDays,
@@ -5,33 +8,89 @@ import {
   Phone,
 } from "lucide-react";
 
-const stats = [
-  {
-    title: "Total Leads",
-    value: "649",
-    icon: Users,
-  },
-  {
-    title: "New Leads",
-    value: "59",
-    icon: CalendarDays,
-  },
-  {
-    title: "Follow Ups Due",
-    value: "400",
-    icon: Clock3,
-  },
-  {
-    title: "Discovery Calls",
-    value: "400",
-    icon: Phone,
-  },
-];
+type Stats = {
+  totalLeads: number;
+  newLeads: number;
+  followUpsDue: number;
+  discoveryCalls: number;
+};
 
 export default function DashboardStats() {
+  const [stats, setStats] = useState<Stats>({
+    totalLeads: 0,
+    newLeads: 0,
+    followUpsDue: 0,
+    discoveryCalls: 0,
+  });
+
+  useEffect(() => {
+    fetchStats();
+  }, []);
+
+  const fetchStats = async () => {
+    try {
+      const [leadsRes, followUpsRes, callsRes] =
+        await Promise.all([
+          fetch("/api/leads"),
+          fetch("/api/followups"),
+          fetch("/api/discovery-calls"),
+        ]);
+
+      const leads = await leadsRes.json();
+      const followUps = await followUpsRes.json();
+      const calls = await callsRes.json();
+
+      const today = new Date().toISOString().split("T")[0];
+
+      setStats({
+        totalLeads: leads.length,
+
+        newLeads: leads.filter(
+          (lead: any) =>
+            lead.createdAt?.split("T")[0] === today
+        ).length,
+
+        followUpsDue: followUps.filter(
+          (item: any) =>
+            item.status === "Pending"
+        ).length,
+
+        discoveryCalls: calls.length,
+      });
+    } catch (error) {
+      console.error(
+        "Failed to fetch dashboard stats",
+        error
+      );
+    }
+  };
+
+  const cards = [
+    {
+      title: "Total Leads",
+      value: stats.totalLeads,
+      icon: Users,
+    },
+    {
+      title: "New Leads",
+      value: stats.newLeads,
+      icon: CalendarDays,
+    },
+    {
+      title: "Follow Ups Due",
+      value: stats.followUpsDue,
+      icon: Clock3,
+    },
+    {
+      title: "Discovery Calls",
+      value: stats.discoveryCalls,
+      icon: Phone,
+    },
+  ];
+
   return (
     <div className="grid grid-cols-4 gap-4">
-      {stats.map((item) => {
+      {cards.map((item) => {
         const Icon = item.icon;
 
         return (
