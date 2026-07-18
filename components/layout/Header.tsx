@@ -23,16 +23,15 @@ export default function Header() {
   }
 
   return (
-    <header className="h-[70px] flex items-center justify-end px-4 md:px-8 bg-[#F7F8FC]">
-      <div className="flex items-center gap-3 md:gap-8">
+    <header className="h-[64px] flex items-center justify-end px-10 bg-[#F7F8FC]">
+      <div className="flex items-center gap-8">
         <input
           placeholder="Search..."
           className="
-            w-[120px]
-            md:w-[180px]
-            h-[32px]
+            w-[300px]
+            h-[38px]
             border
-            border-[#C8D2E1]
+            border-[#CBD5E1]
             rounded-md
             px-3
             text-[12px]
@@ -41,27 +40,20 @@ export default function Header() {
           "
         />
 
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#071B3B] text-white flex items-center justify-center text-xs font-medium">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-[#071B3B] text-white flex items-center justify-center text-xs font-medium">
             A
           </div>
 
           <div>
-            <p className="text-[13px] font-semibold text-[#111827] leading-none">
+            <p className="text-[14px] font-semibold text-[#111827] leading-none">
               Admin
             </p>
 
-            <p className="text-[10px] text-[#6B7280] mt-1">
+            <p className="text-[11px] text-[#6B7280] mt-1">
               Admin@manvian.com
             </p>
           </div>
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white text-xs px-4 py-2 rounded-md"
-          >
-            Logout
-          </button>
         </div>
       </div>
     </header>

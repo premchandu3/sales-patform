@@ -22,10 +22,10 @@ export default function RoleDetailsModal({
   if (!isOpen || !role) return null;
 
   return (
-  <Modal
-  isOpen={isOpen}
->
-      <div className="bg-white rounded-2xl p-6 w-[460px] shadow-xl relative">
+    <Modal
+      isOpen={isOpen}
+    >
+      <div className="relative w-[600px] bg-white rounded-2xl p-6">
 
         <button
           onClick={onClose}
@@ -59,6 +59,13 @@ export default function RoleDetailsModal({
               Status :
             </span>{" "}
             {role.status}
+          </div>
+
+          <div>
+            <span className="font-semibold">
+              Total Users :
+            </span>{" "}
+            {role.users}
           </div>
 
           <div>

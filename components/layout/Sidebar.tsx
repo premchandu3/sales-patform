@@ -36,15 +36,15 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex w-[312px] bg-[#071B3B] text-white flex-col min-h-screen">
+    <aside className="hidden lg:flex w-[200px] bg-[#071B3B] text-white flex-col min-h-screen">
 
-      <div className="px-6 pt-10">
-        <h1 className="text-[56px] font-semibold text-white">
+      <div className="px-8 pt-10">
+        <h1 className="text-[32px] font-bold text-white tracking-wide">
           LOGO
         </h1>
       </div>
 
-      <nav className="mt-16 px-4 space-y-6">
+      <nav className="mt-8 px-10 space-y-2">
         {menuItems.map((item) => {
           const Icon = item.icon;
 
@@ -55,31 +55,30 @@ export default function Sidebar() {
               key={item.name}
               href={item.href}
               className={`
-                flex items-center
-                gap-3
-                h-[-52px]
-                px-4
-                rounded-xl
+              flex items-center
+              gap-3
+              h-11
+              px-4
+              rounded-lg
                 transition-all
-                ${
-                  active
-                    ? "bg-[#020E26]"
-                    : "hover:bg-[#0E295E]"
+                ${active
+                  ? "bg-[#020E26]"
+                  : "hover:bg-[#0E295E]"
                 }
               `}
             >
-              <Icon size={24} />
+              <Icon size={18} />
 
-                <span className="text-[20px] font-medium">   
-                  {item.name}
+              <span className="text-[15px] font-medium">
+                {item.name}
               </span>
             </Link>
           );
         })}
       </nav>
 
-      <div className="mt-auto px-6 pb-8">
-        <div className="w-12 h-12 rounded-full bg-[#0E295E] flex items-center justify-center">
+      <div className="mt-auto px-8 pb-6">
+        <div className="w-10 h-10 rounded-full bg-[#0E295E] flex items-center justify-center">
           A
         </div>
       </div>

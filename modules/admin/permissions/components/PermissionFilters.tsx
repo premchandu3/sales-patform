@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface PermissionFiltersProps {
   search: string;
   status: string;
@@ -18,12 +20,12 @@ export default function PermissionFilters({
   onAddPermission,
 }: PermissionFiltersProps) {
   return (
-    <div className="flex flex-col lg:flex-row gap-4 lg:items-end lg:justify-between">
+    <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4">
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 w-full">
 
         <div>
-          <label className="block mb-2 text-[#64748B] text-sm font-medium">
+          <label className="block mb-2 text-[#64748B] text-[12px] font-medium">
             Search Permission
           </label>
 
@@ -37,12 +39,12 @@ export default function PermissionFilters({
             placeholder="Search..."
             className="
               w-full
-              h-[40px]
+              h-[36px]
               border
               border-[#E2E8F0]
-              rounded-md
+              rounded-lg
               px-3
-              text-sm
+              text-[13px]
               outline-none
             "
           />
@@ -62,12 +64,12 @@ export default function PermissionFilters({
             }
             className="
               w-full
-              h-[40px]
+              h-[36px]
               border
               border-[#E2E8F0]
-              rounded-md
+              rounded-lg
               px-3
-              text-sm
+              text-[13px]
             "
           >
             <option value="">
@@ -129,18 +131,32 @@ export default function PermissionFilters({
       <button
         onClick={onAddPermission}
         className="
-          bg-[#071B3B]
-          text-white
-          h-[40px]
-          px-5
-          rounded-md
-          text-sm
-          font-medium
-          w-full
-          lg:w-auto
-        "
+        bg-[#071B3B]
+        text-white
+        h-[36px]
+        px-4
+        rounded-lg
+        flex
+        items-center
+        justify-center
+        gap-2
+        whitespace-nowrap
+        font-medium
+        text-[13px]
+        w-full
+        lg:w-auto
+        hover:bg-[#0D274D]
+        transition-colors
+      "
       >
-        Add Permission
+        <Image
+          src="/icons/addpermission.svg"
+          alt="Add Permission"
+          width={16}
+          height={16}
+        />
+
+        <span>Add Permission</span>
       </button>
 
     </div>

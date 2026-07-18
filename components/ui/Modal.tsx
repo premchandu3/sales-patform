@@ -21,11 +21,11 @@ export default function Modal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-xl w-full max-w-2xl"
+        className="rounded-2xl shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         {title && (
-          <div className="flex items-center justify-between p-6 border-b">
+          <div className="flex items-center justify-between p-6 border-b bg-white rounded-t-2xl">
             <h2 className="text-xl font-semibold">
               {title}
             </h2>
@@ -41,9 +41,7 @@ export default function Modal({
           </div>
         )}
 
-        <div className="p-6">
-          {children}
-        </div>
+        {children}
       </div>
     </div>
   );
