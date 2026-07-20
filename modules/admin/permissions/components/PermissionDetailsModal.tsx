@@ -27,7 +27,7 @@ export default function PermissionDetailsModal({
   <Modal
   isOpen={isOpen}
 >
-      <div className="bg-white rounded-[24px] p-8 w-[650px] relative">
+      <div className="bg-white rounded-[24px] p-8 w-full max-w-[650px] mx-4 relative">
 
         <button
           onClick={onClose}
@@ -75,7 +75,7 @@ export default function PermissionDetailsModal({
 
         </div>
 
-        <div className="flex justify-end gap-4 mt-10">
+        <div className="flex flex-col sm:flex-row justify-end gap-4 mt-10">
 
           <button
             onClick={() =>

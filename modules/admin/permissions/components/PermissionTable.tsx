@@ -21,9 +21,9 @@ export default function PermissionTable({
   onViewDetails,
 }: PermissionTableProps) {
   return (
-    <div className="bg-white border border-[#E2E8F0] rounded-xl overflow-hidden">
+    <div className="bg-white border border-[#E2E8F0] rounded-xl overflow-x-auto">
 
-      <table className="w-full table-fixed">
+      <table className="w-full min-w-[900px] table-fixed">
 
         <thead className="bg-[#D9E3F0]">
           <tr>

@@ -115,7 +115,23 @@ export default function UserFilters({
 
       <button
         onClick={onAddUser}
-        className="bg-[#071B3B] text-white h-10 px-4 rounded-lg flex items-center justify-center gap-2 whitespace-nowrap hover:bg-[#0D274D] transition-colors"
+        className="
+        w-full
+        sm:w-auto
+        min-w-[140px]
+        bg-[#071B3B]
+        text-white
+        h-10
+        px-5
+        rounded-lg
+        flex
+        items-center
+        justify-center
+        gap-2
+        whitespace-nowrap
+        hover:bg-[#0D274D]
+        transition-colors
+      "
       >
         <Image
           src="/icons/adduser.svg"

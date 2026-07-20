@@ -1,8 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Menu } from "lucide-react";
 
-export default function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export default function Header({
+  onMenuClick,
+}: HeaderProps) {
   const router = useRouter();
 
   async function handleLogout() {
@@ -14,7 +21,6 @@ export default function Header() {
       localStorage.removeItem("user");
 
       router.push("/login");
-
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -23,12 +29,25 @@ export default function Header() {
   }
 
   return (
-    <header className="h-[64px] flex items-center justify-end px-10 bg-[#F7F8FC]">
-      <div className="flex items-center gap-8">
+    <header className="h-[64px] bg-[#F7F8FC] border-b border-[#E5E7EB] flex items-center px-4 lg:px-10">
+
+      {/* Mobile Hamburger */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 rounded-md hover:bg-gray-100"
+      >
+        <Menu size={24} />
+      </button>
+
+      {/* Right Section */}
+      <div className="ml-auto flex items-center gap-4 lg:gap-8">
+
         <input
           placeholder="Search..."
           className="
-            w-[300px]
+            w-[180px]
+            md:w-[250px]
+            lg:w-[300px]
             h-[38px]
             border
             border-[#CBD5E1]
@@ -40,22 +59,26 @@ export default function Header() {
           "
         />
 
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-full bg-[#071B3B] text-white flex items-center justify-center text-xs font-medium">
+        <div className="flex items-center gap-3">
+
+          <div className="w-10 h-10 rounded-full bg-[#071B3B] text-white flex items-center justify-center text-xs font-semibold">
             A
           </div>
 
-          <div>
-            <p className="text-[14px] font-semibold text-[#111827] leading-none">
+          <div className="hidden md:block">
+            <p className="text-[14px] font-semibold text-[#111827]">
               Admin
             </p>
 
-            <p className="text-[11px] text-[#6B7280] mt-1">
+            <p className="text-[11px] text-[#6B7280]">
               Admin@manvian.com
             </p>
           </div>
+
         </div>
+
       </div>
+
     </header>
   );
 }

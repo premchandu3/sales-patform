@@ -138,12 +138,12 @@ export default function DashboardPage() {
             : "border-[#E5E7EB]"
             }`}
         >
-          <div className="w-[60px] h-[60px] rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+          <div className="w-[60px] h-[60px] rounded-xl flex items-center justify-center">
             <Image
               src="/icons/users.png"
               alt="Users"
-              width={40}
-              height={40}
+              width={45}
+              height={45}
             />
           </div>
 
@@ -172,12 +172,12 @@ export default function DashboardPage() {
             : "border-[#E5E7EB]"
             }`}
         >
-          <div className="w-[60px] h-[60px] rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+          <div className="w-[60px] h-[60px] rounded-xl flex items-center justify-center">
             <Image
               src="/icons/briefcase.png"
               alt="Briefcase"
-              width={40}
-              height={40}
+              width={45}
+              height={45}
             />
           </div>
 
@@ -206,12 +206,12 @@ export default function DashboardPage() {
             : "border-[#E5E7EB]"
             }`}
         >
-          <div className="w-[60px] h-[60px] rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+          <div className="w-[60px] h-[60px] rounded-xl flex items-center justify-center">
             <Image
               src="/icons/user-plus.png"
               alt="Requests"
-              width={40}
-              height={40}
+              width={45}
+              height={45}
             />
           </div>
 
@@ -240,12 +240,12 @@ export default function DashboardPage() {
             : "border-[#E5E7EB]"
             }`}
         >
-          <div className="w-[60px] h-[60px] rounded-xl bg-[#EEF3FB] flex items-center justify-center">
+          <div className="w-[60px] h-[60px] rounded-xl flex items-center justify-center">
             <Image
               src="/icons/user-check.png"
               alt="Active"
-              width={40}
-              height={40}
+              width={45}
+              height={44}
             />
           </div>
 
@@ -272,7 +272,7 @@ export default function DashboardPage() {
           Quick Actions
         </h2>
 
-        <div className="flex gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
           <button
             onClick={() =>
@@ -289,7 +289,7 @@ export default function DashboardPage() {
               rounded-lg
               px-5
               py-4
-              w-[550px]
+              w-full
               hover:bg-[#F8FAFC]
               transition-all
             "
@@ -341,7 +341,7 @@ export default function DashboardPage() {
               rounded-lg
               px-5
               py-4
-              w-[550px]
+              w-full
               hover:bg-[#F8FAFC]
               transition-all
             "
@@ -417,7 +417,7 @@ export default function DashboardPage() {
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-[120px] h-[6px] bg-[#E5E7EB] rounded-full overflow-hidden">
+                    <div className="w-20 sm:w-[120px] h-[6px] bg-[#E5E7EB] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#071B3B]"
                         style={{
@@ -463,7 +463,15 @@ export default function DashboardPage() {
             {permissionOverview.map((role) => (
               <div
                 key={role.name}
-                className="flex items-center justify-between"
+                className="
+                flex
+                flex-col
+                sm:flex-row
+                items-start
+                sm:items-center
+                justify-between
+                gap-3
+                "
               >
                 <div className="flex items-center gap-3">
                   <Image

@@ -115,7 +115,7 @@ export default function AddUserModal({
   <Modal
   isOpen={isOpen}
 >
-<div className="bg-white rounded-[24px] w-full max-w-[980px] max-h-[85vh] overflow-y-auto p-10 shadow-2xl">
+<div className="bg-white rounded-[24px] w-full max-h-[85vh] overflow-y-auto max-w-[980px] mx-4 p-5 md:p-10 shadow-2xl">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-[34px] font-semibold text-[#111827]">
             {editingUser
@@ -218,7 +218,7 @@ export default function AddUserModal({
               Role Permissions
             </label>
 
-            <div className="border border-[#D1D5DB] rounded-lg p-4 grid grid-cols-3 gap-4">
+            <div className="border border-[#D1D5DB] rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
               {permissions.map(
                 (
@@ -278,7 +278,7 @@ export default function AddUserModal({
             </select>
           </div>
 
-          <div className="flex justify-end gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
 
             <button
               onClick={onClose}

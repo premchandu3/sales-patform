@@ -95,7 +95,9 @@ export default function AddPermissionModal({
         className="
           bg-white
           rounded-[24px]
-          w-[650px]
+          w-full
+          max-w-[650px]
+          mx-4
           p-8
           shadow-xl
           relative
@@ -244,7 +246,7 @@ export default function AddPermissionModal({
             </select>
           </div>
 
-          <div className="flex justify-end gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
             <button
               onClick={onClose}
               className="

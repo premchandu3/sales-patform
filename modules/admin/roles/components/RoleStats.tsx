@@ -63,7 +63,7 @@ export default function RoleStats({
         <div
           key={item.title}
           onClick={() => onFilterStatus?.(item.filter)}
-          className="bg-white border border-[#E5E7EB] rounded-xl px-5 py-4 flex items-center gap-4 h-[108px] cursor-pointer hover:border-[#071B3B] transition-all"
+          className="bg-white border border-[#E5E7EB] rounded-xl px-4 md:px-5 py-4 flex items-center gap-3 md:gap-4 h-auto md:h-[108px] min-h-[100px] cursor-pointer hover:border-[#071B3B] transition-all"
         >
           <div className="w-12 h-12 flex items-center justify-center">
             <Image
