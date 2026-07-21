@@ -9,7 +9,13 @@ import {
   Phone,
   Mail,
   Users,
+  X,
 } from "lucide-react";
+
+interface SalesManagerSidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
 const menuItems = [
   {
@@ -44,41 +50,79 @@ const menuItems = [
   },
 ];
 
-export default function SalesManagerSidebar() {
+export default function SalesManagerSidebar({
+  isOpen,
+  onClose,
+}: SalesManagerSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[220px] bg-[#071B3B] text-white flex flex-col">
-      <div className="px-8 py-10 text-4xl font-bold">
-        LOGO
-      </div>
+    <>
+      {/* Mobile Overlay */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          onClick={onClose}
+        />
+      )}
 
-      <nav className="flex-1 px-4">
-        <div className="space-y-2">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-
-            const isActive =
-              pathname === item.href;
-
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition ${
-                  isActive
-                    ? "bg-[#0F274D] text-white"
-                    : "text-gray-300 hover:bg-[#0F274D]"
-                }`}
-              >
-                <Icon size={18} />
-
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
+      <aside
+        className={`
+          fixed lg:static
+          top-0 left-0
+          h-screen
+          w-[220px]
+          bg-[#071B3B]
+          text-white
+          flex flex-col
+          z-50
+          transform transition-transform duration-300
+          ${
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
+        `}
+      >
+        {/* Mobile Close Button */}
+        <div className="lg:hidden flex justify-end p-4">
+          <button onClick={onClose}>
+            <X size={24} />
+          </button>
         </div>
-      </nav>
-    </aside>
+
+        <div className="px-8 py-6 lg:py-10 text-4xl font-bold">
+          LOGO
+        </div>
+
+        <nav className="flex-1 px-4">
+          <div className="space-y-2">
+            {menuItems.map((item) => {
+              const Icon = item.icon;
+
+              const isActive =
+                pathname === item.href;
+
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition ${
+                    isActive
+                      ? "bg-[#0F274D] text-white"
+                      : "text-gray-300 hover:bg-[#0F274D]"
+                  }`}
+                >
+                  <Icon size={18} />
+
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </nav>
+      </aside>
+    </>
   );
 }

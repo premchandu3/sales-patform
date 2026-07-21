@@ -1,13 +1,13 @@
 export default function AddLeadForm() {
   const inputClass =
-    "w-full h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#071B3B]";
+    "w-full h-11 md:h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#071B3B]";
 
   const labelClass =
     "block text-sm text-[#6B7280] mb-2";
 
   return (
     <form className="space-y-6">
-      <div className="grid grid-cols-2 gap-x-8 gap-y-7">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-x-8 lg:gap-y-7">
         <div>
           <label className={labelClass}>Company Name</label>
           <input type="text" className={inputClass} />
@@ -150,21 +150,21 @@ export default function AddLeadForm() {
         <label className={labelClass}>Additional Notes</label>
         <textarea
           rows={4}
-          className="w-full border border-[#D1D5DB] rounded-lg px-3 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#071B3B]"
+          className="w-full border border-[#D1D5DB] rounded-lg px-3 py-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-[#071B3B]"
         />
       </div>
 
-      <div className="flex justify-end gap-3 pt-2">
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-2">
         <button
           type="button"
-          className="px-5 py-2 border border-[#D1D5DB] rounded-lg text-sm"
+          className="w-full sm:w-auto px-5 py-2 border border-[#D1D5DB] rounded-lg text-sm"
         >
           Cancel
         </button>
 
         <button
           type="submit"
-          className="px-5 py-2 bg-[#071B3B] text-white rounded-lg text-sm"
+          className="w-full sm:w-auto px-5 py-2 bg-[#071B3B] text-white rounded-lg text-sm"
         >
           Add Lead
         </button>

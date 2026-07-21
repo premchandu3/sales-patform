@@ -17,13 +17,13 @@ export default function AllLeadsPage() {
     useState<any>(null);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-[48px] font-bold text-[#071B3B]">
+    <div className="space-y-5 md:space-y-6">
+      <div className="space-y-1">
+        <h1 className="text-3xl md:text-[48px] font-bold text-[#071B3B]">
           All Leads
         </h1>
 
-        <p className="text-[#6B7280] mt-2">
+        <p className="text-sm md:text-base text-[#6B7280] mt-1 md:mt-2">
           View and manage all leads created by the team
         </p>
       </div>

@@ -125,7 +125,7 @@ export default function LeadTable({
 
   if (loading) {
     return (
-      <div className="bg-white border rounded-xl p-6">
+      <div className="bg-white border rounded-xl p-4 md:p-6">
         Loading Leads...
       </div>
     );
@@ -137,32 +137,32 @@ export default function LeadTable({
 
         <div className="overflow-x-auto">
 
-          <table className="w-full">
+          <table className="min-w-[900px] w-full">
 
             <thead>
               <tr className="bg-[#EAF1FB]">
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Name
                 </th>
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Company
                 </th>
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Source
                 </th>
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Lead Owner
                 </th>
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Status
                 </th>
 
-                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B]">
+                <th className="px-5 py-4 text-left text-sm font-medium text-[#071B3B] whitespace-nowrap">
                   Next Step
                 </th>
 
@@ -182,42 +182,42 @@ export default function LeadTable({
                     className="border-b border-[#F3F4F6]"
                   >
 
-                    <td className="px-5 py-4 text-sm">
+                    <td className="px-5 py-4 text-sm whitespace-nowrap">
                       {
                         lead.contactPersonName
                       }
                     </td>
 
-                    <td className="px-5 py-4 text-sm">
+                    <td className="px-5 py-4 text-sm whitespace-nowrap">
                       {
                         lead.companyName
                       }
                     </td>
 
-                    <td className="px-5 py-4 text-sm">
+                    <td className="px-5 py-4 text-sm whitespace-nowrap">
                       {
                         lead.leadSource
                       }
                     </td>
 
-                    <td className="px-5 py-4 text-sm">
+                    <td className="px-5 py-4 text-sm whitespace-nowrap">
                       {lead.leadOwner ||
                         "-"}
                     </td>
 
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-4 whitespace-nowrap">
                       <span className="px-2 py-1 rounded-full text-xs bg-blue-100 text-blue-700">
                         {lead.status ||
                           "New"}
                       </span>
                     </td>
 
-                    <td className="px-5 py-4 text-sm">
+                    <td className="px-5 py-4 text-sm whitespace-nowrap">
                       {lead.nextAction ||
                         "-"}
                     </td>
 
-                    <td className="px-5 py-4 text-right">
+                    <td className="px-5 py-4 text-right whitespace-nowrap">
 
                       <button
                         onClick={() =>
@@ -225,7 +225,7 @@ export default function LeadTable({
                             lead
                           )
                         }
-                        className="bg-[#071B3B] text-white px-4 py-2 rounded-[10px] text-sm font-medium hover:bg-[#0B2550]"
+                        className="bg-[#071B3B] text-white px-4 md:px-5 py-2 rounded-[10px] text-sm font-medium hover:bg-[#0B2550] whitespace-nowrap"
                       >
                         View Details
                       </button>
@@ -241,7 +241,7 @@ export default function LeadTable({
           </table>
 
           {filteredLeads.length === 0 && (
-            <div className="text-center py-16 text-gray-500">
+            <div className="text-center py-12 md:py-16 text-gray-500">
               No Leads Found
             </div>
           )}

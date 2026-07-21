@@ -61,7 +61,7 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-72 bg-[#071B3B] text-white flex flex-col">
+    <aside className="w-72 h-screen bg-[#071B3B] text-white flex flex-col overflow-y-auto">
 
 
       <div className="px-8 py-8">
@@ -69,7 +69,7 @@ export default function Sidebar() {
       </div>
 
 
-      <div className="flex-1 px-5 space-y-8">
+      <div className="flex-1 px-5 py-2 space-y-8">
 
         {menu.map((section) => (
           <div key={section.title}>
@@ -111,7 +111,7 @@ export default function Sidebar() {
 
       
 
-      <div className="px-5 pb-8 space-y-2">
+      <div className="px-5 py-6 space-y-2 border-t border-[#14325D]">
 
         <Link
           href="/lead-generator/profile"

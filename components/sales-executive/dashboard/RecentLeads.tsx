@@ -33,38 +33,38 @@ export default function RecentLeads() {
 
   return (
     <>
-      <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
-        <div className="flex items-center justify-between mb-5">
+      <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5">
           <h2 className="text-lg font-semibold text-[#071B3B]">
             Recent Leads
           </h2>
 
-          <button className="text-sm font-medium text-[#071B3B]">
+          <button className="text-sm font-medium text-[#071B3B] self-start sm:self-auto">
             View All
           </button>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="min-w-[700px] w-full">
             <thead>
               <tr className="border-b border-[#E5E7EB]">
-                <th className="text-left py-3 text-sm text-[#6B7280] font-medium">
+                <th className="text-left py-3 px-2 text-sm text-[#6B7280] font-medium whitespace-nowrap">
                   Name
                 </th>
 
-                <th className="text-left py-3 text-sm text-[#6B7280] font-medium">
+                <th className="text-left py-3 px-2 text-sm text-[#6B7280] font-medium whitespace-nowrap">
                   Company
                 </th>
 
-                <th className="text-left py-3 text-sm text-[#6B7280] font-medium">
+                <th className="text-left py-3 px-2 text-sm text-[#6B7280] font-medium whitespace-nowrap">
                   Source
                 </th>
 
-                <th className="text-left py-3 text-sm text-[#6B7280] font-medium">
+                <th className="text-left py-3 px-2 text-sm text-[#6B7280] font-medium whitespace-nowrap">
                   Date
                 </th>
 
-                <th className="text-right py-3 text-sm text-[#6B7280] font-medium">
+                <th className="text-left py-3 px-2 text-sm text-[#6B7280] font-medium whitespace-nowrap">
                   Action
                 </th>
               </tr>
@@ -76,19 +76,19 @@ export default function RecentLeads() {
                   key={lead._id}
                   className="border-b border-[#F3F4F6]"
                 >
-                  <td className="py-4 text-sm">
+                  <td className="py-4 px-2 text-sm whitespace-nowrap">
                     {lead.contactPersonName}
                   </td>
 
-                  <td className="py-4 text-sm">
+                  <td className="py-4 px-2 text-sm whitespace-nowrap">
                     {lead.companyName}
                   </td>
 
-                  <td className="py-4 text-sm">
+                  <td className="py-4 px-2 text-sm whitespace-nowrap">
                     {lead.leadSource}
                   </td>
 
-                  <td className="py-4 text-sm">
+                  <td className="py-4 px-2 text-sm whitespace-nowrap">
                     {new Date(
                       lead.createdAt
                     ).toLocaleDateString("en-GB")}
@@ -100,7 +100,7 @@ export default function RecentLeads() {
                         setSelectedLead(lead);
                         setIsDrawerOpen(true);
                       }}
-                      className="bg-[#071B3B] hover:bg-[#0A2955] text-white text-sm font-medium px-4 py-2 rounded-lg transition"
+                      className="bg-[#071B3B] hover:bg-[#0A2955] text-white text-sm font-medium px-3 md:px-4 py-2 rounded-lg transition whitespace-nowrap"
                     >
                       View
                     </button>

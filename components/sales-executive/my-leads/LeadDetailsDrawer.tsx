@@ -19,10 +19,10 @@ export default function LeadDetailsDrawer({
       />
 
       <div className="min-h-screen flex items-start justify-center py-8 px-4">
-        <div className="relative w-full max-w-[850px] bg-white rounded-[28px] shadow-2xl">
+        <div className="relative w-full max-w-[850px] bg-white rounded-2xl md:rounded-[28px] shadow-2xl max-h-[90vh] overflow-y-auto">
 
-          <div className="flex items-center justify-between px-8 py-6 border-b border-[#E5E7EB]">
-            <h2 className="text-[40px] font-bold text-[#071B3B]">
+          <div className="flex items-center justify-between px-5 md:px-8 py-5 md:py-6 border-b border-[#E5E7EB]">
+            <h2 className="text-2xl md:text-[40px] font-bold text-[#071B3B]">
               Lead Details
             </h2>
 
@@ -34,31 +34,31 @@ export default function LeadDetailsDrawer({
             </button>
           </div>
 
-          <div className="p-8">
+          <div className="p-5 md:p-8">
 
-            <div className="flex items-start justify-between pb-8 border-b border-[#E5E7EB]">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 pb-8 border-b border-[#E5E7EB]">
               <div>
-                <h3 className="text-[36px] font-bold text-[#071B3B]">
+                <h3 className="text-2xl md:text-[36px] break-words font-bold text-[#071B3B]">
                   {lead.companyName || "-"}
                 </h3>
 
-                <p className="text-gray-500 mt-2 text-lg">
+                <p className="text-gray-500 mt-2 text-base md:text-lg break-words">
                   {lead.contactPersonName || "-"}
                 </p>
               </div>
 
-              <span className="px-4 py-2 rounded-full bg-[#E8F0FF] text-[#3B82F6] text-sm font-medium">
+              <span className="self-start px-4 py-2 rounded-full bg-[#E8F0FF] text-[#3B82F6] text-sm font-medium">
                 {lead.leadPriority || "Normal"}
               </span>
             </div>
 
-            <div className="grid grid-cols-2 gap-16 py-8 border-b border-[#E5E7EB]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 py-8 border-b border-[#E5E7EB]">
               <div>
                 <h4 className="text-2xl font-semibold mb-6">
                   Basic Details
                 </h4>
 
-                <div className="space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm md:text-[15px] break-words">
                   <p><strong>Business Type:</strong> {lead.businessType || "-"}</p>
                   <p><strong>Industry Category:</strong> {lead.industryCategory || "-"}</p>
                   <p><strong>Address:</strong> {lead.address || "-"}</p>
@@ -74,7 +74,7 @@ export default function LeadDetailsDrawer({
                   Lead Details
                 </h4>
 
-                <div className="space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm md:text-[15px] break-words">
                   <p>
                     <strong>Added Date:</strong>{" "}
                     {lead.createdAt
@@ -91,13 +91,13 @@ export default function LeadDetailsDrawer({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-16 py-8 border-b border-[#E5E7EB]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 py-8 border-b border-[#E5E7EB]">
               <div>
                 <h4 className="text-2xl font-semibold mb-6">
                   Other Details
                 </h4>
 
-                <div className="space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm md:text-[15px] break-words">
                   <p><strong>Service:</strong> {lead.serviceOffered || "-"}</p>
                   <p><strong>Experience:</strong> {lead.yearsOfExperience || "-"}</p>
                   <p><strong>Employees:</strong> {lead.employeeCount || "-"}</p>
@@ -110,7 +110,7 @@ export default function LeadDetailsDrawer({
                   Social Media & Links
                 </h4>
 
-                <div className="space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm md:text-[15px] break-words">
                   <p>{lead.linkedinPage || "LinkedIn -"}</p>
                   <p>{lead.instagramPage || "Instagram -"}</p>
                   <p>{lead.youtubePage || "YouTube -"}</p>
@@ -119,13 +119,13 @@ export default function LeadDetailsDrawer({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-16 py-8 border-b border-[#E5E7EB]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 py-8 border-b border-[#E5E7EB]">
               <div>
-                <h4 className="text-2xl font-semibold mb-6">
+                <h4 className="text-xl md:text-2xl font-semibold mb-6">
                   Insights
                 </h4>
 
-                <div className="space-y-4 text-[15px]">
+                <div className="space-y-4 text-sm md:text-[15px] break-words">
                   <p><strong>Strength:</strong> {lead.strength || "-"}</p>
                   <p><strong>Weakness:</strong> {lead.weakness || "-"}</p>
                   <p><strong>Opportunity:</strong> {lead.opportunity || "-"}</p>
@@ -137,14 +137,14 @@ export default function LeadDetailsDrawer({
                   Additional Notes
                 </h4>
 
-                <p className="text-[15px] text-gray-600 leading-7">
+                <p className="text-sm md:text-[15px] text-gray-600 leading-6 md:leading-7 break-words">
                   {lead.additionalNotes || "-"}
                 </p>
               </div>
             </div>
 
-            <div className="flex justify-end gap-4 pt-8">
-              <button className="border border-[#D1D5DB] px-6 py-3 rounded-lg">
+            <div className="flex flex-col sm:flex-row justify-end gap-3 md:gap-4 pt-8">
+              <button className="w-full sm:w-auto border border-[#D1D5DB] px-6 py-3 rounded-lg">
                 Create Follow Up
               </button>
 

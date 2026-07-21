@@ -32,9 +32,9 @@ export default function LeadDetailsModal({
         onClick={onClose}
       />
 
-      <div className="relative bg-white w-[800px] rounded-[28px] shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-8 py-6 border-b">
-          <h2 className="text-2xl font-bold text-[#071B3B]">
+      <div className="relative bg-white w-[95%] sm:w-[90%] md:w-[800px] rounded-2xl md:rounded-[28px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-5 md:px-8 py-5 md:py-6 border-b">
+          <h2 className="text-xl md:text-2xl font-bold text-[#071B3B]">
             Lead Details
           </h2>
 
@@ -46,10 +46,10 @@ export default function LeadDetailsModal({
           </button>
         </div>
 
-        <div className="p-8">
-          <div className="flex items-center justify-between pb-6 border-b">
+        <div className="p-5 md:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b">
             <div>
-              <h3 className="text-3xl font-bold text-[#071B3B]">
+              <h3 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
                 {lead.companyName}
               </h3>
 
@@ -59,7 +59,7 @@ export default function LeadDetailsModal({
             </div>
 
             <span
-              className={`px-4 py-2 rounded-full text-sm ${
+              className={`inline-flex px-4 py-2 rounded-full text-sm whitespace-nowrap ${
                 lead.status === "New"
                   ? "bg-[#EEF4FF] text-[#2563EB]"
                   : "bg-[#DDF7E8] text-[#27AE60]"
@@ -69,8 +69,8 @@ export default function LeadDetailsModal({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 gap-10 py-8">
-            <div className="space-y-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 py-6 md:py-8">
+            <div className="space-y-4 text-sm md:text-base">
               <p>
                 <strong>Full Name:</strong>{" "}
                 {lead.contactPersonName}
@@ -120,15 +120,15 @@ export default function LeadDetailsModal({
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 pt-6 border-t">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 sm:gap-4 pt-6 border-t">
             <button
               onClick={onClose}
-              className="border border-[#D1D5DB] px-5 py-2 rounded-lg"
+              className="w-full sm:w-auto border border-[#D1D5DB] px-5 py-2 rounded-lg"
             >
               Cancel
             </button>
 
-            <button className="bg-[#071B3B] text-white px-5 py-2 rounded-lg">
+            <button className="w-full sm:w-auto bg-[#071B3B] text-white px-5 py-2 rounded-lg">
               Edit
             </button>
           </div>

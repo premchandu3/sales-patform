@@ -82,21 +82,21 @@ export default function LeadStats() {
   }, []);
 
 return (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-    <div className="bg-white border border-[#E5E7EB] rounded-xl p-5 flex items-center gap-4">
-      <div className="w-14 h-14 rounded-xl bg-[#EEF4FF] flex items-center justify-center">
+  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 mb-6 md:mb-8">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5 flex items-center gap-3 md:gap-4">
+      <div className="w-12 h-12 md:w-14 md:h-14 flex-shrink-0 rounded-xl bg-[#EEF4FF] flex items-center justify-center">
         <Users
-          size={28}
+          size={24}
           className="text-[#071B3B]"
         />
       </div>
 
       <div>
-        <p className="font-semibold text-[#111827]">
+        <p className="text-sm md:text-base font-semibold text-[#111827]">
           Total Leads
         </p>
 
-        <h3 className="text-4xl font-bold leading-none mt-1">
+        <h3 className="text-3xl md:text-4xl font-bold leading-none mt-1">
           {totalLeads}
         </h3>
 

@@ -11,13 +11,13 @@ export default function AllLeadsPage() {
   const [status, setStatus] = useState("All");
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-[#071B3B]">
+    <div className="space-y-5 md:space-y-6">
+      <div className="space-y-1">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
           All Leads
         </h1>
 
-        <p className="text-sm text-gray-500 mt-1">
+        <p className="text-xs md:text-sm text-gray-500 mt-1">
           View and manage all leads across the platform
         </p>
       </div>

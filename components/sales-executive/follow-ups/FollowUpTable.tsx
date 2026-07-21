@@ -84,7 +84,7 @@ export default function FollowUpTable({
 
   if (loading) {
     return (
-      <div className="bg-white border rounded-xl p-6">
+      <div className="bg-white border rounded-xl p-4 md:p-6">
         Loading Follow Ups...
       </div>
     );
@@ -94,30 +94,30 @@ export default function FollowUpTable({
     <>
       <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="min-w-[900px] w-full">
             <thead>
               <tr className="bg-[#D8E3F3]">
-                <th className="px-6 py-5 text-left">
+                <th className="px-6 py-5 text-left whitespace-nowrap">
                   Lead ID
                 </th>
 
-                <th className="px-6 py-5 text-left">
+                <th className="px-6 py-5 text-left whitespace-nowrap">
                   Type
                 </th>
 
-                <th className="px-6 py-5 text-left">
+                <th className="px-6 py-5 text-left whitespace-nowrap">
                   Date
                 </th>
 
-                <th className="px-6 py-5 text-left">
+                <th className="px-6 py-5 text-left whitespace-nowrap">
                   Time
                 </th>
 
-                <th className="px-6 py-5 text-left">
+                <th className="px-6 py-5 text-left whitespace-nowrap">
                   Status
                 </th>
 
-                <th className="px-6 py-5 text-right">
+                <th className="px-6 py-5 text-right whitespace-nowrap">
                   Actions
                 </th>
               </tr>
@@ -130,26 +130,26 @@ export default function FollowUpTable({
                     key={item._id}
                     className="border-b border-[#EEF2F7]"
                   >
-                    <td className="px-6 py-5 text-sm">
+                    <td className="px-6 py-5 text-sm whitespace-nowrap">
                       {item.leadId}
                     </td>
 
-                    <td className="px-6 py-5 text-sm">
+                    <td className="px-6 py-5 text-sm whitespace-nowrap">
                       {item.followUpType ||
                         "Call"}
                     </td>
 
-                    <td className="px-6 py-5 text-sm">
+                    <td className="px-6 py-5 text-sm whitespace-nowrap">
                       {new Date(
                         item.followUpDate
                       ).toLocaleDateString()}
                     </td>
 
-                    <td className="px-6 py-5 text-sm">
+                    <td className="px-6 py-5 text-sm whitespace-nowrap">
                       {item.followUpTime}
                     </td>
 
-                    <td className="px-6 py-5">
+                    <td className="px-6 py-5 whitespace-nowrap">
                       <span
                         className={`px-3 py-1 rounded-full text-xs ${item.status ===
                             "Completed"
@@ -161,7 +161,7 @@ export default function FollowUpTable({
                       </span>
                     </td>
 
-                    <td className="px-6 py-5 text-right">
+                    <td className="px-6 py-5 text-right whitespace-nowrap">
                       <button
                         onClick={() => {
                           setSelectedFollowUp(
@@ -169,7 +169,7 @@ export default function FollowUpTable({
                           );
                           setIsOpen(true);
                         }}
-                        className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+                        className="bg-[#071B3B] text-white px-4 md:px-5 py-2 rounded-lg whitespace-nowrap"
                       >
                         View
                       </button>
@@ -182,7 +182,7 @@ export default function FollowUpTable({
 
           {filteredFollowUps.length ===
             0 && (
-              <div className="text-center py-10 text-gray-500">
+              <div className="text-center py-12 md:py-16 text-gray-500">
                 No Follow Ups Found
               </div>
             )}

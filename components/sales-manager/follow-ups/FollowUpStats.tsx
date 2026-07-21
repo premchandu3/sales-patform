@@ -87,14 +87,14 @@ export default function FollowUpStats() {
   ];
 
   return (
-    <div className="flex gap-4 max-w-[760px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 max-w-none xl:max-w-[760px]">
       {cards.map((stat) => {
         const Icon = stat.icon;
 
         return (
           <div
             key={stat.title}
-            className="flex-1 bg-white border border-[#E5E7EB] rounded-[12px] px-4 py-4 flex items-center gap-3"
+            className="bg-white border border-[#E5E7EB] rounded-[12px] p-4 md:px-4 md:py-4 flex items-center gap-3"
           >
             <div className="w-12 h-12 rounded-[8px] bg-[#EAF1FF] flex items-center justify-center flex-shrink-0">
               <Icon
@@ -104,15 +104,15 @@ export default function FollowUpStats() {
             </div>
 
             <div>
-              <p className="text-[13px] font-semibold text-[#374151]">
+              <p className="text-xs md:text-[13px] font-semibold text-[#374151]">
                 {stat.title}
               </p>
 
-              <h3 className="text-[20px] font-bold text-[#071B3B] leading-none mt-1">
+              <h3 className="text-xl md:text-[20px] font-bold text-[#071B3B] leading-none mt-1">
                 {stat.value}
               </h3>
 
-              <p className="text-[11px] text-[#9CA3AF] mt-1">
+              <p className="text-[11px] md:text-xs text-[#9CA3AF] mt-1">
                 {stat.subtitle}
               </p>
             </div>

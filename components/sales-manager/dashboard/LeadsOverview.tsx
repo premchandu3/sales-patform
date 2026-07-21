@@ -59,39 +59,39 @@ export default function LeadsOverview() {
   };
 
   return (
-    <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-[28px] font-bold text-[#111827]">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-5 md:mb-6">
+        <h3 className="text-2xl md:text-[28px] font-bold text-[#111827]">
           Leads Overview
         </h3>
 
-        <button className="text-sm font-medium">
+        <button className="text-sm font-medium self-start sm:self-auto">
           View All →
         </button>
       </div>
 
-      <div className="space-y-5">
-        <div className="flex justify-between">
+      <div className="space-y-4 md:space-y-5">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <span>Total Leads</span>
           <span>{overview.total}</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <span>New Leads</span>
           <span>{overview.newLeads}</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <span>In Progress</span>
           <span>{overview.inProgress}</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <span>Converted</span>
           <span>{overview.converted}</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex items-center justify-between text-sm md:text-base">
           <span>Closed Lost</span>
           <span>{overview.closedLost}</span>
         </div>

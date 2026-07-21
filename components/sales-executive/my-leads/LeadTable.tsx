@@ -97,7 +97,7 @@ export default function LeadTable({
 
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border p-6">
+      <div className="bg-white rounded-xl border p-4 md:p-6">
         Loading Leads...
       </div>
     );
@@ -105,31 +105,31 @@ export default function LeadTable({
 
   return (
     <>
-      <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-hidden">
-        <table className="w-full">
+      <div className="bg-white border border-[#E5E7EB] rounded-xl overflow-x-auto">
+        <table className="min-w-[900px] w-full">
           <thead className="bg-[#EAF2FF]">
             <tr>
-              <th className="px-6 py-4 text-left">
+              <th className="px-6 py-4 text-left text-sm font-medium whitespace-nowrap">
                 Name
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-6 py-4 text-left text-sm font-medium whitespace-nowrap">
                 Company
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-6 py-4 text-left text-sm font-medium whitespace-nowrap">
                 Source
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-6 py-4 text-left text-sm font-medium whitespace-nowrap">
                 Status
               </th>
 
-              <th className="px-6 py-4 text-left">
+              <th className="px-6 py-4 text-left text-sm font-medium whitespace-nowrap">
                 Date
               </th>
 
-              <th className="px-6 py-4 text-right">
+              <th className="px-6 py-4 text-right text-sm font-medium whitespace-nowrap">
                 Actions
               </th>
             </tr>
@@ -141,23 +141,23 @@ export default function LeadTable({
                 key={lead._id}
                 className="border-b border-[#E5E7EB]"
               >
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {lead.contactPersonName}
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {lead.companyName}
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {lead.leadSource}
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {lead.status}
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {lead.createdAt
                     ? new Date(
                         lead.createdAt
@@ -177,7 +177,7 @@ export default function LeadTable({
                         true
                       );
                     }}
-                    className="bg-[#071B3B] hover:bg-[#0A2955] text-white text-[13px] font-medium px-5 py-2 rounded-[8px] transition"
+                    className="bg-[#071B3B] hover:bg-[#0A2955] text-white text-[13px] font-medium px-4 md:px-5 py-2 rounded-[8px] transition whitespace-nowrap"
                   >
                     View
                   </button>

@@ -27,13 +27,13 @@ export default function DiscoveryCallsPage() {
     useState<DiscoveryCall | null>(null);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-[48px] font-bold text-[#071B3B]">
+    <div className="space-y-5 md:space-y-6">
+      <div className="space-y-1">
+        <h1 className="text-3xl md:text-[48px] font-bold text-[#071B3B]">
           Discovery Calls
         </h1>
 
-        <p className="text-[#6B7280] mt-2">
+        <p className="text-sm md:text-base text-[#6B7280] mt-1 md:mt-2">
           Manage upcoming and completed discovery calls
         </p>
       </div>

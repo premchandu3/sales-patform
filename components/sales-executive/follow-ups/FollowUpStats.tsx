@@ -86,16 +86,16 @@ export default function FollowUpStats() {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
       {stats.map((stat) => {
         const Icon = stat.icon;
 
         return (
           <div
             key={stat.title}
-            className="bg-white border rounded-xl p-4 flex items-center gap-3"
+            className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5 flex items-center gap-3 md:gap-4"
           >
-            <div className="w-12 h-12 rounded-lg bg-[#EAF1FF] flex items-center justify-center">
+            <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-[#EAF1FF] flex items-center justify-center flex-shrink-0">
               <Icon
                 size={24}
                 className="text-[#071B3B]"
@@ -103,15 +103,15 @@ export default function FollowUpStats() {
             </div>
 
             <div>
-              <p className="text-sm font-medium">
+              <p className="text-sm md:text-base font-medium">
                 {stat.title}
               </p>
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="text-3xl md:text-4xl font-bold leading-none mt-1">
                 {stat.value}
               </h3>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 mt-1">
                 {stat.subtitle}
               </p>
             </div>

@@ -20,15 +20,15 @@ export default function TeamDetailsModal({
   if (!isOpen || !user) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      <div className="relative bg-white w-[850px] rounded-3xl shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-8 py-6 border-b border-[#EEF2F7]">
-          <h2 className="text-[28px] font-bold text-[#071B3B]">
+      <div className="relative bg-white w-[95%] sm:w-[90%] md:w-[850px] rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-5 md:px-8 py-5 md:py-6 border-b border-[#EEF2F7]">
+          <h2 className="text-xl md:text-[28px] font-bold text-[#071B3B]">
             Team Member Details
           </h2>
 
@@ -40,27 +40,26 @@ export default function TeamDetailsModal({
           </button>
         </div>
 
-        <div className="p-8">
-          {/* Profile */}
-          <div className="flex items-center justify-between border-b border-[#EEF2F7] pb-8">
-            <div className="flex items-center gap-5">
-              <div className="w-20 h-20 rounded-full bg-[#DCE7F6] flex items-center justify-center text-[#071B3B] text-3xl font-bold">
+        <div className="p-5 md:p-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5 border-b border-[#EEF2F7] pb-6 md:pb-8">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center gap-5 text-center sm:text-left">
+              <div className="w-20 h-20 rounded-full bg-[#DCE7F6] flex items-center justify-center text-[#071B3B] text-3xl font-bold flex-shrink-0">
                 {user.name.charAt(0).toUpperCase()}
               </div>
 
               <div>
-                <h3 className="text-[30px] font-bold text-[#071B3B]">
+                <h3 className="text-2xl md:text-[30px] font-bold text-[#071B3B]">
                   {user.name}
                 </h3>
 
-                <p className="text-[#6B7280] mt-1">
+                <p className="text-sm md:text-base text-[#6B7280] mt-1 break-all">
                   {user.email}
                 </p>
               </div>
             </div>
 
             <span
-              className={`px-4 py-2 rounded-full text-sm font-medium ${
+              className={`inline-flex px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap ${
                 user.status === "Active"
                   ? "bg-[#DDF7E8] text-[#52C41A]"
                   : user.status === "Invited"
@@ -72,8 +71,7 @@ export default function TeamDetailsModal({
             </span>
           </div>
 
-          {/* Details */}
-          <div className="grid grid-cols-2 gap-12 py-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8">
             <div className="space-y-5">
               <div>
                 <p className="text-sm text-[#9CA3AF]">
@@ -133,10 +131,9 @@ export default function TeamDetailsModal({
             </div>
           </div>
 
-          {/* Stats Placeholder */}
-          <div className="grid grid-cols-3 gap-5">
-            <div className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl p-5 text-center">
-              <h4 className="text-3xl font-bold text-[#071B3B]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
+            <div className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl p-4 md:p-5 text-center">
+              <h4 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
                 -
               </h4>
               <p className="text-sm text-[#6B7280] mt-1">
@@ -145,7 +142,7 @@ export default function TeamDetailsModal({
             </div>
 
             <div className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl p-5 text-center">
-              <h4 className="text-3xl font-bold text-[#071B3B]">
+              <h4 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
                 -
               </h4>
               <p className="text-sm text-[#6B7280] mt-1">
@@ -154,7 +151,7 @@ export default function TeamDetailsModal({
             </div>
 
             <div className="bg-[#F8FAFC] border border-[#E5E7EB] rounded-xl p-5 text-center">
-              <h4 className="text-3xl font-bold text-[#071B3B]">
+              <h4 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
                 -
               </h4>
               <p className="text-sm text-[#6B7280] mt-1">
@@ -163,10 +160,10 @@ export default function TeamDetailsModal({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-[#EEF2F7]">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6 md:mt-8 pt-6 border-t border-[#EEF2F7]">
             <button
               onClick={onClose}
-              className="px-5 py-2 border border-[#D1D5DB] rounded-lg text-[#374151]"
+              className="w-full sm:w-auto px-5 py-2 border border-[#D1D5DB] rounded-lg text-[#374151]"
             >
               Close
             </button>

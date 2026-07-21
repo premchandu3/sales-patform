@@ -89,16 +89,16 @@ export default function DashboardStats() {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5">
       {cards.map((item) => {
         const Icon = item.icon;
 
         return (
           <div
             key={item.title}
-            className="bg-white border border-[#E5E7EB] rounded-xl p-4 flex items-center gap-4"
+            className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5 flex items-center gap-3 md:gap-4"
           >
-            <div className="w-12 h-12 rounded-lg bg-[#EEF4FF] flex items-center justify-center">
+            <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-[#EEF4FF] flex items-center justify-center flex-shrink-0">
               <Icon
                 size={24}
                 className="text-[#071B3B]"
@@ -106,11 +106,11 @@ export default function DashboardStats() {
             </div>
 
             <div>
-              <p className="text-sm text-[#374151]">
+              <p className="text-sm md:text-base text-[#374151]">
                 {item.title}
               </p>
 
-              <h3 className="text-[36px] font-bold leading-none text-[#071B3B] mt-1">
+              <h3 className="text-3xl md:text-[36px] font-bold leading-none text-[#071B3B] mt-1">
                 {item.value}
               </h3>
             </div>

@@ -81,32 +81,32 @@ export default function CallStats() {
   ];
 
   return (
-    <div className="flex gap-4 max-w-[760px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5 max-w-[760px]">
       {stats.map((stat) => {
         const Icon = stat.icon;
 
         return (
           <div
             key={stat.title}
-            className="flex-1 bg-white border border-[#E5E7EB] rounded-[12px] px-4 py-4 flex items-center gap-3"
+            className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5 flex items-center gap-3 md:gap-4"
           >
-            <div className="w-12 h-12 rounded-[8px] bg-[#EAF1FF] flex items-center justify-center">
+            <div className="w-12 h-12 md:w-14 md:h-14 rounded-lg bg-[#EAF1FF] flex items-center justify-center flex-shrink-0">
               <Icon
-                size={22}
+                size={24}
                 className="text-[#071B3B]"
               />
             </div>
 
             <div>
-              <p className="text-[13px] font-semibold text-[#374151]">
+              <p className="text-sm md:text-base font-semibold text-[#374151]">
                 {stat.title}
               </p>
 
-              <h3 className="text-[20px] font-bold text-[#071B3B] mt-1">
+              <h3 className="text-3xl md:text-4xl font-bold text-[#071B3B] leading-none mt-1">
                 {stat.value}
               </h3>
 
-              <p className="text-[11px] text-[#9CA3AF]">
+              <p className="text-xs text-[#9CA3AF] mt-1">
                 {stat.subtitle}
               </p>
             </div>

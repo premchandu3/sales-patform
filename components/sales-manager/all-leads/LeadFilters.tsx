@@ -16,9 +16,9 @@ export default function LeadFilters({
   setStatus,
 }: LeadFiltersProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
       <div>
-        <label className="block text-sm font-medium text-[#374151] mb-2">
+        <label className="block text-sm md:text-base font-medium text-[#374151] mb-2">
           Search Leads
         </label>
 

@@ -16,10 +16,10 @@ export default function FollowUpFilters({
   setStatus,
 }: FollowUpFiltersProps) {
   return (
-    <div className="bg-white border border-[#E5E7EB] rounded-xl p-5">
+    <div className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:p-5">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div>
-          <label className="block text-sm font-medium text-[#374151] mb-2">
+          <label className="block text-sm md:text-base font-medium text-[#374151] mb-2">
             Search Leads
           </label>
 
@@ -33,7 +33,7 @@ export default function FollowUpFilters({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-[#374151] mb-2">
+          <label className="block text-sm md:text-base font-medium text-[#374151] mb-2">
             Filter By Type
           </label>
 
@@ -49,7 +49,7 @@ export default function FollowUpFilters({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-[#374151] mb-2">
+          <label className="block text-sm md:text-base font-medium text-[#374151] mb-2">
             Filter By Status
           </label>
 

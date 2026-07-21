@@ -17,9 +17,9 @@ export default function LeadFilters({
 }: LeadFiltersProps) {
   return (
     <div className="border-t border-[#E5E7EB] pt-8">
-      <div className="flex items-end justify-between gap-6">
-        <div className="flex gap-6">
-          <div>
+      <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 w-full lg:w-auto">
+          <div className="w-full sm:w-auto">
             <label className="block text-sm text-[#374151] mb-2">
               Search Leads
             </label>
@@ -29,11 +29,11 @@ export default function LeadFilters({
               placeholder="Search..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-[250px] h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm"
+              className="w-full sm:w-[250px] h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm"
             />
           </div>
 
-          <div>
+          <div className="w-full sm:w-auto">
             <label className="block text-sm text-[#374151] mb-2">
               Filter By Date
             </label>
@@ -42,17 +42,17 @@ export default function LeadFilters({
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-[170px] h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm"
+              className="w-full sm:w-[170px] h-11 border border-[#D1D5DB] rounded-lg px-3 text-sm"
             />
           </div>
         </div>
 
-        <div className="flex gap-4">
-          <button className="bg-[#071B3B] text-white px-5 h-11 rounded-lg font-medium">
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full lg:w-auto">
+          <button className="w-full sm:w-auto bg-[#071B3B] text-white px-5 h-11 rounded-lg font-medium">
             Upload Card
           </button>
 
-          <button className="bg-[#071B3B] text-white px-5 h-11 rounded-lg font-medium">
+          <button className="w-full sm:w-auto bg-[#071B3B] text-white px-5 h-11 rounded-lg font-medium">
             Add Lead
           </button>
         </div>

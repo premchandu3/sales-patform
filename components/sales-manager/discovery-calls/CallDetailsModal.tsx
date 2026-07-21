@@ -27,9 +27,9 @@ export default function CallDetailsModal({
         onClick={onClose}
       />
 
-      <div className="relative bg-white w-[900px] rounded-[28px] shadow-2xl overflow-hidden">
-        <div className="flex items-center justify-between px-8 py-6 border-b border-[#E5E7EB]">
-          <h2 className="text-[28px] font-bold text-[#071B3B]">
+      <div className="relative bg-white w-[95%] sm:w-[90%] md:w-[900px] rounded-2xl md:rounded-[28px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-5 md:px-8 py-5 md:py-6 border-b border-[#E5E7EB]">
+          <h2 className="text-xl md:text-[28px] font-bold text-[#071B3B]">
             Discovery Call Details
           </h2>
 
@@ -41,13 +41,13 @@ export default function CallDetailsModal({
           </button>
         </div>
 
-        <div className="p-8">
-          <div className="pb-8 border-b border-[#E5E7EB]">
-            <h3 className="text-[22px] font-bold text-[#071B3B] mb-5">
+        <div className="p-5 md:p-8">
+          <div className="pb-6 md:pb-8 border-b border-[#E5E7EB]">
+            <h3 className="text-xl md:text-[22px] font-bold text-[#071B3B] mb-4 md:mb-5">
               Discovery Call Information
             </h3>
 
-            <div className="space-y-4 text-sm">
+            <div className="space-y-4 text-sm md:text-base text-[#374151]">
               <p>
                 <strong>Lead ID:</strong>{" "}
                 {call.leadId}
@@ -71,7 +71,7 @@ export default function CallDetailsModal({
               <p>
                 <strong>Status:</strong>{" "}
                 <span
-                  className={`px-2 py-1 rounded-full text-xs ${
+                  className={`inline-flex px-2 py-1 rounded-full text-xs whitespace-nowrap ${
                     call.status === "Scheduled"
                       ? "bg-[#FFF3CD] text-[#F5B301]"
                       : "bg-[#DDF7E8] text-[#52C41A]"
@@ -83,10 +83,10 @@ export default function CallDetailsModal({
             </div>
           </div>
 
-          <div className="flex justify-end pt-6">
+          <div className="flex flex-col sm:flex-row justify-end pt-6">
             <button
               onClick={onClose}
-              className="bg-[#071B3B] text-white px-6 py-3 rounded-xl"
+              className="w-full sm:w-auto bg-[#071B3B] text-white px-6 py-3 rounded-xl font-medium"
             >
               Close
             </button>

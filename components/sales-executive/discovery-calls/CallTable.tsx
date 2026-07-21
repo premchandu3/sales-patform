@@ -50,7 +50,7 @@ export default function CallTable({
 
   if (loading) {
     return (
-      <div className="bg-white border rounded-xl p-6">
+      <div className="bg-white border rounded-xl p-4 md:p-6">
         Loading Calls...
       </div>
     );
@@ -59,30 +59,30 @@ export default function CallTable({
   return (
     <div className="bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden shadow-sm">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="min-w-[900px] w-full">
           <thead>
             <tr className="bg-[#D8E3F3]">
-              <th className="px-6 py-5 text-left text-sm font-semibold">
+              <th className="px-6 py-5 text-left text-sm font-semibold whitespace-nowrap">
                 Lead ID
               </th>
 
-              <th className="px-6 py-5 text-left text-sm font-semibold">
+              <th className="px-6 py-5 text-left text-sm font-semibold whitespace-nowrap">
                 Meeting Type
               </th>
 
-              <th className="px-6 py-5 text-left text-sm font-semibold">
+              <th className="px-6 py-5 text-left text-sm font-semibold whitespace-nowrap">
                 Date
               </th>
 
-              <th className="px-6 py-5 text-left text-sm font-semibold">
+              <th className="px-6 py-5 text-left text-sm font-semibold whitespace-nowrap">
                 Time
               </th>
 
-              <th className="px-6 py-5 text-left text-sm font-semibold">
+              <th className="px-6 py-5 text-left text-sm font-semibold whitespace-nowrap">
                 Status
               </th>
 
-              <th className="px-6 py-5 text-right text-sm font-semibold">
+              <th className="px-6 py-5 text-right text-sm font-semibold whitespace-nowrap">
                 Actions
               </th>
             </tr>
@@ -94,25 +94,25 @@ export default function CallTable({
                 key={call._id}
                 className="border-b border-[#EEF2F7] hover:bg-[#FAFBFD]"
               >
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {call.leadId}
                 </td>
 
-                <td className="px-6 py-5">
+                <td className="px-6 py-5 whitespace-nowrap">
                   <span className="px-3 py-1 rounded-full text-xs bg-[#E8EEF9] text-[#4B5563]">
                     {call.meetingType}
                   </span>
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {call.meetingDate}
                 </td>
 
-                <td className="px-6 py-5 text-sm">
+                <td className="px-6 py-5 text-sm whitespace-nowrap">
                   {call.meetingTime}
                 </td>
 
-                <td className="px-6 py-5">
+                <td className="px-6 py-5 whitespace-nowrap">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${
                       call.status ===
@@ -125,12 +125,12 @@ export default function CallTable({
                   </span>
                 </td>
 
-                <td className="px-6 py-5 text-right">
+                <td className="px-6 py-5 text-right whitespace-nowrap">
                   <button
                     onClick={() =>
                       onViewDetails(call)
                     }
-                    className="bg-[#071B3B] text-white px-5 py-2.5 rounded-[10px] text-sm font-medium"
+                    className="bg-[#071B3B] text-white px-4 md:px-5 py-2.5 rounded-[10px] text-sm font-medium whitespace-nowrap"
                   >
                     View
                   </button>
@@ -141,7 +141,7 @@ export default function CallTable({
         </table>
 
         {calls.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
+          <div className="text-center py-12 md:py-16 text-gray-500">
             No Discovery Calls Found
           </div>
         )}

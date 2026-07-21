@@ -14,13 +14,13 @@ export default function MyLeadsPage() {
 
   return (
     <>
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold text-[#071B3B]">
+      <div className="space-y-5 md:space-y-6">
+        <div className="space-y-1">
+          <h1 className="text-2xl md:text-3xl font-bold text-[#071B3B]">
             My Leads
           </h1>
 
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-xs md:text-sm text-gray-500">
             Manage all your leads from one place
           </p>
         </div>

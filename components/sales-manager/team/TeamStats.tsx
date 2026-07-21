@@ -80,16 +80,16 @@ export default function TeamStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
       {cards.map((item) => {
         const Icon = item.icon;
 
         return (
           <div
             key={item.title}
-            className="bg-white border border-[#E5E7EB] rounded-xl px-4 py-4 flex items-center gap-4 h-[108px]"
+            className="bg-white border border-[#E5E7EB] rounded-xl p-4 md:px-4 md:py-4 flex items-center gap-4 min-h-[108px]"
           >
-            <div className="w-[56px] h-[56px] rounded-lg bg-[#EAF1FB] flex items-center justify-center">
+            <div className="w-[56px] h-[56px] rounded-lg bg-[#EAF1FB] flex items-center justify-center flex-shrink-0">
               <Icon
                 size={26}
                 className="text-[#071B3B]"
@@ -97,15 +97,15 @@ export default function TeamStats() {
             </div>
 
             <div>
-              <h4 className="text-[16px] font-semibold text-[#374151]">
+              <h4 className="text-sm md:text-[16px] font-semibold text-[#374151]">
                 {item.title}
               </h4>
 
-              <p className="text-[42px] font-bold text-[#071B3B] leading-none mt-2">
+              <p className="text-3xl md:text-[42px] font-bold text-[#071B3B] leading-none mt-2">
                 {item.value}
               </p>
 
-              <p className="text-[12px] text-[#9CA3AF] mt-1">
+              <p className="text-xs md:text-[12px] text-[#9CA3AF] mt-1">
                 {item.subtitle}
               </p>
             </div>

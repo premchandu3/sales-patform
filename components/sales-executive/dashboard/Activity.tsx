@@ -31,8 +31,8 @@ export default function Activity() {
   }, []);
 
   return (
-    <div className="bg-white border rounded-xl p-5">
-      <h2 className="text-xl font-semibold mb-4">
+    <div className="bg-white border rounded-xl p-4 md:p-5">
+      <h2 className="text-lg md:text-xl font-semibold mb-4">
         My Activity
       </h2>
 
@@ -41,18 +41,16 @@ export default function Activity() {
           (activity) => (
             <div
               key={activity._id}
-              className="flex items-start gap-3 text-sm text-gray-600"
+              className="flex items-start gap-3 text-sm text-gray-600 break-words"
             >
               <div className="w-2 h-2 rounded-full bg-green-500 mt-2" />
 
-              <div>
-                <p>
-                  {
-                    activity.description
-                  }
+              <div className="flex-1 min-w-0">
+                <p className="break-words">
+                  {activity.description}
                 </p>
 
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-[11px] md:text-xs text-gray-400 mt-1 break-all">
                   {new Date(
                     activity.createdAt
                   ).toLocaleString()}
