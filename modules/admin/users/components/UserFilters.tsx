@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface UserFiltersProps {
   search: string;
   status: string;
@@ -113,9 +115,32 @@ export default function UserFilters({
 
       <button
         onClick={onAddUser}
-        className="bg-[#071B3B] text-white h-[44px] px-8 rounded-lg font-medium w-full lg:w-auto"
+        className="
+        w-full
+        sm:w-auto
+        min-w-[140px]
+        bg-[#071B3B]
+        text-white
+        h-10
+        px-5
+        rounded-lg
+        flex
+        items-center
+        justify-center
+        gap-2
+        whitespace-nowrap
+        hover:bg-[#0D274D]
+        transition-colors
+      "
       >
-        + Add User
+        <Image
+          src="/icons/adduser.svg"
+          alt="Add User"
+          width={17}
+          height={17}
+        />
+
+        <span>Add User</span>
       </button>
 
     </div>

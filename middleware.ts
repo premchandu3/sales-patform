@@ -5,7 +5,6 @@ export function middleware(req: NextRequest) {
 
   const { pathname } = req.nextUrl;
 
-  // Allow login and create-password pages
   if (
     pathname.startsWith("/login") ||
     pathname.startsWith("/create-password") ||
@@ -14,7 +13,6 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Protect admin routes
   if (pathname.startsWith("/admin")) {
     if (!token) {
       return NextResponse.redirect(

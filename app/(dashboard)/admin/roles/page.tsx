@@ -18,6 +18,9 @@ export default function RolesPage() {
   const [selectedRole, setSelectedRole] =
     useState<Role | null>(null);
 
+  const [roleFilter, setRoleFilter] =
+    useState("");
+
   const [editingRole, setEditingRole] =
     useState<Role | null>(null);
 
@@ -63,9 +66,14 @@ export default function RolesPage() {
         !statusFilter ||
         role.status === statusFilter;
 
+      const matchesRole =
+        !roleFilter ||
+        role.name === roleFilter;
+
       return (
         matchesSearch &&
-        matchesStatus
+        matchesStatus &&
+        matchesRole
       );
     }
   );
@@ -87,10 +95,10 @@ export default function RolesPage() {
       <RoleFilters
         search={search}
         status={statusFilter}
+        role={roleFilter}
         onSearchChange={setSearch}
-        onStatusChange={
-          setStatusFilter
-        }
+        onStatusChange={setStatusFilter}
+        onRoleChange={setRoleFilter}
         onAddRole={() => {
           setEditingRole(null);
           setIsAddRoleOpen(true);

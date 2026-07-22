@@ -22,8 +22,10 @@ export default function RoleDetailsModal({
   if (!isOpen || !role) return null;
 
   return (
-    <Modal>
-      <div className="bg-white rounded-2xl p-6 w-[460px] shadow-xl relative">
+    <Modal
+      isOpen={isOpen}
+    >
+      <div className="relative w-full max-w-[600px] mx-4 bg-white rounded-2xl p-6">
 
         <button
           onClick={onClose}
@@ -60,6 +62,13 @@ export default function RoleDetailsModal({
           </div>
 
           <div>
+            <span className="font-semibold">
+              Total Users :
+            </span>{" "}
+            {role.users}
+          </div>
+
+          <div>
             <p className="font-semibold mb-2">
               Role Permissions :
             </p>
@@ -91,7 +100,7 @@ export default function RoleDetailsModal({
 
         </div>
 
-        <div className="flex justify-end gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
 
           <button
             onClick={() => onDelete(role)}

@@ -99,17 +99,16 @@ useEffect(() => {
     <div
       className="
         w-full
-        max-w-[820px]
+        max-w-[1180px]
         ml-0
-        mt-2
-        space-y-5
+        space-y-6
       "
     >
       <h1
         className="
-          text-[20px]
+          text-[32px]
           font-semibold
-          text-[#1E293B]
+          text-[#111827]
         "
       >
         Permissions

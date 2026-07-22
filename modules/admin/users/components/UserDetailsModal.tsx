@@ -33,7 +33,9 @@ export default function UserDetailsModal({
   if (!isOpen || !user) return null;
 
   return (
-    <Modal>
+  <Modal
+  isOpen={isOpen}
+>
       <div className="bg-white rounded-[20px] w-[500px] p-6 shadow-xl">
 
         <div className="flex justify-between items-center mb-4">
@@ -91,7 +93,7 @@ export default function UserDetailsModal({
               Role Permissions :
             </h3>
 
-            <div className="border rounded-md p-3 grid grid-cols-2 gap-2 text-xs">
+            <div className="border rounded-md p-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
 
               {allPermissions.map(
                 (permission) => (
@@ -118,7 +120,7 @@ export default function UserDetailsModal({
           </div>
         </div>
 
-        <div className="flex justify-end gap-3 mt-6">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 mt-6">
 
           <button
   onClick={async () => {

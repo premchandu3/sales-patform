@@ -98,8 +98,10 @@ export default function AddRoleModal({
   if (!isOpen) return null;
 
   return (
-    <Modal>
-      <div className="bg-white rounded-2xl p-6 w-[600px]">
+  <Modal
+  isOpen={isOpen}
+>
+      <div className="bg-white rounded-2xl p-6 w-full max-w-[600px] mx-4">
 
         <h2 className="text-[28px] font-semibold mb-6">
           {editingRole
@@ -154,7 +156,7 @@ export default function AddRoleModal({
               Permissions
             </p>
 
-            <div className="grid grid-cols-3 gap-3 border rounded-lg p-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 border rounded-lg p-4">
 
               {permissionOptions.map(
                 (permission) => (
@@ -182,7 +184,7 @@ export default function AddRoleModal({
             </div>
           </div>
 
-          <div className="flex justify-end gap-3 pt-4">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4">
 
             <button
               onClick={onClose}

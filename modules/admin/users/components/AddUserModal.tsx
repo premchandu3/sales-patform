@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Modal from "@/components/ui/Modal";
 import { User } from "@/types/user";
+import { X } from "lucide-react";
 
 interface AddUserModalProps {
   isOpen: boolean;
@@ -39,18 +40,10 @@ export default function AddUserModal({
   editingUser,
   onAddUser,
 }: AddUserModalProps) {
-  const [name, setName] =
-    useState("");
-
-  const [email, setEmail] =
-    useState("");
-
-  const [contact, setContact] =
-    useState("");
-
-  const [role, setRole] =
-    useState("Lead Generator");
-
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [role, setRole] = useState("");
   const [status, setStatus] =
     useState("Active");
 
@@ -75,7 +68,7 @@ export default function AddUserModal({
       setName("");
       setEmail("");
       setContact("");
-      setRole("Lead Generator");
+      setRole("");
       setStatus("Active");
       setSelectedPermissions([]);
     }
@@ -84,17 +77,12 @@ export default function AddUserModal({
   const handlePermissionChange = (
     permission: string
   ) => {
-    setSelectedPermissions(
-      (prev) =>
-        prev.includes(permission)
-          ? prev.filter(
-              (p) =>
-                p !== permission
-            )
-          : [
-              ...prev,
-              permission,
-            ]
+    setSelectedPermissions((prev) =>
+      prev.includes(permission)
+        ? prev.filter(
+            (p) => p !== permission
+          )
+        : [...prev, permission]
     );
   };
 
@@ -124,12 +112,12 @@ export default function AddUserModal({
   if (!isOpen) return null;
 
   return (
-    <Modal>
-      <div className="bg-white rounded-2xl w-[620px] p-6 shadow-2xl">
-
-        <div className="flex items-center justify-between mb-5">
-
-          <h2 className="text-2xl font-semibold">
+  <Modal
+  isOpen={isOpen}
+>
+<div className="bg-white rounded-[24px] w-full max-h-[85vh] overflow-y-auto max-w-[980px] mx-4 p-5 md:p-10 shadow-2xl">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-[34px] font-semibold text-[#111827]">
             {editingUser
               ? "Edit Employee / User"
               : "Add Employee / User"}
@@ -137,76 +125,100 @@ export default function AddUserModal({
 
           <button
             onClick={onClose}
-            className="text-gray-500 text-xl"
+            className="text-[32px] text-gray-500"
           >
             ×
           </button>
-
         </div>
 
-        <div className="space-y-4">
-
-          <input
-            value={name}
-            onChange={(e) =>
-              setName(
-                e.target.value
-              )
-            }
-            placeholder="Employee Name"
-            className="w-full border rounded-lg px-4 py-3"
-          />
-
-          <input
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            placeholder="Email"
-            className="w-full border rounded-lg px-4 py-3"
-          />
-
-          <input
-            value={contact}
-            onChange={(e) =>
-              setContact(
-                e.target.value
-              )
-            }
-            placeholder="Contact Number"
-            className="w-full border rounded-lg px-4 py-3"
-          />
-
-          <select
-            value={role}
-            onChange={(e) =>
-              setRole(
-                e.target.value
-              )
-            }
-            className="w-full border rounded-lg px-4 py-3"
-          >
-            <option>
-              Lead Generator
-            </option>
-
-            <option>
-              Sales Executive
-            </option>
-
-            <option>
-              Sales Manager
-            </option>
-          </select>
+        <div className="space-y-5">
 
           <div>
-            <label className="font-semibold block mb-2">
+            <label className="block mb-2 text-[16px] font-medium">
+              Name
+            </label>
+
+            <input
+              value={name}
+              onChange={(e) =>
+                setName(
+                  e.target.value
+                )
+              }
+              className="w-full h-[54px] border border-[#D1D5DB] rounded-lg px-4"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-[16px] font-medium">
+              Email
+            </label>
+
+            <input
+              value={email}
+              onChange={(e) =>
+                setEmail(
+                  e.target.value
+                )
+              }
+              className="w-full h-[54px] border border-[#D1D5DB] rounded-lg px-4"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-[16px] font-medium">
+              Contact
+            </label>
+
+            <input
+              value={contact}
+              onChange={(e) =>
+                setContact(
+                  e.target.value
+                )
+              }
+              className="w-full h-[54px] border border-[#D1D5DB] rounded-lg px-4"
+            />
+          </div>
+
+          <div>
+            <label className="block mb-2 text-[16px] font-medium">
+              Select Role
+            </label>
+
+            <select
+              value={role}
+              onChange={(e) =>
+                setRole(
+                  e.target.value
+                )
+              }
+              className="w-full h-[54px] border border-[#D1D5DB] rounded-lg px-4"
+            >
+              <option value="">
+                Select
+              </option>
+
+              <option value="Lead Generator">
+                Lead Generator
+              </option>
+
+              <option value="Sales Executive">
+                Sales Executive
+              </option>
+
+              <option value="Sales Manager">
+                Sales Manager
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block mb-3 text-[16px] font-medium">
               Role Permissions
             </label>
 
-            <div className="border rounded-lg p-4 grid grid-cols-3 gap-3">
+            <div className="border border-[#D1D5DB] rounded-lg p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
               {permissions.map(
                 (
@@ -238,33 +250,39 @@ export default function AddUserModal({
             </div>
           </div>
 
-          <select
-            value={status}
-            onChange={(e) =>
-              setStatus(
-                e.target.value
-              )
-            }
-            className="w-full border rounded-lg px-4 py-3"
-          >
-            <option>
-              Active
-            </option>
+          <div>
+            <label className="block mb-2 text-[16px] font-medium">
+              Status
+            </label>
 
-            <option>
-              Inactive
-            </option>
+            <select
+              value={status}
+              onChange={(e) =>
+                setStatus(
+                  e.target.value
+                )
+              }
+              className="w-full h-[54px] border border-[#D1D5DB] rounded-lg px-4"
+            >
+              <option>
+                Active
+              </option>
 
-            <option>
-              Invited
-            </option>
-          </select>
+              <option>
+                Inactive
+              </option>
 
-          <div className="flex justify-end gap-3 pt-2">
+              <option>
+                Invited
+              </option>
+            </select>
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
 
             <button
               onClick={onClose}
-              className="px-5 py-2 border rounded-lg"
+              className="px-8 py-3 border border-[#D1D5DB] rounded-lg"
             >
               Cancel
             </button>
@@ -273,7 +291,7 @@ export default function AddUserModal({
               onClick={
                 handleSubmit
               }
-              className="bg-[#071B3B] text-white px-5 py-2 rounded-lg"
+              className="bg-[#071B3B] text-white px-8 py-3 rounded-lg"
             >
               {editingUser
                 ? "Update User"
